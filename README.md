@@ -1,2 +1,5 @@
 # MineQuest
-It's a minecraft clonem, i guess
+It's a minecraft clone, i guess
+
+Things to do:
+Everything
