@@ -3,6 +3,7 @@ package com.darkmelon.minequest.client;
 import com.darkmelon.minequest.client.rendering.Window;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
+import com.darkmelon.minequest.world.World;
 
 public class MineQuest implements Runnable {
 	public static MineQuest instance;
@@ -13,9 +14,11 @@ public class MineQuest implements Runnable {
 	private Thread gameThread;
 	
 	private Window window;
+	private World world;
 	
 	public void init() {
 		
+		world = new World();
 	}
 	
 	public void render() {
@@ -23,7 +26,7 @@ public class MineQuest implements Runnable {
 	}
 	
 	public void tick() {
-		
+		world.tick();
 	}
 	
 	@Override
@@ -79,6 +82,14 @@ public class MineQuest implements Runnable {
 			
 			e.printStackTrace();
 		}
+	}
+	
+	public Window getWindow() {
+		return window;
+	}
+	
+	public boolean isRunning() {
+		return running;
 	}
 	
 	public MineQuest(int width, int height) {
