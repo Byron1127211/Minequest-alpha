@@ -34,7 +34,7 @@ public class Model {
 		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 		GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 		
-		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, positions.size() / 2);
+		GL11.glDrawArrays(GL11.GL_QUADS, 0, positions.size() / 2);
 		
 		GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);

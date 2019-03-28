@@ -5,14 +5,12 @@ import com.darkmelon.minequest.world.items.Item;
 
 public class Block extends Item {
 	
-	public static final BlockRegistry registry = new BlockRegistry();
-	 
-	public static final Block air = new Block();
-	public static final Block stone = new Block();
+	public static final Block air = new BlockAir();
+	public static final Block stone = new BlockStone();
 	
 	static {
-		registry.register((byte)-128, air);
-		registry.register((byte)-127, stone);
+		registry.registerBlockAsItem((byte)-128, air);
+		registry.registerBlockAsItem((byte)-127, stone);
 	}
 	
 	public Block() {
@@ -21,5 +19,13 @@ public class Block extends Item {
 	
 	public void render(Model model, int x, int y, int z) {
 		
+		model.uv(1, 1);
+		model.vertex(0.5f, -0.5f, -1.5f);
+		model.uv(1, 0);
+		model.vertex(0.5f, 0.5f, -1.5f);
+		model.uv(0, 0);
+		model.vertex(-0.5f, 0.5f, -1.5f);
+		model.uv(0, 1);
+		model.vertex(-0.5f, -0.5f, -1.5f);
 	}
 }

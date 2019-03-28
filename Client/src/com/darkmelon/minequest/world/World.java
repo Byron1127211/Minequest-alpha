@@ -18,6 +18,7 @@ public class World {
 	public void tick() {
 		for(int i = 0; i < MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS; i++) {
 			if(chunks[i].isDirty()) {
+
 				chunks[i].update();
 			}
 		}
@@ -28,10 +29,14 @@ public class World {
 	}
 	
 	public Block getBlock(int x, int y, int z, Block block) {
-		return Block.registry.get(getChunk(x >> 4, z >> 4).getBlock(x, y, z));
+		return Block.registry.getItemAsBlock(getChunk(x >> 4, z >> 4).getBlock(x, y, z));
 	}
 	
 	public void setBlock(int x, int y, int z, Block block) {
 		getChunk(x >> 4, z >> 4).setBlock(x, y, z, block);
+	}
+	
+	public Chunk[] getChunks() {
+		return chunks;
 	}
 }

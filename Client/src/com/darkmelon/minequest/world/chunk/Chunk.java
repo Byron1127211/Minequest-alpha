@@ -10,23 +10,30 @@ public class Chunk {
 	private byte[] blocks;
 	
 	public Chunk() {
+		
+		model = new Model(1);
+		
 		blocks = new byte[16 * 256 * 16];
 		for(int i = 0; i < 16 * 256 * 16; i++) {
 			blocks[i] = Block.air.getID();
+		
 		}
+		
+		
+		dirty = true;
 	}
 	
 	public void update() {
 
-		for(int x = 0; x < 16; x++) {
-			for(int y = 0; y < 256; y++) {
-				for(int z = 0; z < 16; z++) {
-					if(getBlock(x, y, z) != Block.air.getID()) {
-						Block.registry.get(getBlock(x, y, z)).render(model, x, y, z);
-					}
-				}
-			}
-		}
+//		for(int x = 0; x < 16; x++) {
+//			for(int y = 0; y < 256; y++) {
+//				for(int z = 0; z < 16; z++) {
+//					if(getBlock(x, y, z) != Block.air.getID()) {
+						Block.air.render(model, 0, 0, 0);
+//					}
+//				}
+//			}
+//		}
 		
 		model.create(0);
 		

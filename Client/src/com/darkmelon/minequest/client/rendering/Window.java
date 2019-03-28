@@ -2,6 +2,7 @@ package com.darkmelon.minequest.client.rendering;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
@@ -26,6 +27,19 @@ public class Window {
 		GL.createCapabilities();
 		
 		GL11.glViewport(0, 0, this.width, this.height);
+		
+		Window window = this;
+		
+		glfwSetFramebufferSizeCallback(id, new GLFWFramebufferSizeCallback() {
+			
+			@Override
+			public void invoke(long id, int width, int height) {
+				
+				window.width = width;
+				window.height = height;
+				GL11.glViewport(0, 0, width, height);
+			}
+		});
 	}
 	
 	public void clear(float r, float g, float b) {

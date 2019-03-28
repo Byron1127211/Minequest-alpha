@@ -24,5 +24,7 @@
 	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-macos.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="lib/lwjgl/slick-util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,6 @@
 package com.darkmelon.minequest.client;
 
+import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.Window;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
@@ -15,17 +16,21 @@ public class MineQuest implements Runnable {
 	
 	private Window window;
 	private World world;
+	private ChunkRenderer chunkRenderer;
 	
 	public void init() {
 		
 		world = new World();
+		chunkRenderer = new ChunkRenderer();
 	}
 	
 	public void render() {
 		
+		chunkRenderer.render(world.getChunks());
 	}
 	
 	public void tick() {
+		
 		world.tick();
 	}
 	
@@ -53,6 +58,8 @@ public class MineQuest implements Runnable {
 			if(window.shouldClose()) {
 				running = false;
 			}
+			
+			render();
 			
 			window.update();
 			frames++;
@@ -97,6 +104,8 @@ public class MineQuest implements Runnable {
 		if(instance != null) {
 			throw new RuntimeException("Tried to create multiple Minequest instances on same JVM");
 		}
+		
+		instance = this;
 		this.width = width;
 		this.height = height;
 		this.gameThread = new Thread(this, "client");
