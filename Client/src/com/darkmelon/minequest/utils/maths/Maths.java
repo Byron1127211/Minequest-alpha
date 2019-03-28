@@ -12,4 +12,19 @@ public class Maths {
 	    float right = -left;
 	    GL11.glFrustum(left, right, bottom, top, near, far);
 	}
+	
+	public static float clamp(float value, float min, float max) {
+		return Math.min(max, Math.max(min, value));
+	}
+	
+	public static float clampRotation(float angle) {
+		
+		if(angle >= 360) {
+			angle -= 360;
+		}else if(angle < 0) {
+			angle += 360;
+		}
+		
+		return angle;
+	}
 }

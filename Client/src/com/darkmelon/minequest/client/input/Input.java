@@ -10,9 +10,19 @@ public class Input {
 	
 	private boolean[] keys;
 	
+	private float mDX, mDY;
+	private float mPosX, mPosY;
+	private float lastMPosX, lastMPosY;
+	
+	private double[] xBuffer = new double[1];
+	private double[] yBuffer = new double[1];
+	
+	private Window window;
+	
 	public Input(Window window) {
 		
-		keys = new boolean[MAX_KEYS];
+		this.window = window;
+		this.keys = new boolean[MAX_KEYS];
 		
 		GLFW.glfwSetKeyCallback(window.getID(), new GLFWKeyCallbackI() {
 
@@ -26,13 +36,40 @@ public class Input {
 		});
 	}
 	
+	public void update() {
+		
+		lastMPosX = mPosX;
+		lastMPosY = mPosY;
+		GLFW.glfwGetCursorPos(window.getID(), xBuffer, yBuffer);
+		mPosX = (float)xBuffer[0];
+		mPosY = (float)yBuffer[0];
+		mDX = mPosX - lastMPosX;
+		mDY = mPosY - lastMPosY;
+	}
+	
+	public void hideCursor(boolean hide) {
+		
+		GLFW.glfwSetInputMode(window.getID(), GLFW.GLFW_CURSOR, hide ? GLFW.GLFW_CURSOR_DISABLED : GLFW.GLFW_CURSOR_NORMAL);
+	}
+	
 	public boolean getKey(int key) {
-		return keys[key];
+		if(key > 0 && key < MAX_KEYS) {
+			return keys[key];
+		}
+		return false;
 	}
 	
 	private void setKey(int key, int action) {
 		if(key != GLFW.GLFW_KEY_UNKNOWN) {
 			this.keys[key] = action != GLFW.GLFW_RELEASE;	
 		}
+	}
+	
+	public float getMouseDX() {
+		return mDX;
+	}
+	
+	public float getMouseDY() {
+		return mDY;
 	}
 }

@@ -27,6 +27,7 @@ public class MineQuest implements Runnable {
 		world = new World();
 		player = new Player(0, 0, 0);
 		chunkRenderer = new ChunkRenderer();
+		input.hideCursor(true);
 	}
 	
 	public void render() {
@@ -34,7 +35,7 @@ public class MineQuest implements Runnable {
 		chunkRenderer.render(world.getChunks(), player);
 	}
 	
-	public void tick() {
+	public void update() {
 		
 		player.update(world);
 		world.tick();
@@ -49,17 +50,18 @@ public class MineQuest implements Runnable {
 		init();
 		
 		Timer secondsTimer = new Timer();
-		Timer ticksTimer = new Timer();
-		int frames = 0, ticks = 0;
+		Timer updateTimer = new Timer();
+		int frames = 0, updates = 0;
 		
 		while(running) {
 			
 			window.clear(0.5f, 0.8f, 1.0f);
 			
-			if(ticksTimer.getTimeMilli() >= 1000 / 60) {
-				tick();
-				ticks++;
-				ticksTimer.subTimeMilli(1000 / 60);
+			if(updateTimer.getTimeMilli() >= 1000 / 60) {
+				input.update();
+				update();
+				updates++;
+				updateTimer.subTimeMilli(1000 / 60);
 			}
 			
 			if(window.shouldClose()) {
@@ -73,9 +75,9 @@ public class MineQuest implements Runnable {
 			
 			if(secondsTimer.getTimeMilli() >= 1000) {
 				
-				Debug.info("FPS : " + frames + " TPS : " + ticks);
+				Debug.info("FPS : " + frames + " UPS : " + updates);
 				frames = 0;
-				ticks = 0;
+				updates = 0;
 				secondsTimer.subTimeMilli(1000);
 			}
 		}

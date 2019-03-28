@@ -7,6 +7,8 @@ import org.lwjgl.BufferUtils;
 
 public class Utils {
 	
+	public static final int FRONT = 0, BACK = 1, TOP = 2, BOTTOM = 3, RIGHT = 4, LEFT = 5;
+	
 	public static FloatBuffer toFloatBuffer(List<Float> list) {
 		
 		final FloatBuffer buffer = BufferUtils.createFloatBuffer(list.size());

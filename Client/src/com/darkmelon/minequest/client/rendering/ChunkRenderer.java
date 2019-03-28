@@ -16,7 +16,7 @@ public class ChunkRenderer {
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
-		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		atlas.bind();
@@ -29,6 +29,8 @@ public class ChunkRenderer {
 		
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
+		GL11.glRotatef(player.getCamXRotation(), 1, 0, 0);
+		GL11.glRotatef(player.ry, 0, 1, 0);
 		GL11.glTranslatef(-player.x, -player.y, -player.z);
 		
 		for(Chunk chunk : chunks) {
@@ -41,6 +43,7 @@ public class ChunkRenderer {
 		atlas.unbind();
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 }

@@ -32,13 +32,14 @@ public class Chunk {
 //			for(int y = 0; y < 256; y++) {
 //				for(int z = 0; z < 16; z++) {
 //					if(getBlock(x, y, z) != Block.air.getID()) {
-						Block.air.render(model, 0, 0, 0);
+						Block.stone.render(model, 0, 0, 0);
 //					}
 //				}
 //			}
 //		}
 		
 		model.create(0);
+		model.clear();
 		
 		this.dirty = false;
 	}
