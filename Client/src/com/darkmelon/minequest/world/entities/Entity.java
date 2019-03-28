@@ -21,5 +21,9 @@ public abstract class Entity {
 	public final void update(World world) {
 		
 		onUpdate(world);
+		
+		this.x += vx;
+		this.y += vy;
+		this.z += vz;
 	}
 }

@@ -73,4 +73,8 @@ public class Window {
 	public String getTitle() {
 		return title;
 	}
+	
+	public long getID() {
+		return id;
+	}
 }

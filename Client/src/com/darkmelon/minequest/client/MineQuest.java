@@ -1,10 +1,12 @@
 package com.darkmelon.minequest.client;
 
+import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.Window;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.world.World;
+import com.darkmelon.minequest.world.entities.Player;
 
 public class MineQuest implements Runnable {
 	public static MineQuest instance;
@@ -16,21 +18,25 @@ public class MineQuest implements Runnable {
 	
 	private Window window;
 	private World world;
+	private Input input;
 	private ChunkRenderer chunkRenderer;
+	private Player player;
 	
 	public void init() {
 		
 		world = new World();
+		player = new Player(0, 0, 0);
 		chunkRenderer = new ChunkRenderer();
 	}
 	
 	public void render() {
 		
-		chunkRenderer.render(world.getChunks());
+		chunkRenderer.render(world.getChunks(), player);
 	}
 	
 	public void tick() {
 		
+		player.update(world);
 		world.tick();
 	}
 	
@@ -38,6 +44,7 @@ public class MineQuest implements Runnable {
 	public void run() {
 		
 		window = new Window(this.width, this.height, "MineQuest Alpha 1.0.0");
+		input = new Input(window);
 		
 		init();
 		
@@ -49,10 +56,10 @@ public class MineQuest implements Runnable {
 			
 			window.clear(0.5f, 0.8f, 1.0f);
 			
-			if(ticksTimer.getTimeMilli() >= 1000 / 20) {
+			if(ticksTimer.getTimeMilli() >= 1000 / 60) {
 				tick();
 				ticks++;
-				ticksTimer.subTimeMilli(1000 / 20);
+				ticksTimer.subTimeMilli(1000 / 60);
 			}
 			
 			if(window.shouldClose()) {
@@ -93,6 +100,10 @@ public class MineQuest implements Runnable {
 	
 	public Window getWindow() {
 		return window;
+	}
+	
+	public Input getInput() {
+		return input;
 	}
 	
 	public boolean isRunning() {
