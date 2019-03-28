@@ -10,8 +10,10 @@ public class World {
 	
 	public World() {
 		chunks = new Chunk[MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS];
-		for(int i = 0; i < MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS; i++) {
-			chunks[i] = new Chunk();
+		for(int x = 0; x < MAX_LOADED_CHUNKS; x++) {
+			for(int z = 0; z < MAX_LOADED_CHUNKS; z++) {
+				chunks[x + z * MAX_LOADED_CHUNKS] = new Chunk(x, z);
+			}
 		}
 	}
 	

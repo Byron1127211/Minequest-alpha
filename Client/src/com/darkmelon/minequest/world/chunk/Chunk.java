@@ -8,8 +8,9 @@ public class Chunk {
 	private Model model;
 	private boolean dirty;
 	private byte[] blocks;
+	private int x, z;
 	
-	public Chunk() {
+	public Chunk(int x, int z) {
 		
 		model = new Model(1);
 		
@@ -19,8 +20,10 @@ public class Chunk {
 		
 		}
 		
-		
 		dirty = true;
+		
+		this.x = x;
+		this.z = z;
 	}
 	
 	public void update() {
@@ -57,5 +60,13 @@ public class Chunk {
 	
 	public Model getModel() {
 		return model;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getZ() {
+		return z;
 	}
 }

@@ -27,6 +27,7 @@ public class ChunkRenderer {
 		Maths.perspective(1, (float)MineQuest.instance.getWindow().getWidth() / (float)MineQuest.instance.getWindow().getHeight(), 0.1f, 1000);
 		
 		for(Chunk chunk : chunks) {
+			GL11.glTranslatef(chunk.getX() * 16, 0, chunk.getZ() * 16);
 			GL11.glCallList(chunk.getModel().getList(0));
 		}
 		
