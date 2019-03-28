@@ -1,5 +1,8 @@
 package com.darkmelon.minequest.world;
 
+import com.darkmelon.minequest.world.blocks.Block;
+import com.darkmelon.minequest.world.chunk.Chunk;
+
 public class World {
 	private final int MAX_LOADED_CHUNKS = 16;
 	
@@ -18,5 +21,17 @@ public class World {
 				chunks[i].update();
 			}
 		}
+	}
+	
+	public Chunk getChunk(int x, int z) {
+		return chunks[x + z * MAX_LOADED_CHUNKS];
+	}
+	
+	public Block getBlock(int x, int y, int z, Block block) {
+		return Block.registry.get(getChunk(x >> 4, z >> 4).getBlock(x, y, z));
+	}
+	
+	public void setBlock(int x, int y, int z, Block block) {
+		getChunk(x >> 4, z >> 4).setBlock(x, y, z, block);
 	}
 }

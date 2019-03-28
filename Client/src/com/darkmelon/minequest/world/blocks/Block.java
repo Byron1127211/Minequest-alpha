@@ -1,5 +1,6 @@
 package com.darkmelon.minequest.world.blocks;
 
+import com.darkmelon.minequest.client.rendering.Model;
 import com.darkmelon.minequest.world.items.Item;
 
 public class Block extends Item {
@@ -18,7 +19,7 @@ public class Block extends Item {
 		
 	}
 	
-	public void render(int x, int y, int z) {
+	public void render(Model model, int x, int y, int z) {
 		
 	}
 }
