@@ -1,5 +1,6 @@
 package com.darkmelon.minequest.utils.maths;
 
+import org.joml.SimplexNoise;
 import org.lwjgl.opengl.GL11;
 
 public class Maths {
@@ -26,5 +27,9 @@ public class Maths {
 		}
 		
 		return angle;
+	}
+	
+	public static float noise(float x, float z, float frequency, float amplitude) {
+		return SimplexNoise.noise(x * frequency, z * frequency) * amplitude;
 	}
 }

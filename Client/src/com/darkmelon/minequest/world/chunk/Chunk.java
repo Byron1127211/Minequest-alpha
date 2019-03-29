@@ -18,11 +18,12 @@ public class Chunk {
 		lists = GL11.glGenLists(1);
 		
 		blocks = new byte[16 * 256 * 16];
+		
 		for(int i = 0; i < 16 * 256 * 16; i++) {
-			blocks[i] = Block.stone.getID();
+			blocks[i] = Block.air.getID();
 		
 		}
-		
+
 		dirty = true;
 		
 		this.x = x;
@@ -56,7 +57,7 @@ public class Chunk {
 			return blocks[x + (y << 8) + (z << 4)];
 		}
 		
-		return Block.air.getID();
+		return Block.stone.getID();
 	}
 	
 	public void setBlock(int x, int y, int z, Block block) {
