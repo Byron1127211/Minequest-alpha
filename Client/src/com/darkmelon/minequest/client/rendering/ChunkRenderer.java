@@ -25,7 +25,7 @@ public class ChunkRenderer {
 		
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		Maths.perspective(1, (float)MineQuest.instance.getWindow().getWidth() / (float)MineQuest.instance.getWindow().getHeight(), 0.1f, 1000);
+		Maths.perspective(1.5f, (float)MineQuest.instance.getWindow().getWidth() / (float)MineQuest.instance.getWindow().getHeight(), 0.1f, 1000);
 		
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
@@ -34,8 +34,7 @@ public class ChunkRenderer {
 		GL11.glTranslatef(-player.x, -player.y, -player.z);
 		
 		for(Chunk chunk : chunks) {
-			GL11.glTranslatef(chunk.getX() * 16, 0, chunk.getZ() * 16);
-			GL11.glCallList(chunk.getModel().getList(0));
+			GL11.glCallList(chunk.getList(0));
 		}
 		
 		GL11.glPopMatrix();
