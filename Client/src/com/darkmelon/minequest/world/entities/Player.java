@@ -8,7 +8,7 @@ import com.darkmelon.minequest.world.World;
 
 public class Player extends Entity {
 
-	private float speed = 0.05f;
+	private float speed = 0.2f;
 	private float sensitivity = 1;
 	private float camRx = 0;
 	

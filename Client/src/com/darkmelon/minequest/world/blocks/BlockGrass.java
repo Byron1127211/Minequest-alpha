@@ -9,14 +9,14 @@ public class BlockGrass extends Block {
 	}
 	
 	public int getTexture(int i) {
-		
+
 		switch (i) {
 		case Utils.TOP:
-			return 3;
+			return 2;
 		case Utils.BOTTOM:
 			return 4;
 		default:
-			return 2;
+			return 3;
 		}
 	}
 }
