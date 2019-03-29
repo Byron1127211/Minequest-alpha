@@ -13,7 +13,7 @@ public class Window {
 	
 	private long id;
 	
-	public Window(int width, int height, String title) {
+	public Window(int width, int height, String title, boolean vsync) {
 		
 		this.title = title;
 		this.width = width;
@@ -22,7 +22,9 @@ public class Window {
 		glfwInit();
 		id = glfwCreateWindow(this.width, this.height, this.title, 0, 0);
 		glfwMakeContextCurrent(id);
-		glfwSwapInterval(0);
+		
+		if(!vsync)
+			glfwSwapInterval(0);
 		
 		GL.createCapabilities();
 		

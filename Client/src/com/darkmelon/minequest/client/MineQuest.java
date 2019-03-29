@@ -25,7 +25,7 @@ public class MineQuest implements Runnable {
 	public void init() {
 		
 		world = new World();
-		player = new Player(0, 0, 0);
+		player = new Player(World.MAX_LOADED_CHUNKS / 2, 500, World.MAX_LOADED_CHUNKS / 2);
 		chunkRenderer = new ChunkRenderer();
 		input.hideCursor(true);
 	}
@@ -44,7 +44,7 @@ public class MineQuest implements Runnable {
 	@Override
 	public void run() {
 		
-		window = new Window(this.width, this.height, "MineQuest Alpha 1.0.0");
+		window = new Window(this.width, this.height, "MineQuest Alpha 1.0.0", true);
 		input = new Input(window);
 		
 		init();
