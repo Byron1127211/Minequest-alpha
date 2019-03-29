@@ -4,7 +4,7 @@ import com.darkmelon.minequest.world.blocks.Block;
 import com.darkmelon.minequest.world.chunk.Chunk;
 
 public class World {
-	private final int MAX_LOADED_CHUNKS = 16;
+	public static final int MAX_LOADED_CHUNKS = 16;
 	
 	private Chunk[] chunks;
 	
@@ -20,18 +20,26 @@ public class World {
 	public void tick() {
 		for(int i = 0; i < MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS; i++) {
 			if(chunks[i].isDirty()) {
-
-				chunks[i].update();
+				chunks[i].update(this);
+				break;
 			}
 		}
 	}
 	
 	public Chunk getChunk(int x, int z) {
-		return chunks[x + z * MAX_LOADED_CHUNKS];
+		if((x >= 0 && x < MAX_LOADED_CHUNKS) && (z >= 0 && z < MAX_LOADED_CHUNKS)) {
+			
+			return chunks[x + z * MAX_LOADED_CHUNKS];
+		}
+		return null;
 	}
 	
-	public Block getBlock(int x, int y, int z, Block block) {
-		return Block.registry.getItemAsBlock(getChunk(x >> 4, z >> 4).getBlock(x, y, z));
+	public Block getBlock(int x, int y, int z) {
+		Chunk chunk = getChunk(x >> 4, z >> 4);
+		if(chunk == null) {
+			return Block.air;
+		}
+		return Block.registry.getItemAsBlock(chunk.getBlock(x - chunk.getX() * 16, y, z - chunk.getZ() * 16));
 	}
 	
 	public void setBlock(int x, int y, int z, Block block) {

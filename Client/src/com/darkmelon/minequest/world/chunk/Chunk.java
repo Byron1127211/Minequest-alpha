@@ -1,22 +1,25 @@
 package com.darkmelon.minequest.world.chunk;
 
-import com.darkmelon.minequest.client.rendering.Model;
+import org.lwjgl.opengl.GL11;
+
+import com.darkmelon.minequest.client.rendering.Tesselator;
+import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
 
 public class Chunk {
 
-	private Model model;
+	private int lists;
 	private boolean dirty;
 	private byte[] blocks;
 	private int x, z;
 	
 	public Chunk(int x, int z) {
 		
-		model = new Model(1);
+		lists = GL11.glGenLists(1);
 		
 		blocks = new byte[16 * 256 * 16];
 		for(int i = 0; i < 16 * 256 * 16; i++) {
-			blocks[i] = Block.air.getID();
+			blocks[i] = Block.stone.getID();
 		
 		}
 		
@@ -26,26 +29,34 @@ public class Chunk {
 		this.z = z;
 	}
 	
-	public void update() {
+	public void update(World world) {
 
-//		for(int x = 0; x < 16; x++) {
-//			for(int y = 0; y < 256; y++) {
-//				for(int z = 0; z < 16; z++) {
-//					if(getBlock(x, y, z) != Block.air.getID()) {
-						Block.stone.render(model, 0, 0, 0);
-//					}
-//				}
-//			}
-//		}
+		GL11.glNewList(lists, GL11.GL_COMPILE);
 		
-		model.create(0);
-		model.clear();
+		for(int x = 0; x < 16; x++) {
+			for(int y = 0; y < 256; y++) {
+				for(int z = 0; z < 16; z++) {
+					if(getBlock(x, y, z) != Block.air.getID()) {
+						Block.registry.getItemAsBlock(getBlock(x, y, z)).render(Tesselator.INSTANCE, world, x + this.x * 16, y, z + this.z * 16);
+					}
+				}
+			}
+		}
+		
+		Tesselator.INSTANCE.render();
+		
+		GL11.glEndList();
 		
 		this.dirty = false;
 	}
 	
 	public byte getBlock(int x, int y, int z) {
-		return blocks[x + (y << 8) + (z << 4)];
+		
+		if(x >= 0 && x < 16 && y >= 0 && y < 256 && z >= 0 && z < 16) {
+			return blocks[x + (y << 8) + (z << 4)];
+		}
+		
+		return Block.air.getID();
 	}
 	
 	public void setBlock(int x, int y, int z, Block block) {
@@ -58,9 +69,9 @@ public class Chunk {
 	public boolean isDirty() {
 		return dirty;
 	}
-	
-	public Model getModel() {
-		return model;
+
+	public int getList(int index) {
+		return lists + index;
 	}
 	
 	public int getX() {

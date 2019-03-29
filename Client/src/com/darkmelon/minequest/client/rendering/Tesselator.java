@@ -1,48 +1,50 @@
 package com.darkmelon.minequest.client.rendering;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.darkmelon.minequest.utils.Utils;
 
-public class Model {
+public class Tesselator {
+	public static final Tesselator INSTANCE = new Tesselator();
 
-	private int lists;
+	private static final int MAX_VERTICES = 100000; 
+	
+	private FloatBuffer positions, colors, uvs;
 	private float r, g, b, u, v;
-	private List<Float> positions, colors, uvs;
+	private int vertexCount;
 	
 	public Cube cube = new Cube();
 	
-	public Model(int listsSize) {
+	public Tesselator() {
 		
-		positions = new ArrayList<>();
-		colors = new ArrayList<>();
-		uvs = new ArrayList<>();
-		clear();
-		lists = GL11.glGenLists(listsSize);
+		this.vertexCount = 0;
+		positions = BufferUtils.createFloatBuffer(MAX_VERTICES * 3);
+		colors = BufferUtils.createFloatBuffer(MAX_VERTICES * 3);
+		uvs = BufferUtils.createFloatBuffer(MAX_VERTICES * 2);
 	}
 	
-	public void create(int listIndex) {
+	public void render() {
 
-		GL11.glNewList(lists + listIndex, GL11.GL_COMPILE);
+		positions.rewind();
+		colors.rewind();
+		uvs.rewind();
 		
-		GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, Utils.toFloatBuffer(positions));
-		GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, Utils.toFloatBuffer(uvs));
-		GL11.glColorPointer(3, GL11.GL_FLOAT, 0, Utils.toFloatBuffer(colors));
+		GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, positions);
+		GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, uvs);
+		GL11.glColorPointer(3, GL11.GL_FLOAT, 0, colors);
 		
 		GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
 		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 		GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 		
-		GL11.glDrawArrays(GL11.GL_QUADS, 0, positions.size() / 3);
+		GL11.glDrawArrays(GL11.GL_QUADS, 0, vertexCount);
 		
 		GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 		GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-		
-		GL11.glEndList();
 		
 		clear();
 	}
@@ -60,16 +62,18 @@ public class Model {
 	
 	public void vertex(float x, float y, float z) {
 		
-		positions.add(x);
-		positions.add(y);
-		positions.add(z);
+		if(vertexCount == MAX_VERTICES - 1) {
+			render();
+			return;
+		}
 		
-		colors.add(r);
-		colors.add(g);
-		colors.add(b);
+		positions.put(x).put(y).put(z);
 		
-		uvs.add(u);
-		uvs.add(v);
+		colors.put(r).put(g).put(b);
+		
+		uvs.put(u).put(v);
+		
+		vertexCount++;
 	}
 	
 	public void clear() {
@@ -77,16 +81,22 @@ public class Model {
 		positions.clear();
 		colors.clear();
 		uvs.clear();
+		
+		positions.rewind();
+		colors.rewind();
+		uvs.rewind();
 
 		this.r = 1;
 		this.g = 1;
 		this.b = 1;
 		this.u = 0;
 		this.v = 0;
+		
+		this.vertexCount = 0;
 	}
 	
-	public int getList(int index) {
-		return lists + index;
+	public int getVertexCount() {
+		return vertexCount;
 	}
 	
 	public class Cube {
