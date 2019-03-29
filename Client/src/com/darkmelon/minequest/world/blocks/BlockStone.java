@@ -8,6 +8,7 @@ public class BlockStone extends Block {
 	
 	@Override
 	public int getTexture(int i) {
-		return 1;
+		
+		return 2;
 	}
 }

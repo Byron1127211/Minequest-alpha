@@ -21,50 +21,16 @@ public class Block extends Item {
 	public void render(Model model, int x, int y, int z) {
 		
 		
-		int texture = getTexture(Utils.FRONT);
-		model.cube.setFace(Utils.FRONT, texture, 0, 1, 1);
-		model.cube.setFace(Utils.BACK, 0, 0, 1, 1);
-		model.cube.setFace(Utils.TOP, 0, 0, 1, 1);
-		model.cube.setFace(Utils.BOTTOM, 0, 0, 1, 1);
-		model.cube.setFace(Utils.RIGHT, 0, 0, 1, 1);
-		model.cube.setFace(Utils.LEFT, 0, 0, 1, 1);
+		float v = getTexture(Utils.FRONT) / 16;
+		float u = getTexture(Utils.FRONT) - (int)v * 16;
+		
+		model.cube.setFace(Utils.FRONT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		model.cube.setFace(Utils.BACK, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		model.cube.setFace(Utils.TOP, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		model.cube.setFace(Utils.BOTTOM, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		model.cube.setFace(Utils.RIGHT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		model.cube.setFace(Utils.LEFT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
 		
 		model.cube.cube(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, x, y, z);
-		
-//		//Front
-//		model.vertex(x + 0.5f, y - 0.5f, z + 0.5f);
-//		model.vertex(x + 0.5f, y + 0.5f, z + 0.5f);
-//		model.vertex(x - 0.5f, y + 0.5f, z + 0.5f);
-//		model.vertex(x - 0.5f, y - 0.5f, z + 0.5f);
-//		
-//		//Back
-//		model.vertex(x - 0.5f, y - 0.5f, z - 0.5f);	
-//		model.vertex(x - 0.5f, y + 0.5f, z - 0.5f);
-//		model.vertex(x + 0.5f, y + 0.5f, z - 0.5f);
-//		model.vertex(x + 0.5f, y - 0.5f, z - 0.5f);
-//		
-//		//Top
-//		model.vertex(x + 0.5f, y + 0.5f, z + 0.5f);
-//		model.vertex(x + 0.5f, y + 0.5f, z - 0.5f);
-//		model.vertex(x - 0.5f, y + 0.5f, z - 0.5f);
-//		model.vertex(x - 0.5f, y + 0.5f, z + 0.5f);
-//		
-//		//Bottom
-//		model.vertex(x - 0.5f, y - 0.5f, z + 0.5f);
-//		model.vertex(x - 0.5f, y - 0.5f, z - 0.5f);
-//		model.vertex(x + 0.5f, y - 0.5f, z - 0.5f);
-//		model.vertex(x + 0.5f, y - 0.5f, z + 0.5f);
-//		
-//		//Right
-//		model.vertex(x + 0.5f, y - 0.5f, z - 0.5f);
-//		model.vertex(x + 0.5f, y + 0.5f, z - 0.5f);
-//		model.vertex(x + 0.5f, y + 0.5f, z + 0.5f);
-//		model.vertex(x + 0.5f, y - 0.5f, z + 0.5f);
-//		
-//		//Left
-//		model.vertex(x - 0.5f, y - 0.5f, z + 0.5f);
-//		model.vertex(x - 0.5f, y + 0.5f, z + 0.5f);
-//		model.vertex(x - 0.5f, y + 0.5f, z - 0.5f);
-//		model.vertex(x - 0.5f, y - 0.5f, z - 0.5f);
 	}
 }
