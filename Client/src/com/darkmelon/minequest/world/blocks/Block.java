@@ -9,10 +9,12 @@ public class Block extends Item {
 	
 	public static final Block air = new BlockAir();
 	public static final Block stone = new BlockStone();
+	public static final Block grass = new BlockGrass();
 	
 	static {
 		registry.registerBlockAsItem((byte)-128, air);
 		registry.registerBlockAsItem((byte)-127, stone);
+		registry.registerBlockAsItem((byte)-126, grass);
 	}
 	
 	private boolean transparent;
