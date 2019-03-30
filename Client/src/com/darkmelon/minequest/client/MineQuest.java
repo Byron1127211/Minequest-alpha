@@ -33,7 +33,7 @@ public class MineQuest implements Runnable {
 	public void render() {
 		
 		chunkRenderer.render(world.getChunks(), player);
-		world.tick();
+		world.tick(player);
 	}
 	
 	public void update() {

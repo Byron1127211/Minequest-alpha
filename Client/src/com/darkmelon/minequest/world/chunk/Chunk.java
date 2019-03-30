@@ -3,6 +3,7 @@ package com.darkmelon.minequest.world.chunk;
 import org.lwjgl.opengl.GL11;
 
 import com.darkmelon.minequest.client.rendering.Tesselator;
+import com.darkmelon.minequest.world.BlockHit;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
 
@@ -51,6 +52,7 @@ public class Chunk {
 		this.dirty = false;
 	}
 	
+	
 	public byte getBlock(int x, int y, int z) {
 		
 		if(x >= 0 && x < 16 && y >= 0 && y < 256 && z >= 0 && z < 16) {
@@ -67,10 +69,26 @@ public class Chunk {
 		}
 	}
 	
+	public void recreate(int x, int z) {
+		
+		for(int i = 0; i < 16 * 256 * 16; i++) {
+			blocks[i] = Block.air.getID();
+		}
+		
+		this.x = x;
+		this.z = z;
+
+		dirty = true;
+	}
+	
 	public boolean isDirty() {
 		return dirty;
 	}
 
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+	}
+	
 	public int getList(int index) {
 		return lists + index;
 	}
