@@ -8,7 +8,6 @@ import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.BlockHit;
 import com.darkmelon.minequest.world.World;
-import com.darkmelon.minequest.world.chunk.Chunk;
 
 public class Player extends Entity {
 
@@ -62,12 +61,9 @@ public class Player extends Entity {
 		if(input.getMouseButton(MouseButton.LEFT)) {
 			if(mouseButtonTimer.getTimeMilli() >= 100) {
 				
-				Chunk chunk = world.getChunk((int)x >> 4, (int)z >> 4);
-				if(chunk != null) {				
-					BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
-					if(hit != null) {
-						world.breakBlock(hit.x, hit.y, hit.z, this);
-					}
+				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
+				if(hit != null) {
+					world.breakBlock(hit.x, hit.y, hit.z, this);
 				}
 				
 				mouseButtonTimer.reset();

@@ -16,7 +16,7 @@ import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
-	public static final int MAX_LOADED_CHUNKS = 32;
+	public static final int MAX_LOADED_CHUNKS = 8;
 	
 	private Chunk[] chunks;
 	private Generation generation;
@@ -76,15 +76,10 @@ public class World {
 	
 	public Chunk getChunk(int x, int z) {
 		
-//		int a = Math.abs((int)((x / MAX_LOADED_CHUNKS) - (x < 0 && x % MAX_LOADED_CHUNKS != 0 ? 1 : 0)) * MAX_LOADED_CHUNKS);
-//		int b = Math.abs((int)((z / MAX_LOADED_CHUNKS) - (z < 0 && z % MAX_LOADED_CHUNKS != 0 ? 1 : 0)) * MAX_LOADED_CHUNKS);
-
-		
 		int a = -((x / MAX_LOADED_CHUNKS) - (x < 0 && x % MAX_LOADED_CHUNKS != 0 ? 1 : 0)) * MAX_LOADED_CHUNKS;
 		int b = -((z / MAX_LOADED_CHUNKS) - (z < 0 && z % MAX_LOADED_CHUNKS != 0 ? 1 : 0)) * MAX_LOADED_CHUNKS;
 		
-		Chunk chunk = chunks[(x + a)
-		                   + (z + b) * MAX_LOADED_CHUNKS];
+		Chunk chunk = chunks[(x + a) + (z + b) * MAX_LOADED_CHUNKS];
 		
 		if(chunk.getX() == x && chunk.getZ() == z) {
 			return chunk;
@@ -134,7 +129,6 @@ public class World {
 				chunk.setDirty(true);
 			}
 		}
-//		System.out.println("llal");
 		schunk.setBlock(bx, y, bz, block);
 	}
 	

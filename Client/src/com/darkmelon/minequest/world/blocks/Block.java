@@ -11,11 +11,13 @@ public class Block extends Item {
 	public static final Block air = new BlockAir();
 	public static final Block stone = new BlockStone();
 	public static final Block grass = new BlockGrass();
+	public static final Block oakWood = new BlockOakWood();
 	
 	static {
 		registry.registerBlockAsItem((byte)-128, air);
 		registry.registerBlockAsItem((byte)-127, stone);
 		registry.registerBlockAsItem((byte)-126, grass);
+		registry.registerBlockAsItem((byte)-125, oakWood);
 	}
 	
 	public Block() {
