@@ -7,7 +7,12 @@ public class BlockAir extends Block{
 
 	public BlockAir() {
 		
-		setTransparent(true);
+		
+	}
+	
+	@Override
+	public boolean isTransparent() {
+		return true;
 	}
 	
 	public void render(Tesselator model, World world, int x, int y, int z) {

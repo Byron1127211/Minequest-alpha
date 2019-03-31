@@ -25,6 +25,7 @@ public class Timer {
 	}
 	
 	public void reset() {
+		timeOffset = 0;
 		lastTime = System.nanoTime();
 	}
 }
