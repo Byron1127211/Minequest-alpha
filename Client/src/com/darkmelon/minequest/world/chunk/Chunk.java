@@ -95,7 +95,7 @@ public class Chunk {
 	}
 	
 	
-	public boolean load() {
+	public boolean load(World world) {
 		
 		File file = new File("saves/world1/chunkData/ch" + x + "." + z + ".dat");
 		if(file.exists()) {
@@ -103,6 +103,16 @@ public class Chunk {
 				final DataInputStream in = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
 				in.readFully(this.blocks);
 				in.close();
+				
+				Chunk chunk = world.getChunk(x + 1, z);
+				if(chunk != null) chunk.setDirty(true);
+				chunk = world.getChunk(x - 1, z);
+				if(chunk != null) chunk.setDirty(true);
+				chunk = world.getChunk(x, z + 1);
+				if(chunk != null) chunk.setDirty(true);
+				chunk = world.getChunk(x, z - 1);
+				if(chunk != null) chunk.setDirty(true);
+				
 				return true;
 			} catch (Exception e) {
 

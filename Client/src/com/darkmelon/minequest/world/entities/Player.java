@@ -31,7 +31,6 @@ public class Player extends Entity {
 	public void onUpdate(World world) {
 		
 		this.vz = 0;
-		this.vy = 0;
 		this.vx = 0;
 		
 		final Input input = MineQuest.instance.getInput();
@@ -83,6 +82,8 @@ public class Player extends Entity {
 				mouseButtonTimer.reset();
 			}
 		}
+		
+		vy -= World.GRAVITY_FORCE;
 	}
 	
 	@Override
