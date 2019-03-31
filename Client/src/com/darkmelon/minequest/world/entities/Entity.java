@@ -1,7 +1,9 @@
 package com.darkmelon.minequest.world.entities;
 
+import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.World;
+import com.darkmelon.minequest.world.blocks.Block;
 
 public abstract class Entity {
 
@@ -40,8 +42,73 @@ public abstract class Entity {
 		ry = Maths.clampRotation(ry);
 		rz = Maths.clampRotation(rz);
 		
+		AABB hitbox = new AABB();
+		getHitbox(hitbox);
+		hitbox.move(x, y, z);
+		
+		AABB blockHitbox = new AABB();
+		
+		for(int i = (int)(x + vx) - 1; i <= (int)(x + vx) + 1; i++) {
+			for(int j = (int)(y + vy) - 1; j <= (int)(y + vy) + 1; j++) {
+				for(int k = (int)(z + vz) - 1; k <= (int)(z + vz) + 1; k++) {
+					
+					Block block = world.getBlock(i, j, k);
+					
+					if(block.isSolid()) {			
+						block.getHitbox(blockHitbox);
+						blockHitbox.move(i, j, k);
+						vx = blockHitbox.clipXCoord(hitbox, vx);
+						blockHitbox.set(0, 0, 0, 0, 0, 0);
+					}	
+				}
+			}
+		}
+		
+		hitbox.move(vx, 0, 0);
+		
+		
+		for(int i = (int)(x + vx) - 1; i <= (int)(x + vx) + 1; i++) {
+			for(int j = (int)(y + vy) - 1; j <= (int)(y + vy) + 1; j++) {
+				for(int k = (int)(z + vz) - 1; k <= (int)(z + vz) + 1; k++) {
+					
+					Block block = world.getBlock(i, j, k);
+					
+					if(block.isSolid()) {			
+						block.getHitbox(blockHitbox);
+						blockHitbox.move(i, j, k);
+						vz = blockHitbox.clipZCoord(hitbox, vz);
+						blockHitbox.set(0, 0, 0, 0, 0, 0);
+					}				
+				}
+			}
+		}
+		
+		hitbox.move(0, 0, vz);
+		
+		for(int i = (int)(x + vx) - 1; i <= (int)(x + vx) + 1; i++) {
+			for(int j = (int)(y + vy) - 1; j <= (int)(y + vy) + 1; j++) {
+				for(int k = (int)(z + vz) - 1; k <= (int)(z + vz) + 1; k++) {
+					
+					Block block = world.getBlock(i, j, k);
+					
+					if(block.isSolid()) {			
+						block.getHitbox(blockHitbox);
+						blockHitbox.move(i, j, k);
+						vy = blockHitbox.clipYCoord(hitbox, vy);
+						blockHitbox.set(0, 0, 0, 0, 0, 0);
+					}				
+				}
+			}
+		}
+		
+		hitbox.move(0, vy, 0);
+		
 		this.x += vx;
 		this.y += vy;
 		this.z += vz;
+	}
+	
+	public void getHitbox(AABB dest) {
+		
 	}
 }

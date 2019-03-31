@@ -25,7 +25,7 @@ public class MineQuest implements Runnable {
 	public void init() {
 		
 		world = new World();
-		player = new Player(World.MAX_LOADED_CHUNKS * 16 / 2, 50, World.MAX_LOADED_CHUNKS * 16 / 2);
+		player = new Player(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
 		chunkRenderer = new ChunkRenderer();
 		input.hideCursor(true);
 	}

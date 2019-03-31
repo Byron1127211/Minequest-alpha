@@ -18,4 +18,8 @@ public class BlockAir extends Block{
 	public void render(Tesselator model, World world, int x, int y, int z) {
 		
 	}
+	
+	public boolean isSolid() {
+		return false;
+	}
 }

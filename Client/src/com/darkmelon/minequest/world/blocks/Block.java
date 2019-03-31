@@ -2,6 +2,7 @@ package com.darkmelon.minequest.world.blocks;
 
 import com.darkmelon.minequest.client.rendering.Tesselator;
 import com.darkmelon.minequest.utils.Utils;
+import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.items.Item;
@@ -81,5 +82,13 @@ public class Block extends Item {
 		}
 		
 		t.cube.cube(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, x, y, z);
+	}
+	
+	public void getHitbox(AABB dest) {
+		dest.set(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f);
+	}
+	
+	public boolean isSolid() {
+		return true;
 	}
 }

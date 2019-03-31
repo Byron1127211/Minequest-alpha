@@ -6,6 +6,7 @@ import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.input.MouseButton;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.utils.Utils;
+import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.BlockHit;
 import com.darkmelon.minequest.world.World;
@@ -82,6 +83,11 @@ public class Player extends Entity {
 				mouseButtonTimer.reset();
 			}
 		}
+	}
+	
+	@Override
+	public void getHitbox(AABB dest) {
+		dest.set(-0.25f, -1.5f, -0.25f, 0.25f, 0.5f, 0.25f);
 	}
 	
 	public float getCamXRotation() {
