@@ -19,6 +19,9 @@ public class ChunkRenderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.0f);
+		
 		atlas.bind();
 		
 		GL11.glPushMatrix();
@@ -44,5 +47,7 @@ public class ChunkRenderer {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_CULL_FACE);
+		
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
 	}
 }
