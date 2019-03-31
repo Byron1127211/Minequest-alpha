@@ -100,4 +100,12 @@ public class Input {
 	public float getMouseDY() {
 		return mDY;
 	}
+	
+	public float getMouseX() {
+		return mPosX;
+	}
+	
+	public float getMouseY() {
+		return mPosY;
+	}
 }
