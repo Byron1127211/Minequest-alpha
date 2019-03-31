@@ -3,6 +3,8 @@ package com.darkmelon.minequest.client;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.Window;
+import com.darkmelon.minequest.client.rendering.guis.Gui;
+import com.darkmelon.minequest.client.rendering.guis.GuiRenderer;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.world.World;
@@ -22,18 +24,25 @@ public class MineQuest implements Runnable {
 	private ChunkRenderer chunkRenderer;
 	private Player player;
 	
+	private GuiRenderer guiRenderer;
+	private Gui testGui;
+	
 	public void init() {
 		
 		world = new World();
 		player = new Player(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
 		chunkRenderer = new ChunkRenderer();
 		input.hideCursor(true);
+		
+		guiRenderer = new GuiRenderer();
+		testGui = new Gui(500, 0, 0, 50, 50, null);
 	}
 	
 	public void render() {
 		
-		chunkRenderer.render(world.getChunks(), player);
 		world.tick(player);
+		chunkRenderer.render(world.getChunks(), player);
+		guiRenderer.render(testGui);
 	}
 	
 	public void update() {

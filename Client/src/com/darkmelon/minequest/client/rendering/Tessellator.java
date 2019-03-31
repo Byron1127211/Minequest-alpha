@@ -17,6 +17,7 @@ public class Tessellator {
 	private int vertexCount;
 	
 	public Cube cube = new Cube();
+	public Rect rect = new Rect();
 	
 	public Tessellator() {
 		
@@ -97,6 +98,31 @@ public class Tessellator {
 	
 	public int getVertexCount() {
 		return vertexCount;
+	}
+	
+	public class Rect {
+		
+		private float minU, minV, maxU, maxV;
+		
+		public void rectUV(float minU, float minV, float maxU, float maxV) {
+			
+			this.minU = minU;
+			this.minV = minV;
+			this.maxU = maxU;
+			this.maxV = maxV;
+		}
+		
+		public void rect(int x, int y, int z, int width, int height) {
+			
+			uv(maxU, maxV);
+			vertex(x + width, y, z);
+			uv(maxU, minV);
+			vertex(x + width, y + height, z);
+			uv(minU, minV);
+			vertex(x, y + height, z);
+			uv(minU, maxV);
+			vertex(x, y, z);
+		}
 	}
 	
 	public class Cube {
