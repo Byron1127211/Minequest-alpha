@@ -1,10 +1,14 @@
 package com.darkmelon.minequest.utils.maths;
 
+import java.util.Random;
+
 import org.joml.SimplexNoise;
 import org.lwjgl.opengl.GL11;
 
 public class Maths {
 
+	public static final Random random = new Random();
+	
 	public static void perspective(float fov, float aspect, float near, float far) {
 		
 		float bottom = -near * (float) Math.tan(fov / 2);
