@@ -20,17 +20,4 @@ public class Item {
 	public byte getID() {
 		return id;
 	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if(object == this) {
-			return true;
-		}
-		if(object instanceof Item) {
-			if(((Item) object).getID() == id) {
-				return true;
-			}
-		}
-		return false;
-	}
 }

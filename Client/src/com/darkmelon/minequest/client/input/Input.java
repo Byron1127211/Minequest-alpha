@@ -2,16 +2,13 @@ package com.darkmelon.minequest.client.input;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
-import org.lwjgl.glfw.GLFWMouseButtonCallbackI;
 
 import com.darkmelon.minequest.client.rendering.Window;
 
 public class Input {
 	private static final int MAX_KEYS = 349;
-	private static final int MAX_MOUSE_BUTTONS = 3;
 	
 	private boolean[] keys;
-	private boolean[] mouseButtons;
 	
 	private float mDX, mDY;
 	private float mPosX, mPosY;
@@ -26,7 +23,6 @@ public class Input {
 		
 		this.window = window;
 		this.keys = new boolean[MAX_KEYS];
-		this.mouseButtons = new boolean[MAX_MOUSE_BUTTONS];
 		
 		GLFW.glfwSetKeyCallback(window.getID(), new GLFWKeyCallbackI() {
 
@@ -35,17 +31,6 @@ public class Input {
 				
 				if(window.getID() == id) {
 					setKey(key, action);
-				}
-			}
-		});
-		
-		GLFW.glfwSetMouseButtonCallback(window.getID(), new GLFWMouseButtonCallbackI() {
-			
-			@Override
-			public void invoke(long id, int button, int action, int mods) {
-				
-				if(window.getID() == id) {
-					setMouseButton(button, action);
 				}
 			}
 		});
@@ -68,28 +53,15 @@ public class Input {
 	}
 	
 	public boolean getKey(int key) {
-		if(key >= 0 && key < MAX_KEYS) {
+		if(key > 0 && key < MAX_KEYS) {
 			return keys[key];
 		}
 		return false;
 	}
 	
-	public boolean getMouseButton(int button) {
-		if(button >= 0 && button < MAX_MOUSE_BUTTONS) {
-			return mouseButtons[button];
-		}
-		return false;
-	}
-	
 	private void setKey(int key, int action) {
-		if(key != GLFW.GLFW_KEY_UNKNOWN && key < MAX_KEYS) {
+		if(key != GLFW.GLFW_KEY_UNKNOWN) {
 			this.keys[key] = action != GLFW.GLFW_RELEASE;	
-		}
-	}
-	
-	private void setMouseButton(int button, int action) {
-		if(button >= 0 && button < MAX_MOUSE_BUTTONS) {
-			this.mouseButtons[button] = action != GLFW.GLFW_RELEASE;	
 		}
 	}
 	

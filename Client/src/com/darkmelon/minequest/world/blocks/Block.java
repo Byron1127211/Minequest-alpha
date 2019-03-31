@@ -3,7 +3,6 @@ package com.darkmelon.minequest.world.blocks;
 import com.darkmelon.minequest.client.rendering.Tesselator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.world.World;
-import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.items.Item;
 
 public class Block extends Item {
@@ -18,16 +17,20 @@ public class Block extends Item {
 		registry.registerBlockAsItem((byte)-126, grass);
 	}
 	
+	private boolean transparent;
+	
 	public Block() {
 		
-
+		this.transparent = false;
+	}
+	
+	public void setTransparent(boolean transparent) {
+		this.transparent = transparent;
 	}
 	
 	public boolean isTransparent() {
-		return false;
+		return transparent;
 	}
-	
-	public void onBreak(World world, int x, int y, int z, Entity breaker) { }
 	
 	public void render(Tesselator t, World world, int x, int y, int z) {
 		
