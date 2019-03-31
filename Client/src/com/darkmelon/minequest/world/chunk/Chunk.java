@@ -1,5 +1,14 @@
 package com.darkmelon.minequest.world.chunk;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
+
 import org.lwjgl.opengl.GL11;
 
 import com.darkmelon.minequest.client.rendering.Tesselator;
@@ -53,7 +62,7 @@ public class Chunk {
 	
 	public byte getBlock(int x, int y, int z) {
 		
-		if(x >= 0 && x < 16 && y >= 0 && y < 256 && z >= 0 && z < 16) {
+		if(inRange(x, y, z)) {	
 			return blocks[x + (y << 8) + (z << 4)];
 		}
 		
@@ -61,11 +70,16 @@ public class Chunk {
 	}
 	
 	public void setBlock(int x, int y, int z, Block block) {
-//		if(getBlock(x, y, z) != block.getID()) {
-//			System.out.println("good");
-			blocks[x + (y << 8) + (z << 4)] = block.getID();
-			this.dirty = true;
-//		}
+		if(inRange(x, y, z)) {	
+			if(getBlock(x, y, z) != block.getID()) {
+				blocks[x + (y << 8) + (z << 4)] = block.getID();
+				this.dirty = true;
+			}
+		}
+	}
+	
+	public static boolean inRange(int x, int y, int z) {
+		return x >= 0 && x < 16 && y >= 0 && y < 256 && z >= 0 && z < 16;
 	}
 	
 	public void recreate(int x, int z) {
@@ -79,6 +93,39 @@ public class Chunk {
 
 		dirty = true;
 	}
+	
+	
+	public boolean load() {
+		
+		File file = new File("saves/world1/chunkData/ch" + x + "." + z + ".dat");
+		if(file.exists()) {
+			try {
+				final DataInputStream in = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
+				in.readFully(this.blocks);
+				in.close();
+				return true;
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void save() {
+		
+		File file = new File("saves/world1/chunkData/ch" + x + "." + z + ".dat");
+		try {
+			file.createNewFile();
+			final DataOutputStream out = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+			out.write(blocks);
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	} 
 	
 	public boolean isDirty() {
 		return dirty;

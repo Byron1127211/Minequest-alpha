@@ -82,6 +82,8 @@ public class MineQuest implements Runnable {
 			}
 		}
 		
+		world.save();
+		
 		window.close();
 	}
 

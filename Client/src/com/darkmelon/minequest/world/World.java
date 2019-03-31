@@ -16,9 +16,10 @@ import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
-	public static final int MAX_LOADED_CHUNKS = 8;
+	public static final int MAX_LOADED_CHUNKS = 16;
 	
 	private Chunk[] chunks;
+	
 	private Generation generation;
 	
 	private IntBuffer selectionBuffer = BufferUtils.createIntBuffer(10000);
@@ -37,7 +38,10 @@ public class World {
 		
 		for(int x = 0; x < MAX_LOADED_CHUNKS; x++) {
 			for(int z = 0; z < MAX_LOADED_CHUNKS; z++) {
-				generation.generateChunk(x, z);
+				if(!chunks[x + z * MAX_LOADED_CHUNKS].load()) {
+					generation.generateChunk(x, z);
+					chunks[x + z * MAX_LOADED_CHUNKS].save();
+				}
 			}
 		}
 	}
@@ -53,24 +57,46 @@ public class World {
 		for(Chunk chunk : chunks) {
 			
 			if(chunk.getZ() * 16 - player.z < -MAX_LOADED_CHUNKS * 16 / 2) {
+				chunk.save();
 				chunk.recreate(chunk.getX(), chunk.getZ() + MAX_LOADED_CHUNKS);
-				generation.generateChunk(chunk.getX(), chunk.getZ());
+				if(!chunk.load()) {
+					generation.generateChunk(chunk.getX(), chunk.getZ());
+//					chunk.save();
+				}
 			}
 			
 			if(chunk.getZ() * 16 - player.z > MAX_LOADED_CHUNKS * 16 / 2) {
+				chunk.save();
 				chunk.recreate(chunk.getX(), chunk.getZ() - MAX_LOADED_CHUNKS);
-				generation.generateChunk(chunk.getX(), chunk.getZ());
+				if(!chunk.load()) {
+					generation.generateChunk(chunk.getX(), chunk.getZ());
+//					chunk.save();
+				}
 			}
 			
 			if(chunk.getX() * 16 - player.x < -MAX_LOADED_CHUNKS * 16 / 2) {
+				chunk.save();
 				chunk.recreate(chunk.getX() + MAX_LOADED_CHUNKS, chunk.getZ());
-				generation.generateChunk(chunk.getX(), chunk.getZ());
+				if(!chunk.load()) {
+					generation.generateChunk(chunk.getX(), chunk.getZ());
+//					chunk.save();
+				}
 			}
 			
 			if(chunk.getX() * 16 - player.x > MAX_LOADED_CHUNKS * 16 / 2) {
+				chunk.save();
 				chunk.recreate(chunk.getX() - MAX_LOADED_CHUNKS, chunk.getZ());
-				generation.generateChunk(chunk.getX(), chunk.getZ());
+				if(!chunk.load()) {
+					generation.generateChunk(chunk.getX(), chunk.getZ());
+//					chunk.save();
+				}
 			}
+		}
+	}
+	
+	public void save() {
+		for(Chunk chunk : chunks) {
+			chunk.save();
 		}
 	}
 	
