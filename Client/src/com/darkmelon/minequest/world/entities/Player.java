@@ -14,9 +14,11 @@ import com.darkmelon.minequest.world.blocks.Block;
 
 public class Player extends Entity {
 
-	private float speed = 0.2f;
+	private float speed = 0.1f;
 	private float sensitivity = 1;
 	private float camRx = 0;
+	
+	private float jumpForce = 0.3f;
 	
 	private Timer mouseButtonTimer;
 	
@@ -53,11 +55,8 @@ public class Player extends Entity {
 			moveRight(speed);
 		}
 		
-		if(input.getKey(KeyCode.KEY_SPACE)) {
-			vy += speed;
-		}
-		if(input.getKey(KeyCode.KEY_LEFT_SHIFT)) {
-			vy -= speed;
+		if(input.getKey(KeyCode.KEY_SPACE) && onGround) {
+			vy += jumpForce;
 		}
 		
 		if(input.getMouseButton(MouseButton.LEFT)) {
@@ -76,7 +75,18 @@ public class Player extends Entity {
 				
 				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
 				if(hit != null) {
-					world.setBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), Block.oakWood);
+					AABB blockHitbox = new AABB();
+					Block.oakWood.getHitbox(blockHitbox);
+					blockHitbox.move(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face));
+					
+					AABB hitbox = new AABB();
+					getHitbox(hitbox);
+					hitbox.move(x, y, z);
+					
+					if(!hitbox.collide(blockHitbox)) {
+						
+						world.setBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), Block.oakWood);
+					}
 				}
 				
 				mouseButtonTimer.reset();
@@ -88,7 +98,7 @@ public class Player extends Entity {
 	
 	@Override
 	public void getHitbox(AABB dest) {
-		dest.set(-0.25f, -1.5f, -0.25f, 0.25f, 0.5f, 0.25f);
+		dest.set(-0.25f, -1.5f, -0.25f, 0.25f, 0.4f, 0.25f);
 	}
 	
 	public float getCamXRotation() {
