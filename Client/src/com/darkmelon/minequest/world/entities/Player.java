@@ -5,9 +5,11 @@ import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.input.MouseButton;
 import com.darkmelon.minequest.utils.Timer;
+import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.BlockHit;
 import com.darkmelon.minequest.world.World;
+import com.darkmelon.minequest.world.blocks.Block;
 
 public class Player extends Entity {
 
@@ -64,6 +66,17 @@ public class Player extends Entity {
 				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
 				if(hit != null) {
 					world.breakBlock(hit.x, hit.y, hit.z, this);
+				}
+				
+				mouseButtonTimer.reset();
+			}
+		}else if(input.getMouseButton(MouseButton.RIGHT)) {
+			
+			if(mouseButtonTimer.getTimeMilli() >= 100) {
+				
+				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
+				if(hit != null) {
+					world.setBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), Block.oakWood);
 				}
 				
 				mouseButtonTimer.reset();

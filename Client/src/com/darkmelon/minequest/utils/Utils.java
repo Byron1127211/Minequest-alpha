@@ -18,4 +18,16 @@ public class Utils {
 		buffer.flip();
 		return buffer;
 	}
+	
+	public static int x(int dir) {
+		return dir == Utils.RIGHT ? 1 : (dir == Utils.LEFT ? -1 : 0);
+	}
+	
+	public static int y(int dir) {
+		return dir == Utils.TOP ? 1 : (dir == Utils.BOTTOM ? -1 : 0);
+	}
+	
+	public static int z(int dir) {
+		return dir == Utils.FRONT ? 1 : (dir == Utils.BACK ? -1 : 0);
+	}
 }
