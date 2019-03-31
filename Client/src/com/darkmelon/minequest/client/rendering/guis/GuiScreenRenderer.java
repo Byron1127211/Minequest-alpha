@@ -6,9 +6,9 @@ import org.lwjgl.util.glu.GLU;
 import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 
-public class GuiRenderer {
+public class GuiScreenRenderer {
 
-	public void render(Gui gui) {
+	public void render(GuiScreen screen) {
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
@@ -27,7 +27,7 @@ public class GuiRenderer {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 		
-		gui.render(Tessellator.INSTANCE);
+		screen.onDraw(Tessellator.INSTANCE);
 		Tessellator.INSTANCE.render();
 		
 		GL11.glPopMatrix();
