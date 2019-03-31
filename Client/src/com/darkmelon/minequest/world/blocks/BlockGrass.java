@@ -1,11 +1,19 @@
 package com.darkmelon.minequest.world.blocks;
 
 import com.darkmelon.minequest.utils.Utils;
+import com.darkmelon.minequest.world.World;
+import com.darkmelon.minequest.world.entities.Entity;
 
 public class BlockGrass extends Block {
 
 	public BlockGrass() {
 	
+	}
+	
+	@Override
+	public void onBreak(World world, int x, int y, int z, Entity breaker) {
+		
+
 	}
 	
 	public int getTexture(int i) {
