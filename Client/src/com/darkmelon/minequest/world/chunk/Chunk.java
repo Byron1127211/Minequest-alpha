@@ -11,7 +11,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.lwjgl.opengl.GL11;
 
-import com.darkmelon.minequest.client.rendering.Tesselator;
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
 
@@ -47,13 +47,13 @@ public class Chunk {
 			for(int y = 0; y < 256; y++) {
 				for(int z = 0; z < 16; z++) {
 					if(getBlock(x, y, z) != Block.air.getID()) {
-						Block.registry.getItemAsBlock(getBlock(x, y, z)).render(Tesselator.INSTANCE, world, x + this.x * 16, y, z + this.z * 16);
+						Block.registry.getItemAsBlock(getBlock(x, y, z)).render(Tessellator.INSTANCE, world, x + this.x * 16, y, z + this.z * 16);
 					}
 				}
 			}
 		}
 		
-		Tesselator.INSTANCE.render();
+		Tessellator.INSTANCE.render();
 		
 		GL11.glEndList();
 		

@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.darkmelon.minequest.utils.Utils;
 
-public class Tesselator {
-	public static final Tesselator INSTANCE = new Tesselator();
+public class Tessellator {
+	public static final Tessellator INSTANCE = new Tessellator();
 
 	private static final int MAX_VERTICES = 100000; 
 	
@@ -18,7 +18,7 @@ public class Tesselator {
 	
 	public Cube cube = new Cube();
 	
-	public Tesselator() {
+	public Tessellator() {
 		
 		this.vertexCount = 0;
 		positions = BufferUtils.createFloatBuffer(MAX_VERTICES * 3);

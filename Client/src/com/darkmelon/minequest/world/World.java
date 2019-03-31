@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import com.darkmelon.minequest.client.MineQuest;
-import com.darkmelon.minequest.client.rendering.Tesselator;
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.blocks.Block;
@@ -207,10 +207,10 @@ public class World {
 							
 							if(getBlock(x + (f == Utils.RIGHT ? 1 : (f == Utils.LEFT ? -1 : 0)), y + (f == Utils.TOP ? 1 : (f == Utils.BOTTOM ? -1 : 0)), z + (f == Utils.FRONT ? 1 : (f == Utils.BACK ? -1 : 0))) == Block.air) {
 								
-								Tesselator.INSTANCE.cube.setFace(f, 0, 0, 0, 0);
-								Tesselator.INSTANCE.cube.cube(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, x, y, z);
+								Tessellator.INSTANCE.cube.setFace(f, 0, 0, 0, 0);
+								Tessellator.INSTANCE.cube.cube(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, x, y, z);
 								
-								Tesselator.INSTANCE.render();
+								Tessellator.INSTANCE.render();
 							}
 							
 							GL11.glPopName();

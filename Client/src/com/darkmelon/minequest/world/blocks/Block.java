@@ -1,6 +1,6 @@
 package com.darkmelon.minequest.world.blocks;
 
-import com.darkmelon.minequest.client.rendering.Tesselator;
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.world.World;
@@ -34,7 +34,7 @@ public class Block extends Item {
 	
 	public void onBreak(World world, int x, int y, int z, Entity breaker) { }
 	
-	public void render(Tesselator t, World world, int x, int y, int z) {
+	public void render(Tessellator t, World world, int x, int y, int z) {
 		
 		float u, v;
 		
