@@ -1,5 +1,7 @@
 package com.darkmelon.minequest.world.blocks;
 
+import org.lwjgl.opengl.GL11;
+
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
@@ -33,6 +35,16 @@ public class Block extends Item {
 	}
 	
 	public void onBreak(World world, int x, int y, int z, Entity breaker) { }
+	
+	@Override
+	public void renderInInventory(Tessellator t) {
+		
+		GL11.glRotatef(30, 0, 1, 0);
+		
+		t.cube.clear();
+		
+		t.render();
+	}
 	
 	public void render(Tessellator t, World world, int x, int y, int z) {
 		

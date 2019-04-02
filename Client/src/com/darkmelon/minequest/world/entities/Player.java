@@ -38,7 +38,7 @@ public class Player extends Entity {
 		final Input input = MineQuest.instance.getInput();
 		
 		this.ry += input.getMouseDX() * sensitivity;
-		this.camRx += input.getMouseDY() * sensitivity;
+		this.camRx -= input.getMouseDY() * sensitivity;
 		
 		camRx = Maths.clamp(camRx, -90, 90);
 		

@@ -114,6 +114,7 @@ public class Tessellator {
 		
 		public void rect(int x, int y, int z, int width, int height) {
 			
+//			color(1, 0, 0);
 			uv(maxU, maxV);
 			vertex(x + width, y, z);
 			uv(maxU, minV);

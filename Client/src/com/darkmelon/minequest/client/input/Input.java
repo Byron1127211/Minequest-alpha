@@ -57,7 +57,7 @@ public class Input {
 		lastMPosY = mPosY;
 		GLFW.glfwGetCursorPos(window.getID(), xBuffer, yBuffer);
 		mPosX = (float)xBuffer[0];
-		mPosY = (float)yBuffer[0];
+		mPosY = window.getHeight() - (float)yBuffer[0];
 		mDX = mPosX - lastMPosX;
 		mDY = mPosY - lastMPosY;
 	}

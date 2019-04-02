@@ -6,27 +6,44 @@ import com.darkmelon.minequest.client.rendering.Tessellator;
 
 import java.util.ArrayList;
 
-public class GuiScreen {
+public abstract class GuiScreen {
 
-	private List<GuiButton> buttons;
+	private List<Gui> guis;
 	
 	public GuiScreen() {
 		
-		buttons = new ArrayList<>();
+		guis = new ArrayList<>();
+		initGuis();
 	}
 	
-	public void addButton(GuiButton button) {
-		buttons.add(button);
+	public abstract void initGuis();
+	
+	public void addGui(Gui gui) {
+		guis.add(gui);
 	}
 	
 	public final void render(Tessellator t) {
 		onDraw(t);
-		for(GuiButton button : buttons) {
-			button.render(t);
+		for(Gui gui : guis) {
+			gui.render(t);
 		}
 	}
 	
+	public void update() {
+		for(Gui gui : guis) {
+			gui.onUpdate();
+		}
+		onUpdate();
+	}
+	
+	public void onUpdate() {}
+	
 	public void onDraw(Tessellator t) {
 		
+	}
+	
+	public void onResize() {
+		guis.clear();
+		initGuis();
 	}
 }

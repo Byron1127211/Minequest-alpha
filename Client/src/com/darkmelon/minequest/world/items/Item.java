@@ -1,5 +1,7 @@
 package com.darkmelon.minequest.world.items;
 
+import com.darkmelon.minequest.client.rendering.Tessellator;
+
 public class Item {
 
 	public static final ItemRegistry registry = new ItemRegistry();
@@ -19,6 +21,11 @@ public class Item {
 
 	public byte getID() {
 		return id;
+	}
+	
+	public void renderInInventory(Tessellator t) {
+		
+		t.render();
 	}
 	
 	@Override

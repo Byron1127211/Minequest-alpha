@@ -16,5 +16,7 @@ public abstract class Gui {
 		this.height = height;
 	}
 	
+	public void onUpdate() {}
+	
 	public abstract void render(Tessellator t);
 }

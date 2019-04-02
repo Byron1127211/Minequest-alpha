@@ -3,6 +3,8 @@ package com.darkmelon.minequest.client;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.Window;
+import com.darkmelon.minequest.client.rendering.guis.GuiButton;
+import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreenRenderer;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
@@ -20,30 +22,48 @@ public class MineQuest implements Runnable {
 	private Window window;
 	private World world;
 	private Input input;
-	private ChunkRenderer chunkRenderer;
 	private Player player;
 	
-	private GuiScreenRenderer guiRenderer;
+	private GuiScreen screen;
 	
 	public void init() {
 		
 		world = new World();
 		player = new Player(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
-		chunkRenderer = new ChunkRenderer();
-		input.hideCursor(true);
 		
-		guiRenderer = new GuiScreenRenderer();
+//		input.hideCursor(true);
+		
+		screen = new GuiScreen() {
+
+			@Override
+			public void initGuis() {
+
+				int wWidth = MineQuest.instance.getWindow().getWidth();
+				int wHeight = MineQuest.instance.getWindow().getHeight();
+				
+				addGui(new GuiButton(wWidth / 2 - 320 / 2, wHeight / 2 - 80 / 2, 0, 400, 80) {
+					
+					@Override
+					public void onClick() {
+						
+					}
+				});
+			}	
+		};
+		
 	}
 	
 	public void render() {
 		
 		world.tick(player);
-		chunkRenderer.render(world.getChunks(), player);
+		ChunkRenderer.render(world.getChunks(), player);
+		GuiScreenRenderer.render(screen);
 	}
 	
 	public void update() {
 		
-		player.update(world);
+		screen.update();
+//		player.update(world);
 	}
 	
 	@Override
