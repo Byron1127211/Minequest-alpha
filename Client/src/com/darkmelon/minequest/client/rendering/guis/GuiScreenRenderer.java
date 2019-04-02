@@ -1,7 +1,6 @@
 package com.darkmelon.minequest.client.rendering.guis;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
 
 import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.rendering.Tessellator;
@@ -22,7 +21,8 @@ public class GuiScreenRenderer {
 		
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluOrtho2D(0, MineQuest.instance.getWindow().getWidth(), 0, MineQuest.instance.getWindow().getHeight());
+		GL11.glFrustum(0, 0, 0, 0, 0.1f, 500);
+		GL11.glOrtho(0, MineQuest.instance.getWindow().getWidth(), 0, MineQuest.instance.getWindow().getHeight(), -500, 500);
 		
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
