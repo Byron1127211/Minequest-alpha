@@ -111,7 +111,7 @@ public abstract class Entity {
 		
 		hitbox.move(0, vy, 0);
 		
-		if(lastVY < 0 && vy == 0) {
+		if(lastVY <= 0 && vy == 0) {
 			onGround = true;
 		}else {
 			onGround = false;

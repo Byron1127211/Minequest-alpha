@@ -2,8 +2,6 @@ package com.darkmelon.minequest.world.blocks;
 
 import org.lwjgl.opengl.GL11;
 
-import com.darkmelon.minequest.client.Texture;
-import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
@@ -39,19 +37,17 @@ public class Block extends Item {
 	public void onBreak(World world, int x, int y, int z, Entity breaker) { }
 	
 	@Override
-	public void renderInInventory(Tessellator t, float x, float y) {
+	public void renderInInventory(Tessellator t, float x, float y, float depth) {
 		
 		float u, v;
 		
-		GL11.glPushMatrix();
-		GL11.glRotatef(0, 0, 0, 1);
+		GL11.glTranslatef(x, y, 20);
 		
 		GL11.glRotatef(30, 1, 0, 0);
 		GL11.glRotatef(45, 0, 1, 0);
+		GL11.glRotatef(0, 0, 0, 1);
 		
-		GL11.glTranslatef(x, y, 50);
-		
-		ChunkRenderer.atlas.bind();
+		GL11.glScalef(20, 20, 20);
 		
 		v = getTexture(Utils.FRONT) >> 4;
 		u = getTexture(Utils.FRONT) - ((int)v << 4);
@@ -77,13 +73,7 @@ public class Block extends Item {
 		u = getTexture(Utils.LEFT) - ((int)v << 4);
 		t.cube.setFace(Utils.LEFT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
 		
-		t.cube.cube(-20.0f, -20.0f, -20.0f, 20.0f, 20.0f, 20.0f, 0, 0, 0);
-		
-		t.render();
-		
-		Texture.unbind();
-		
-		GL11.glPopMatrix();
+		t.cube.cube(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0, 0, 0);
 	}
 	
 	public void render(Tessellator t, World world, int x, int y, int z) {
