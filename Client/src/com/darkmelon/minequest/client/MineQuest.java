@@ -2,14 +2,13 @@ package com.darkmelon.minequest.client;
 
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
-import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.client.rendering.Window;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreenRenderer;
+import com.darkmelon.minequest.client.screens.PlayingScreen;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.world.World;
-import com.darkmelon.minequest.world.blocks.Block;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class MineQuest implements Runnable {
@@ -32,23 +31,9 @@ public class MineQuest implements Runnable {
 		world = new World();
 		player = new Player(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
 
-//		input.hideCursor(true);
+		input.hideCursor(true);
 
-		screen = new GuiScreen() {
-
-			@Override
-			public void onDraw(Tessellator t) {
-				
-				Block.grass.renderInInventory(Tessellator.INSTANCE, 500, 500);
-				t.render();
-			}
-
-			@Override
-			public void initGuis() {
-
-			}
-		};
-
+		showScreen(new PlayingScreen());
 	}
 
 	public void render() {
@@ -61,9 +46,21 @@ public class MineQuest implements Runnable {
 	public void update() {
 
 		screen.update();
-//		player.update(world);
+		player.update(world);
 	}
 
+	public void showScreen(GuiScreen screen) {
+		this.screen = screen;
+	}
+	
+	public GuiScreen currentScreen() {
+		return this.screen;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	@Override
 	public void run() {
 
@@ -81,8 +78,8 @@ public class MineQuest implements Runnable {
 			window.clear(0.5f, 0.8f, 1.0f);
 
 			if (updateTimer.getTimeMilli() >= 1000 / 60) {
-				input.update();
 				update();
+				input.update();
 				updates++;
 				updateTimer.subTimeMilli(1000 / 60);
 			}
