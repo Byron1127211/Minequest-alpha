@@ -11,7 +11,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.lwjgl.opengl.GL11;
 
-import com.darkmelon.minequest.client.rendering.Tesselator;
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
 
@@ -47,13 +47,13 @@ public class Chunk {
 			for(int y = 0; y < 256; y++) {
 				for(int z = 0; z < 16; z++) {
 					if(getBlock(x, y, z) != Block.air.getID()) {
-						Block.registry.getItemAsBlock(getBlock(x, y, z)).render(Tesselator.INSTANCE, world, x + this.x * 16, y, z + this.z * 16);
+						Block.registry.getItemAsBlock(getBlock(x, y, z)).render(Tessellator.INSTANCE, world, x + this.x * 16, y, z + this.z * 16);
 					}
 				}
 			}
 		}
 		
-		Tesselator.INSTANCE.render();
+		Tessellator.INSTANCE.render();
 		
 		GL11.glEndList();
 		
@@ -95,7 +95,7 @@ public class Chunk {
 	}
 	
 	
-	public boolean load() {
+	public boolean load(World world) {
 		
 		File file = new File("saves/world1/chunkData/ch" + x + "." + z + ".dat");
 		if(file.exists()) {
@@ -103,6 +103,16 @@ public class Chunk {
 				final DataInputStream in = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
 				in.readFully(this.blocks);
 				in.close();
+				
+				Chunk chunk = world.getChunk(x + 1, z);
+				if(chunk != null) chunk.setDirty(true);
+				chunk = world.getChunk(x - 1, z);
+				if(chunk != null) chunk.setDirty(true);
+				chunk = world.getChunk(x, z + 1);
+				if(chunk != null) chunk.setDirty(true);
+				chunk = world.getChunk(x, z - 1);
+				if(chunk != null) chunk.setDirty(true);
+				
 				return true;
 			} catch (Exception e) {
 

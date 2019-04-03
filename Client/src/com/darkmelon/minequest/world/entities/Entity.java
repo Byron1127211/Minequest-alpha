@@ -10,14 +10,20 @@ public abstract class Entity {
 	public float x, y, z;
 	public float rx, ry, rz;
 	protected float vx, vy, vz;
+	public boolean onGround;
 	
 	public Entity(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.rx = 0;
+		this.ry = 0;
+		this.rz = 0;
 		this.vx = 0;
 		this.vy = 0;
 		this.vz = 0;
+		
+		this.onGround = false;
 	}
 	
 	public abstract void onUpdate(World world);
@@ -37,6 +43,8 @@ public abstract class Entity {
 	public final void update(World world) {
 		
 		onUpdate(world);
+		
+		float lastVY = vy;
 		
 		rx = Maths.clampRotation(rx);
 		ry = Maths.clampRotation(ry);
@@ -102,6 +110,12 @@ public abstract class Entity {
 		}
 		
 		hitbox.move(0, vy, 0);
+		
+		if(lastVY <= 0 && vy == 0) {
+			onGround = true;
+		}else {
+			onGround = false;
+		}
 		
 		this.x += vx;
 		this.y += vy;

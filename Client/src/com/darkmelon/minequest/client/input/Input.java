@@ -3,6 +3,7 @@ package com.darkmelon.minequest.client.input;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.glfw.GLFWMouseButtonCallbackI;
+import org.lwjgl.glfw.GLFWScrollCallbackI;
 
 import com.darkmelon.minequest.client.rendering.Window;
 
@@ -16,6 +17,8 @@ public class Input {
 	private float mDX, mDY;
 	private float mPosX, mPosY;
 	private float lastMPosX, lastMPosY;
+	
+	private float scrollDX, scrollDY;
 	
 	private double[] xBuffer = new double[1];
 	private double[] yBuffer = new double[1];
@@ -49,6 +52,16 @@ public class Input {
 				}
 			}
 		});
+		
+		GLFW.glfwSetScrollCallback(window.getID(), new GLFWScrollCallbackI() {
+			
+			@Override
+			public void invoke(long window, double xoffset, double yoffset) {
+				
+				scrollDX = (float)xoffset;
+				scrollDY = (float)yoffset;
+			}
+		});
 	}
 	
 	public void update() {
@@ -57,9 +70,11 @@ public class Input {
 		lastMPosY = mPosY;
 		GLFW.glfwGetCursorPos(window.getID(), xBuffer, yBuffer);
 		mPosX = (float)xBuffer[0];
-		mPosY = (float)yBuffer[0];
+		mPosY = window.getHeight() - (float)yBuffer[0];
 		mDX = mPosX - lastMPosX;
 		mDY = mPosY - lastMPosY;
+		scrollDY = 0;
+		scrollDX = 0;
 	}
 	
 	public void hideCursor(boolean hide) {
@@ -99,5 +114,21 @@ public class Input {
 	
 	public float getMouseDY() {
 		return mDY;
+	}
+	
+	public float getMouseX() {
+		return mPosX;
+	}
+	
+	public float getMouseY() {
+		return mPosY;
+	}
+	
+	public float getScrollDX() {
+		return scrollDX;
+	}
+	
+	public float getScrollDY() {
+		return scrollDY;
 	}
 }

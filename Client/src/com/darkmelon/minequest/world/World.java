@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import com.darkmelon.minequest.client.MineQuest;
-import com.darkmelon.minequest.client.rendering.Tesselator;
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.blocks.Block;
@@ -16,7 +16,8 @@ import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
-	public static final int MAX_LOADED_CHUNKS = 16;
+	public static final int MAX_LOADED_CHUNKS = 2;
+	public static final float GRAVITY_FORCE = 0.03f;
 	
 	private Chunk[] chunks;
 	
@@ -38,7 +39,7 @@ public class World {
 		
 		for(int x = 0; x < MAX_LOADED_CHUNKS; x++) {
 			for(int z = 0; z < MAX_LOADED_CHUNKS; z++) {
-				if(!chunks[x + z * MAX_LOADED_CHUNKS].load()) {
+				if(!chunks[x + z * MAX_LOADED_CHUNKS].load(this)) {
 					generation.generateChunk(x, z);
 					chunks[x + z * MAX_LOADED_CHUNKS].save();
 				}
@@ -59,36 +60,36 @@ public class World {
 			if(chunk.getZ() * 16 - player.z < -MAX_LOADED_CHUNKS * 16 / 2) {
 				chunk.save();
 				chunk.recreate(chunk.getX(), chunk.getZ() + MAX_LOADED_CHUNKS);
-				if(!chunk.load()) {
+				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-//					chunk.save();
+					break;
 				}
 			}
 			
 			if(chunk.getZ() * 16 - player.z > MAX_LOADED_CHUNKS * 16 / 2) {
 				chunk.save();
 				chunk.recreate(chunk.getX(), chunk.getZ() - MAX_LOADED_CHUNKS);
-				if(!chunk.load()) {
+				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-//					chunk.save();
+					break;
 				}
 			}
 			
 			if(chunk.getX() * 16 - player.x < -MAX_LOADED_CHUNKS * 16 / 2) {
 				chunk.save();
 				chunk.recreate(chunk.getX() + MAX_LOADED_CHUNKS, chunk.getZ());
-				if(!chunk.load()) {
+				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-//					chunk.save();
+					break;
 				}
 			}
 			
 			if(chunk.getX() * 16 - player.x > MAX_LOADED_CHUNKS * 16 / 2) {
 				chunk.save();
 				chunk.recreate(chunk.getX() - MAX_LOADED_CHUNKS, chunk.getZ());
-				if(!chunk.load()) {
+				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-//					chunk.save();
+					break;
 				}
 			}
 		}
@@ -210,10 +211,10 @@ public class World {
 							
 							if(getBlock(x + (f == Utils.RIGHT ? 1 : (f == Utils.LEFT ? -1 : 0)), y + (f == Utils.TOP ? 1 : (f == Utils.BOTTOM ? -1 : 0)), z + (f == Utils.FRONT ? 1 : (f == Utils.BACK ? -1 : 0))) == Block.air) {
 								
-								Tesselator.INSTANCE.cube.setFace(f, 0, 0, 0, 0);
-								Tesselator.INSTANCE.cube.cube(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, x, y, z);
+								Tessellator.INSTANCE.cube.setFace(f, 0, 0, 0, 0);
+								Tessellator.INSTANCE.cube.cube(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, x, y, z);
 								
-								Tesselator.INSTANCE.render();
+								Tessellator.INSTANCE.render();
 							}
 							
 							GL11.glPopName();

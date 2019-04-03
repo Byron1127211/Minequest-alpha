@@ -12,7 +12,7 @@ public class ChunkRenderer {
 
 	public static final Texture atlas = Texture.loadAsset("terrain/atlas");
 	
-	public void render(Chunk[] chunks, Player player) {
+	public static void render(Chunk[] chunks, Player player) {
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
@@ -42,7 +42,7 @@ public class ChunkRenderer {
 		
 		GL11.glPopMatrix();
 		
-		atlas.unbind();
+		Texture.unbind();
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
