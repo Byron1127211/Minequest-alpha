@@ -9,7 +9,6 @@ import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.BlockHit;
-import com.darkmelon.minequest.world.Inventory;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
 
@@ -18,9 +17,6 @@ public class Player extends Entity {
 	private float speed = 0.1f;
 	private float sensitivity = 1;
 	private float camRx = 0;
-	
-	private Inventory hotbar;
-	private int selectedSlot;
 	
 	private float jumpForce = 0.3f;
 	
@@ -31,13 +27,6 @@ public class Player extends Entity {
 		
 		this.camRx = 0;
 		this.mouseButtonTimer = new Timer();
-		
-		this.selectedSlot = 0;
-		this.hotbar = new Inventory(9);
-		this.hotbar.add(Block.grass);
-		this.hotbar.add(Block.stone);
-		this.hotbar.add(Block.oakWood);
-		this.hotbar.add(Block.leaves);
 	}
 
 	@Override
@@ -52,14 +41,6 @@ public class Player extends Entity {
 		this.camRx -= input.getMouseDY() * sensitivity;
 		
 		camRx = Maths.clamp(camRx, -90, 90);
-		
-		selectedSlot -= input.getScrollDY();
-		
-		if(selectedSlot >= 9) {
-			selectedSlot -= 9;
-		}else if(selectedSlot < 0) {
-			selectedSlot += 9;
-		}
 		
 		if(input.getKey(KeyCode.KEY_W)) {
 			moveFront(-speed);
@@ -92,24 +73,20 @@ public class Player extends Entity {
 			
 			if(mouseButtonTimer.getTimeMilli() >= 100) {
 				
-				if(hotbar.getItem(selectedSlot) instanceof Block) {
+				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
+				if(hit != null) {
+					AABB blockHitbox = new AABB();
+					Block.oakWood.getHitbox(blockHitbox);
+					blockHitbox.move(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face));
 					
-					BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
-					if(hit != null) {
-						AABB blockHitbox = new AABB();
-						Block.oakWood.getHitbox(blockHitbox);
-						blockHitbox.move(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face));
+					AABB hitbox = new AABB();
+					getHitbox(hitbox);
+					hitbox.move(x, y, z);
+					
+					if(!hitbox.collide(blockHitbox)) {
 						
-						AABB hitbox = new AABB();
-						getHitbox(hitbox);
-						hitbox.move(x, y, z);
-						
-						if(!hitbox.collide(blockHitbox)) {
-							
-							world.setBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), (Block)hotbar.getItem(selectedSlot));
-						}
+						world.setBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), Block.oakWood);
 					}
-					
 				}
 				
 				mouseButtonTimer.reset();
@@ -117,14 +94,6 @@ public class Player extends Entity {
 		}
 		
 		vy -= World.GRAVITY_FORCE;
-	}
-	
-	public int getSelectedSlot() {
-		return selectedSlot;
-	}
-	
-	public Inventory getHotbar() {
-		return hotbar;
 	}
 	
 	@Override

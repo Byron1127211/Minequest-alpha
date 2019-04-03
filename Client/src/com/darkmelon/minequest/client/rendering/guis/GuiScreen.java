@@ -23,7 +23,7 @@ public abstract class GuiScreen {
 	}
 	
 	public final void render(Tessellator t) {
-		onRender(t);
+		onDraw(t);
 		for(Gui gui : guis) {
 			gui.render(t);
 		}
@@ -38,7 +38,7 @@ public abstract class GuiScreen {
 	
 	public void onUpdate() {}
 	
-	public void onRender(Tessellator t) {
+	public void onDraw(Tessellator t) {
 		
 	}
 	

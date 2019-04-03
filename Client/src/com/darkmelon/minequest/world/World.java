@@ -16,7 +16,7 @@ import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
-	public static final int MAX_LOADED_CHUNKS = 2;
+	public static final int MAX_LOADED_CHUNKS = 4;
 	public static final float GRAVITY_FORCE = 0.03f;
 	
 	private Chunk[] chunks;
@@ -62,7 +62,6 @@ public class World {
 				chunk.recreate(chunk.getX(), chunk.getZ() + MAX_LOADED_CHUNKS);
 				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-					break;
 				}
 			}
 			
@@ -71,7 +70,6 @@ public class World {
 				chunk.recreate(chunk.getX(), chunk.getZ() - MAX_LOADED_CHUNKS);
 				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-					break;
 				}
 			}
 			
@@ -80,7 +78,6 @@ public class World {
 				chunk.recreate(chunk.getX() + MAX_LOADED_CHUNKS, chunk.getZ());
 				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-					break;
 				}
 			}
 			
@@ -89,7 +86,6 @@ public class World {
 				chunk.recreate(chunk.getX() - MAX_LOADED_CHUNKS, chunk.getZ());
 				if(!chunk.load(this)) {
 					generation.generateChunk(chunk.getX(), chunk.getZ());
-					break;
 				}
 			}
 		}

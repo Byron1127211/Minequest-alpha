@@ -23,7 +23,7 @@ public class Item {
 		return id;
 	}
 	
-	public void renderInInventory(Tessellator t, float x, float y, float depth) {
+	public void renderInInventory(Tessellator t, float x, float y) {
 		
 		t.render();
 	}
