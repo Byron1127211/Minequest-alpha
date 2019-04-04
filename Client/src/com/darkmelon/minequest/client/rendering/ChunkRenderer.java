@@ -5,13 +5,12 @@ import org.lwjgl.opengl.GL11;
 import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.utils.maths.Maths;
+import com.darkmelon.minequest.world.blocks.Block;
 import com.darkmelon.minequest.world.chunk.Chunk;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class ChunkRenderer {
 
-	public static final Texture atlas = Texture.loadAsset("terrain/atlas");
-	
 	public static void render(Chunk[] chunks, Player player) {
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -22,7 +21,7 @@ public class ChunkRenderer {
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.0f);
 		
-		atlas.bind();
+		Block.atlas.bind();
 		
 		GL11.glPushMatrix();
 		

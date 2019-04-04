@@ -112,7 +112,7 @@ public class Tessellator {
 			this.maxV = maxV;
 		}
 		
-		public void rect(float x, float y, float z, int width, int height) {
+		public void rect(float x, float y, float z, float width, float height) {
 			
 //			color(1, 0, 0);
 			uv(maxU, maxV);
