@@ -18,7 +18,7 @@ public class Block extends Item {
 	public static final Block oakWood = new BlockOakWood();
 	public static final Block leaves = new BlockLeaves();
 	
-	public static final Texture atlas = Texture.loadAsset("terrain/blockAtlas");
+	public static final Texture atlas = Texture.loadAsset("terrain/blocks");
 	
 	static {
 		registry.registerBlockAsItem((byte)-128, air);
