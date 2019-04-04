@@ -16,7 +16,7 @@ import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
-	public static final int MAX_LOADED_CHUNKS = 2;
+	public static final int MAX_LOADED_CHUNKS = 4;
 	public static final float GRAVITY_FORCE = 0.03f;
 	
 	private Chunk[] chunks;
@@ -157,6 +157,11 @@ public class World {
 			}
 		}
 		schunk.setBlock(bx, y, bz, block);
+	}
+	
+	public void placeBlock(int x, int y, int z, Block block, Entity placer) {
+		setBlock(x, y, z, block);
+		block.onPlace(this, x, y, z, placer);
 	}
 	
 	public void breakBlock(int x, int y, int z, Entity breaker) {
