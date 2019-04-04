@@ -13,7 +13,7 @@ public class Item {
 	
 	public static final ItemRegistry registry = new ItemRegistry();
 	
-	public static final Texture atlas = Texture.loadAsset("itemAtlas");
+	public static final Texture atlas = Texture.loadAsset("items");
 	
 	static {
 		registry.registerItem((byte)127, apple);
