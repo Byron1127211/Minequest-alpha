@@ -5,24 +5,24 @@ import com.darkmelon.minequest.world.items.Item;
 
 public class Inventory {
 
-	private byte[] items;
+	private ItemStack[] items;
 	
 	public Inventory(int slotCount) {
 		
-		items = new byte[slotCount];
+		items = new ItemStack[slotCount];
 		for(int i = 0; i < slotCount; i++) {
-			items[i] = Block.air.getID();
+			items[i] = new ItemStack(Block.air, (byte)0);
 		}
 	}
 	
-	public Item getItem(int slot) {
-		return Item.registry.get(items[slot]);
+	public ItemStack getItemStack(int slot) {
+		return items[slot];
 	}
 	
 	public boolean add(Item item) {
 		for(int i = 0; i < items.length; i++) {
-			if(items[i] == Block.air.getID()) {
-				items[i] = item.getID();
+			if(items[i].getItem().getID() == Block.air.getID()) {
+				items[i].setItem(item);
 				return true;
 			}
 		}
@@ -32,7 +32,7 @@ public class Inventory {
 	
 	public boolean isFull() {
 		for(int i = 0; i < items.length; i++) {
-			if(items[i] == Block.air.getID()) {
+			if(items[i].getItem().getID() == Block.air.getID()) {
 				return false;
 			}
 		}

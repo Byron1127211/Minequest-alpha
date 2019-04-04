@@ -2,6 +2,7 @@ package com.darkmelon.minequest.world.blocks;
 
 import org.lwjgl.opengl.GL11;
 
+import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
@@ -16,6 +17,8 @@ public class Block extends Item {
 	public static final Block grass = new BlockGrass();
 	public static final Block oakWood = new BlockOakWood();
 	public static final Block leaves = new BlockLeaves();
+	
+	public static final Texture atlas = Texture.loadAsset("terrain/blockAtlas");
 	
 	static {
 		registry.registerBlockAsItem((byte)-128, air);
@@ -35,13 +38,14 @@ public class Block extends Item {
 	}
 	
 	public void onBreak(World world, int x, int y, int z, Entity breaker) { }
+	public void onPlace(World world, int x, int y, int z, Entity placer) { }
 	
 	@Override
 	public void renderInInventory(Tessellator t, float x, float y, float depth) {
 		
 		float u, v;
 		
-		GL11.glTranslatef(x, y, 20);
+		GL11.glTranslatef(x, y, depth);
 		
 		GL11.glRotatef(30, 1, 0, 0);
 		GL11.glRotatef(45, 0, 1, 0);

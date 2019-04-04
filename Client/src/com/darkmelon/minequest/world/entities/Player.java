@@ -12,6 +12,7 @@ import com.darkmelon.minequest.world.BlockHit;
 import com.darkmelon.minequest.world.Inventory;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
+import com.darkmelon.minequest.world.items.Item;
 
 public class Player extends Entity {
 
@@ -19,10 +20,10 @@ public class Player extends Entity {
 	private float sensitivity = 1;
 	private float camRx = 0;
 	
-	private Inventory hotbar;
+	private Inventory inventory;
 	private int selectedSlot;
 	
-	private float jumpForce = 0.3f;
+	private float jumpForce = 0.33f;
 	
 	private Timer mouseButtonTimer;
 	
@@ -33,11 +34,12 @@ public class Player extends Entity {
 		this.mouseButtonTimer = new Timer();
 		
 		this.selectedSlot = 0;
-		this.hotbar = new Inventory(9);
-		this.hotbar.add(Block.grass);
-		this.hotbar.add(Block.stone);
-		this.hotbar.add(Block.oakWood);
-		this.hotbar.add(Block.leaves);
+		this.inventory = new Inventory(9);
+		this.inventory.add(Block.grass);
+		this.inventory.add(Block.stone);
+		this.inventory.add(Block.oakWood);
+		this.inventory.add(Block.leaves);
+		this.inventory.add(Item.apple);
 	}
 
 	@Override
@@ -92,7 +94,7 @@ public class Player extends Entity {
 			
 			if(mouseButtonTimer.getTimeMilli() >= 100) {
 				
-				if(hotbar.getItem(selectedSlot) instanceof Block) {
+				if(inventory.getItemStack(selectedSlot).getItem() instanceof Block) {
 					
 					BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
 					if(hit != null) {
@@ -105,11 +107,13 @@ public class Player extends Entity {
 						hitbox.move(x, y, z);
 						
 						if(!hitbox.collide(blockHitbox)) {
-							
-							world.setBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), (Block)hotbar.getItem(selectedSlot));
+							world.placeBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), (Block)inventory.getItemStack(selectedSlot).getItem(), this);
 						}
 					}
 					
+				}else if(inventory.getItemStack(selectedSlot).getItem() instanceof Item) {
+					
+					inventory.getItemStack(selectedSlot).getItem().onUse(inventory.getItemStack(selectedSlot), this);
 				}
 				
 				mouseButtonTimer.reset();
@@ -123,8 +127,8 @@ public class Player extends Entity {
 		return selectedSlot;
 	}
 	
-	public Inventory getHotbar() {
-		return hotbar;
+	public Inventory getInventory() {
+		return inventory;
 	}
 	
 	@Override

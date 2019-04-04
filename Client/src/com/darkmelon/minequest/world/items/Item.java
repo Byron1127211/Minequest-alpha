@@ -1,10 +1,24 @@
 package com.darkmelon.minequest.world.items;
 
+import org.lwjgl.opengl.GL11;
+
+import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.client.rendering.Tessellator;
+import com.darkmelon.minequest.world.ItemStack;
+import com.darkmelon.minequest.world.entities.Entity;
 
 public class Item {
 
+	public static final Item apple = new ItemApple();
+	
 	public static final ItemRegistry registry = new ItemRegistry();
+	
+	public static final Texture atlas = Texture.loadAsset("itemAtlas");
+	
+	static {
+		registry.registerItem((byte)127, apple);
+	}
+	
 	
 	private byte id;
 	
@@ -25,8 +39,18 @@ public class Item {
 	
 	public void renderInInventory(Tessellator t, float x, float y, float depth) {
 		
-		t.render();
+		float u, v;
+		v = getTexture(0) >> 4;
+		u = getTexture(0) - ((int)v << 4);
+		
+		GL11.glTranslatef(x, y, depth);
+		GL11.glScalef(60, 60, 60);
+		
+		t.rect.rectUV(u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		t.rect.rect(-0.5f, -0.5f, 0, 1.0f, 1.0f);
 	}
+	
+	public void onUse(ItemStack stack, Entity user) {}
 	
 	@Override
 	public boolean equals(Object object) {

@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.Texture;
-import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
 import com.darkmelon.minequest.world.blocks.Block;
@@ -29,14 +28,17 @@ public class PlayingScreen extends GuiScreen {
 		int wWidth = MineQuest.instance.getWindow().getWidth();
 		
 		//Draw items in hotbar
-		ChunkRenderer.atlas.bind();
-		
 		for(int i = 0; i < 9; i++) {
 			
-			Item item = MineQuest.instance.getPlayer().getHotbar().getItem(i);
+			Item item = MineQuest.instance.getPlayer().getInventory().getItemStack(i).getItem();
 			if(item.getID() != Block.air.getID()) {
+				if(item instanceof Block) {
+					Block.atlas.bind();
+				}else if(item instanceof Item) {
+					Item.atlas.bind();
+				}
 				GL11.glPushMatrix();
-				item.renderInInventory(t, wWidth / 2.0f - ((144 * 5 / 2.0f) - (40 + i * 80)), 45, 2);
+				item.renderInInventory(t, wWidth / 2.0f - ((144 * 5 / 2.0f) - (40 + i * 80)), 45, 20);
 				t.render();
 				GL11.glPopMatrix();
 			}
