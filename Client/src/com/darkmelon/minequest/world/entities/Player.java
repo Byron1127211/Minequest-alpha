@@ -23,7 +23,7 @@ public class Player extends Entity {
 	private Inventory inventory;
 	private int selectedSlot;
 	
-	private float jumpForce = 0.33f;
+	private float jumpForce = 0.2f;
 	
 	private Timer mouseButtonTimer;
 	
@@ -80,6 +80,8 @@ public class Player extends Entity {
 			vy += jumpForce;
 		}
 		
+		vy -= World.GRAVITY_FORCE;
+		
 		if(input.getMouseButton(MouseButton.LEFT)) {
 			if(mouseButtonTimer.getTimeMilli() >= 100) {
 				
@@ -120,7 +122,6 @@ public class Player extends Entity {
 			}
 		}
 		
-		vy -= World.GRAVITY_FORCE;
 	}
 	
 	public int getSelectedSlot() {
@@ -133,7 +134,7 @@ public class Player extends Entity {
 	
 	@Override
 	public void getHitbox(AABB dest) {
-		dest.set(-0.25f, -1.5f, -0.25f, 0.25f, 0.4f, 0.25f);
+		dest.set(-0.25f, -1.5f, -0.25f, 0.25f, 0.25f, 0.25f);
 	}
 	
 	public float getCamXRotation() {

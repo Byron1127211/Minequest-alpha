@@ -46,9 +46,9 @@ public abstract class Entity {
 		
 		float lastVY = vy;
 		
-		rx = Maths.clampRotation(rx);
-		ry = Maths.clampRotation(ry);
-		rz = Maths.clampRotation(rz);
+//		rx = Maths.clampRotation(rx);
+//		ry = Maths.clampRotation(ry);
+//		rz = Maths.clampRotation(rz);
 		
 		AABB hitbox = new AABB();
 		getHitbox(hitbox);
@@ -66,7 +66,6 @@ public abstract class Entity {
 						block.getHitbox(blockHitbox);
 						blockHitbox.move(i, j, k);
 						vx = blockHitbox.clipXCoord(hitbox, vx);
-						blockHitbox.set(0, 0, 0, 0, 0, 0);
 					}	
 				}
 			}
@@ -85,7 +84,6 @@ public abstract class Entity {
 						block.getHitbox(blockHitbox);
 						blockHitbox.move(i, j, k);
 						vz = blockHitbox.clipZCoord(hitbox, vz);
-						blockHitbox.set(0, 0, 0, 0, 0, 0);
 					}				
 				}
 			}
@@ -103,7 +101,6 @@ public abstract class Entity {
 						block.getHitbox(blockHitbox);
 						blockHitbox.move(i, j, k);
 						vy = blockHitbox.clipYCoord(hitbox, vy);
-						blockHitbox.set(0, 0, 0, 0, 0, 0);
 					}				
 				}
 			}
@@ -111,7 +108,7 @@ public abstract class Entity {
 		
 		hitbox.move(0, vy, 0);
 		
-		if(lastVY <= 0 && vy == 0) {
+		if(lastVY < 0 && vy == 0) {
 			onGround = true;
 		}else {
 			onGround = false;

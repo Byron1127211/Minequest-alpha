@@ -17,7 +17,7 @@ import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
 	public static final int MAX_LOADED_CHUNKS = 4;
-	public static final float GRAVITY_FORCE = 0.03f;
+	public static final float GRAVITY_FORCE = 0.01f;
 	
 	private Chunk[] chunks;
 	
