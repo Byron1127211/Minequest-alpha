@@ -80,6 +80,7 @@ public class MineQuest implements Runnable {
 			if (updateTimer.getTimeMilli() >= 1000 / 60) {
 				update();
 				input.update();
+				window.pollEvents();
 				updates++;
 				updateTimer.subTimeMilli(1000 / 60);
 			}
