@@ -1,10 +1,12 @@
 package com.darkmelon.minequest.client;
 
 import com.darkmelon.minequest.client.input.Input;
+import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.Window;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreenRenderer;
+import com.darkmelon.minequest.client.screens.PlayerInventoryScreen;
 import com.darkmelon.minequest.client.screens.PlayingScreen;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
@@ -23,6 +25,7 @@ public class MineQuest implements Runnable {
 	private World world;
 	private Input input;
 	private Player player;
+	public boolean paused;
 
 	private GuiScreen screen;
 
@@ -45,8 +48,18 @@ public class MineQuest implements Runnable {
 
 	public void update() {
 
+		if(input.getKeyDown(KeyCode.KEY_E)) {
+			if(MineQuest.instance.currentScreen() instanceof PlayerInventoryScreen) {
+				MineQuest.instance.showScreen(new PlayingScreen());
+			}else {			
+				MineQuest.instance.showScreen(new PlayerInventoryScreen());
+			}
+		}
+		
 		screen.update();
-		player.update(world);
+		if(!paused) {
+			player.update(world);
+		}
 	}
 
 	public void showScreen(GuiScreen screen) {

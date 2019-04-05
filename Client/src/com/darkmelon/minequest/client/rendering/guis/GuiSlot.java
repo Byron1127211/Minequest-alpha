@@ -26,7 +26,11 @@ public class GuiSlot extends GuiButton {
 	@Override
 	public void onClick() {
 
-		mouseItem.set(inventory.getItemStack(slotIndex));
+		
+			ItemStack stack = new ItemStack(null, 0);
+			stack.set(inventory.getItemStack(slotIndex));
+			inventory.setItemStack(slotIndex, mouseItem);
+			mouseItem.set(stack);
 	}
 
 	@Override

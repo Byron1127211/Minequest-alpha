@@ -13,7 +13,7 @@ public abstract class GuiButton extends Gui {
 	@Override
 	public void onUpdate() {
 		if(onHover()) {
-			if(MineQuest.instance.getInput().getMouseButton(MouseButton.LEFT)) {
+			if(MineQuest.instance.getInput().getMouseButtonDown(MouseButton.LEFT)) {
 				onClick();
 			}
 		}

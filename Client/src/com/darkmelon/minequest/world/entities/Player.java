@@ -4,8 +4,6 @@ import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.input.MouseButton;
-import com.darkmelon.minequest.client.screens.PlayerInventoryScreen;
-import com.darkmelon.minequest.client.screens.PlayingScreen;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
@@ -69,14 +67,6 @@ public class Player extends Entity {
 		camRx = Maths.clamp(camRx, -90, 90);
 		
 		selectedSlot -= input.getScrollDY();
-		
-		if(input.getKeyDown(KeyCode.KEY_E)) {
-			if(MineQuest.instance.currentScreen() instanceof PlayerInventoryScreen) {
-				MineQuest.instance.showScreen(new PlayingScreen());
-			}else {			
-				MineQuest.instance.showScreen(new PlayerInventoryScreen());
-			}
-		}
 		
 		if(selectedSlot >= 9) {
 			selectedSlot -= 9;

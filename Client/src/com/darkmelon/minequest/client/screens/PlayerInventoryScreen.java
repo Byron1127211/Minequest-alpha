@@ -41,6 +41,7 @@ public class PlayerInventoryScreen extends GuiScreen {
 		}
 		
 		MineQuest.instance.getInput().hideCursor(false);
+		MineQuest.instance.paused = true;
 	}
 
 	@Override

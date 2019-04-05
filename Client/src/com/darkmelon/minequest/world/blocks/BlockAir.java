@@ -19,6 +19,11 @@ public class BlockAir extends Block{
 		
 	}
 	
+	@Override
+	public void renderInInventory(Tessellator t, float x, float y, float depth) {
+		
+	}
+	
 	public boolean isSolid() {
 		return false;
 	}
