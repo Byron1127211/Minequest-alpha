@@ -18,12 +18,13 @@ import com.darkmelon.minequest.world.blocks.Block;
 public class Chunk {
 
 	private int lists;
-	private boolean dirty;
 	private byte[] blocks;
 	private int x, z;
+	private World world;
 	
-	public Chunk(int x, int z) {
+	public Chunk(int x, int z, World world) {
 		
+		this.world = world;
 		lists = GL11.glGenLists(1);
 		
 		blocks = new byte[16 * 256 * 16];
@@ -33,13 +34,13 @@ public class Chunk {
 		
 		}
 
-		dirty = true;
-		
 		this.x = x;
 		this.z = z;
+		
+		world.updateChunk(this);
 	}
 	
-	public void update(World world) {
+	public void update() {
 
 		GL11.glNewList(lists, GL11.GL_COMPILE);
 		
@@ -56,8 +57,6 @@ public class Chunk {
 		Tessellator.INSTANCE.render();
 		
 		GL11.glEndList();
-		
-		this.dirty = false;
 	}
 	
 	public byte getBlock(int x, int y, int z) {
@@ -73,7 +72,7 @@ public class Chunk {
 		if(inRange(x, y, z)) {	
 			if(getBlock(x, y, z) != block.getID()) {
 				blocks[x + (y << 8) + (z << 4)] = block.getID();
-				this.dirty = true;
+				world.updateChunk(this);
 			}
 		}
 	}
@@ -91,7 +90,7 @@ public class Chunk {
 		this.x = x;
 		this.z = z;
 
-		dirty = true;
+		world.updateChunk(this);
 	}
 	
 	
@@ -105,13 +104,13 @@ public class Chunk {
 				in.close();
 				
 				Chunk chunk = world.getChunk(x + 1, z);
-				if(chunk != null) chunk.setDirty(true);
+				if(chunk != null) world.updateChunk(chunk);
 				chunk = world.getChunk(x - 1, z);
-				if(chunk != null) chunk.setDirty(true);
+				if(chunk != null) world.updateChunk(chunk);
 				chunk = world.getChunk(x, z + 1);
-				if(chunk != null) chunk.setDirty(true);
+				if(chunk != null) world.updateChunk(chunk);
 				chunk = world.getChunk(x, z - 1);
-				if(chunk != null) chunk.setDirty(true);
+				if(chunk != null) world.updateChunk(chunk);
 				
 				return true;
 			} catch (Exception e) {
@@ -136,14 +135,6 @@ public class Chunk {
 			e.printStackTrace();
 		}
 	} 
-	
-	public boolean isDirty() {
-		return dirty;
-	}
-
-	public void setDirty(boolean dirty) {
-		this.dirty = dirty;
-	}
 	
 	public int getList(int index) {
 		return lists + index;

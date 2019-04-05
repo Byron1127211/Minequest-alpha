@@ -1,6 +1,7 @@
 package com.darkmelon.minequest.world;
 
 import java.nio.IntBuffer;
+import java.util.Stack;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -16,7 +17,7 @@ import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
-	public static final int MAX_LOADED_CHUNKS = 4;
+	public static final int MAX_LOADED_CHUNKS = 16;
 	public static final float GRAVITY_FORCE = 0.01f;
 	
 	private Chunk[] chunks;
@@ -25,15 +26,16 @@ public class World {
 	
 	private IntBuffer selectionBuffer = BufferUtils.createIntBuffer(10000);
 	private IntBuffer viewportBuffer = BufferUtils.createIntBuffer(16);
+	private Stack<Chunk> updatingChunks;
 	
 	public World() {
 		chunks = new Chunk[MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS];
-		
+		updatingChunks = new Stack<>();
 		generation = new Generation(this);
 		
 		for(int x = 0; x < MAX_LOADED_CHUNKS; x++) {
 			for(int z = 0; z < MAX_LOADED_CHUNKS; z++) {
-				chunks[x + z * MAX_LOADED_CHUNKS] = new Chunk(x, z);
+				chunks[x + z * MAX_LOADED_CHUNKS] = new Chunk(x, z, this);
 			}
 		}
 		
@@ -48,11 +50,11 @@ public class World {
 	}
 	
 	public void tick(Player player) {
-		for(int i = 0; i < MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS; i++) {
-			if(chunks[i].isDirty()) {
-				chunks[i].update(this);
-				break;
-			}
+		
+		if(updatingChunks.size() != 0) {
+			Chunk chunk = updatingChunks.firstElement();
+			chunk.update();
+			updatingChunks.removeElementAt(0);
 		}
 		
 		for(Chunk chunk : chunks) {
@@ -101,6 +103,12 @@ public class World {
 		}
 	}
 	
+	public void updateChunk(Chunk chunk) {
+//		if(!updatingChunks.contains(chunk)) {
+			updatingChunks.push(chunk);
+//		}
+	}
+	
 	public Chunk getChunk(int x, int z) {
 		
 		int a = -((x / MAX_LOADED_CHUNKS) - (x < 0 && x % MAX_LOADED_CHUNKS != 0 ? 1 : 0)) * MAX_LOADED_CHUNKS;
@@ -132,31 +140,62 @@ public class World {
 		
 		int bx = x - schunk.getX() * 16, bz = z - schunk.getZ() * 16;
 		
-		if(bz == 0) {
-			chunk = getChunk(x >> 4, (z - 1) >> 4);
-			if(chunk != null) {
-
-				chunk.setDirty(true);
+		if(block.isTransparent()) {
+			
+			if(bz == 0) {
+				chunk = getChunk(x >> 4, (z - 1) >> 4);
+				if(chunk != null) {
+					
+					updateChunk(chunk);
+				}
+			}else if(bz == 15) {
+				chunk = getChunk(x >> 4, (z + 1) >> 4);
+				if(chunk != null) {
+					updateChunk(chunk);
+				}
 			}
-		}else if(bz == 15) {
-			chunk = getChunk(x >> 4, (z + 1) >> 4);
-			if(chunk != null) {
-				chunk.setDirty(true);
+			
+			if(bx == 0) {
+				chunk = getChunk((x - 1) >> 4, z >> 4);
+				if(chunk != null) {
+					updateChunk(chunk);
+				}
+			}else if(bx == 15) {
+				chunk = getChunk((x + 1) >> 4, z >> 4);
+				if(chunk != null) {
+					updateChunk(chunk);
+				}
+			}
+			schunk.setBlock(bx, y, bz, block);
+		}else {
+			
+			schunk.setBlock(bx, y, bz, block);
+			
+			if(bz == 0) {
+				chunk = getChunk(x >> 4, (z - 1) >> 4);
+				if(chunk != null) {
+					
+					updateChunk(chunk);
+				}
+			}else if(bz == 15) {
+				chunk = getChunk(x >> 4, (z + 1) >> 4);
+				if(chunk != null) {
+					updateChunk(chunk);
+				}
+			}
+			
+			if(bx == 0) {
+				chunk = getChunk((x - 1) >> 4, z >> 4);
+				if(chunk != null) {
+					updateChunk(chunk);
+				}
+			}else if(bx == 15) {
+				chunk = getChunk((x + 1) >> 4, z >> 4);
+				if(chunk != null) {
+					updateChunk(chunk);
+				}
 			}
 		}
-		
-		if(bx == 0) {
-			chunk = getChunk((x - 1) >> 4, z >> 4);
-			if(chunk != null) {
-				chunk.setDirty(true);
-			}
-		}else if(bx == 15) {
-			chunk = getChunk((x + 1) >> 4, z >> 4);
-			if(chunk != null) {
-				chunk.setDirty(true);
-			}
-		}
-		schunk.setBlock(bx, y, bz, block);
 	}
 	
 	public void placeBlock(int x, int y, int z, Block block, Entity placer) {
