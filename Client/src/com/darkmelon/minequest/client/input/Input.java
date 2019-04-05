@@ -12,6 +12,7 @@ public class Input {
 	private static final int MAX_MOUSE_BUTTONS = 3;
 	
 	private boolean[] keys;
+	private boolean[] downKeys;
 	private boolean[] mouseButtons;
 	
 	private float mDX, mDY;
@@ -29,6 +30,7 @@ public class Input {
 		
 		this.window = window;
 		this.keys = new boolean[MAX_KEYS];
+		this.downKeys = new boolean[MAX_KEYS];
 		this.mouseButtons = new boolean[MAX_MOUSE_BUTTONS];
 		
 		GLFW.glfwSetKeyCallback(window.getID(), new GLFWKeyCallbackI() {
@@ -75,6 +77,10 @@ public class Input {
 		mDY = mPosY - lastMPosY;
 		scrollDY = 0;
 		scrollDX = 0;
+		
+		for(int i = 0; i < MAX_KEYS; i++) {
+			downKeys[i] = false;
+		}
 	}
 	
 	public void hideCursor(boolean hide) {
@@ -89,6 +95,13 @@ public class Input {
 		return false;
 	}
 	
+	public boolean getKeyDown(int key) {
+		if(key >= 0 && key < MAX_KEYS) {
+			return downKeys[key];
+		}
+		return false;
+	}
+	
 	public boolean getMouseButton(int button) {
 		if(button >= 0 && button < MAX_MOUSE_BUTTONS) {
 			return mouseButtons[button];
@@ -98,6 +111,9 @@ public class Input {
 	
 	private void setKey(int key, int action) {
 		if(key != GLFW.GLFW_KEY_UNKNOWN && key < MAX_KEYS) {
+			if(!this.keys[key] && action != GLFW.GLFW_RELEASE) {
+				this.downKeys[key] = true;
+			}
 			this.keys[key] = action != GLFW.GLFW_RELEASE;	
 		}
 	}

@@ -4,12 +4,15 @@ import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.input.MouseButton;
+import com.darkmelon.minequest.client.screens.PlayerInventoryScreen;
+import com.darkmelon.minequest.client.screens.PlayingScreen;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.BlockHit;
 import com.darkmelon.minequest.world.Inventory;
+import com.darkmelon.minequest.world.ItemStack;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
 import com.darkmelon.minequest.world.items.Item;
@@ -34,12 +37,17 @@ public class Player extends Entity {
 		this.mouseButtonTimer = new Timer();
 		
 		this.selectedSlot = 0;
-		this.inventory = new Inventory(9);
-		this.inventory.add(Block.grass);
-		this.inventory.add(Block.stone);
-		this.inventory.add(Block.oakWood);
-		this.inventory.add(Block.leaves);
-		this.inventory.add(Item.apple);
+		this.inventory = new Inventory(9 * 5);
+		this.inventory.add(new ItemStack(Block.grass, 1));
+		this.inventory.add(new ItemStack(Block.stone, 1));
+		this.inventory.add(new ItemStack(Block.oakWood, 1));
+		this.inventory.add(new ItemStack(Block.leaves, 1));
+		this.inventory.add(new ItemStack(Item.apple, 1));
+		
+		for(int i = 9; i < 9 * 5; i++) {
+			
+			this.inventory.setItemStack(i, new ItemStack(Block.stone, 1));
+		}
 	}
 
 	@Override
@@ -56,6 +64,14 @@ public class Player extends Entity {
 		camRx = Maths.clamp(camRx, -90, 90);
 		
 		selectedSlot -= input.getScrollDY();
+		
+		if(input.getKeyDown(KeyCode.KEY_E)) {
+			if(MineQuest.instance.currentScreen() instanceof PlayerInventoryScreen) {
+				MineQuest.instance.showScreen(new PlayingScreen());
+			}else {			
+				MineQuest.instance.showScreen(new PlayerInventoryScreen());
+			}
+		}
 		
 		if(selectedSlot >= 9) {
 			selectedSlot -= 9;

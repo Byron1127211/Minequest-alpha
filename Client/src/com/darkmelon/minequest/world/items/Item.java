@@ -43,6 +43,9 @@ public class Item {
 		v = getTexture(0) >> 4;
 		u = getTexture(0) - ((int)v << 4);
 		
+		GL11.glRotatef(0, 1, 0, 0);
+		GL11.glRotatef(0, 0, 1, 0);
+		GL11.glRotatef(0, 0, 0, 1);
 		GL11.glTranslatef(x, y, depth);
 		GL11.glScalef(60, 60, 60);
 		

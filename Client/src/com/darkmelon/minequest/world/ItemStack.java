@@ -5,9 +5,9 @@ import com.darkmelon.minequest.world.items.Item;
 public class ItemStack {
 
 	private Item item;
-	private byte count;
+	private int count;
 	
-	public ItemStack(Item item, byte count) {
+	public ItemStack(Item item, int count) {
 		this.item = item;
 		this.count = count;
 	}
@@ -20,11 +20,11 @@ public class ItemStack {
 		this.item = item;
 	}
 	
-	public byte getCount() {
+	public int getCount() {
 		return count;
 	}
 	
-	public void setCount(byte count) {
-		this.count = count;
+	public void setCount(int i) {
+		this.count = i;
 	}
 }

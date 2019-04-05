@@ -46,9 +46,9 @@ public abstract class Entity {
 		
 		float lastVY = vy;
 		
-//		rx = Maths.clampRotation(rx);
-//		ry = Maths.clampRotation(ry);
-//		rz = Maths.clampRotation(rz);
+		rx = Maths.clampRotation(rx);
+		ry = Maths.clampRotation(ry);
+		rz = Maths.clampRotation(rz);
 		
 		AABB hitbox = new AABB();
 		getHitbox(hitbox);

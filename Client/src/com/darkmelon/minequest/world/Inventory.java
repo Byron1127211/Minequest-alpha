@@ -1,7 +1,6 @@
 package com.darkmelon.minequest.world;
 
 import com.darkmelon.minequest.world.blocks.Block;
-import com.darkmelon.minequest.world.items.Item;
 
 public class Inventory {
 
@@ -19,10 +18,19 @@ public class Inventory {
 		return items[slot];
 	}
 	
-	public boolean add(Item item) {
+	public void setItemStack(int slot, ItemStack stack) {
+		if(slot < items.length) {
+			items[slot].setItem(stack.getItem());
+			items[slot].setCount(stack.getCount());
+		}
+	}
+
+	
+	public boolean add(ItemStack stack) {
 		for(int i = 0; i < items.length; i++) {
 			if(items[i].getItem().getID() == Block.air.getID()) {
-				items[i].setItem(item);
+				items[i].setItem(stack.getItem());
+				items[i].setCount(stack.getCount());
 				return true;
 			}
 		}
