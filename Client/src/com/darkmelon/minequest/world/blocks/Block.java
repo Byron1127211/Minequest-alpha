@@ -45,13 +45,13 @@ public class Block extends Item {
 		
 		float u, v;
 		
-		GL11.glTranslatef(x, y, depth);
+		GL11.glTranslatef(x, y + 14, depth);
 		
 		GL11.glRotatef(30, 1, 0, 0);
 		GL11.glRotatef(45, 0, 1, 0);
 		GL11.glRotatef(0, 0, 0, 1);
 		
-		GL11.glScalef(20, 20, 20);
+		GL11.glScalef(40, 40, 40);
 		
 		v = getTexture(Utils.FRONT) >> 4;
 		u = getTexture(Utils.FRONT) - ((int)v << 4);
@@ -77,7 +77,7 @@ public class Block extends Item {
 		u = getTexture(Utils.LEFT) - ((int)v << 4);
 		t.cube.setFace(Utils.LEFT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
 		
-		t.cube.cube(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0, 0, 0);
+		t.cube.cube(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0, 0, 0);
 	}
 	
 	public void render(Tessellator t, World world, int x, int y, int z) {

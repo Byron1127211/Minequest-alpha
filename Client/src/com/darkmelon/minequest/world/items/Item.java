@@ -50,7 +50,7 @@ public class Item {
 		GL11.glScalef(60, 60, 60);
 		
 		t.rect.rectUV(u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
-		t.rect.rect(-0.5f, -0.5f, 0, 1.0f, 1.0f);
+		t.rect.rect(0.0f, 0.0f, 0, 1.0f, 1.0f);
 	}
 	
 	public void onUse(ItemStack stack, Entity user) {}

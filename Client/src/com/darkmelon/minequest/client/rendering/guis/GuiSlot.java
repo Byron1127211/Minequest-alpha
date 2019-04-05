@@ -2,27 +2,31 @@ package com.darkmelon.minequest.client.rendering.guis;
 
 import org.lwjgl.opengl.GL11;
 
+import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.world.Inventory;
+import com.darkmelon.minequest.world.ItemStack;
 import com.darkmelon.minequest.world.blocks.Block;
 import com.darkmelon.minequest.world.items.Item;
 
 public class GuiSlot extends GuiButton {
 
 	private Inventory inventory;
+	private ItemStack mouseItem;
 	private int slotIndex;
 	
-	public GuiSlot(int x, int y, int depth, int width, int height, Inventory inventory, int slotIndex) {
-		super(x, y, depth, width, height);
+	public GuiSlot(int x, int y, int depth, Inventory inventory, int slotIndex, ItemStack mouseItem) {
+		super(x, y, depth, 57, 63);
 
 		this.inventory = inventory;
 		this.slotIndex = slotIndex;
+		this.mouseItem = mouseItem;
 	}
 
 	@Override
 	public void onClick() {
 
-		
+		mouseItem.set(inventory.getItemStack(slotIndex));
 	}
 
 	@Override
@@ -40,5 +44,7 @@ public class GuiSlot extends GuiButton {
 			t.render();
 			GL11.glPopMatrix();
 		}
+		
+		Texture.unbind();;
 	}
 }

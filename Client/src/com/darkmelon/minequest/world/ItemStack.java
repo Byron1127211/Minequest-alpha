@@ -27,4 +27,9 @@ public class ItemStack {
 	public void setCount(int i) {
 		this.count = i;
 	}
+	
+	public void set(ItemStack stack) {
+		setItem(stack.item);
+		setCount(stack.count);
+	}
 }

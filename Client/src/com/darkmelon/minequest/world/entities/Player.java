@@ -46,7 +46,12 @@ public class Player extends Entity {
 		
 		for(int i = 9; i < 9 * 5; i++) {
 			
-			this.inventory.setItemStack(i, new ItemStack(Block.stone, 1));
+			if(i % 2 == 0) {
+				
+				this.inventory.setItemStack(i, new ItemStack(Block.stone, 1));
+			}else {
+				this.inventory.setItemStack(i, new ItemStack(Block.grass, 1));
+			}
 		}
 	}
 

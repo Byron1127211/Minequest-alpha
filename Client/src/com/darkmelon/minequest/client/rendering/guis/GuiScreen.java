@@ -44,7 +44,7 @@ public abstract class GuiScreen {
 				Item.atlas.bind();
 			}
 			GL11.glPushMatrix();
-			mouseItem.getItem().renderInInventory(t, input.getMouseX(), input.getMouseY(), 100);
+			mouseItem.getItem().renderInInventory(t, input.getMouseX() - 30, input.getMouseY() - 30, 100);
 			t.render();
 			GL11.glPopMatrix();
 		}
