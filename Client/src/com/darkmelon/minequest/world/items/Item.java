@@ -39,6 +39,8 @@ public class Item {
 	
 	public void renderInInventory(Tessellator t, float x, float y, float depth) {
 		
+		atlas.bind();
+		
 		float u, v;
 		v = getTexture(0) >> 4;
 		u = getTexture(0) - ((int)v << 4);
@@ -51,6 +53,10 @@ public class Item {
 		
 		t.rect.rectUV(u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
 		t.rect.rect(0.0f, 0.0f, 0, 1.0f, 1.0f);
+		
+		t.render();
+		
+		Texture.unbind();
 	}
 	
 	public void onUse(ItemStack stack, Entity user) {}
