@@ -2,7 +2,9 @@ package com.darkmelon.minequest.client.rendering.guis;
 
 import org.lwjgl.opengl.GL11;
 
+import com.darkmelon.minequest.client.fonts.Font;
 import com.darkmelon.minequest.client.rendering.Tessellator;
+import com.darkmelon.minequest.client.rendering.TextRenderer;
 import com.darkmelon.minequest.world.Inventory;
 import com.darkmelon.minequest.world.ItemStack;
 import com.darkmelon.minequest.world.blocks.Block;
@@ -37,10 +39,19 @@ public class GuiSlot extends GuiButton {
 	public void render(Tessellator t) {
 
 		Item item = inventory.getItemStack(slotIndex).getItem();
-		if(item.getID() != Block.air.getID()) {
+		int count = inventory.getItemStack(slotIndex).getCount();
+		if(item.getID() != Block.air.getID() && count != 0) {
 			GL11.glPushMatrix();
 			item.renderInInventory(t, x, y, 20);
 			GL11.glPopMatrix();
+			
+			if(count != 1) {
+				if(count >= 0 && count < 10) {
+					TextRenderer.renderString(t, Integer.toString(inventory.getItemStack(slotIndex).getCount()), Font.minecraftia, x + 50, y + 25, 30, 0.6f);
+				}else {
+					TextRenderer.renderString(t, Integer.toString(inventory.getItemStack(slotIndex).getCount()), Font.minecraftia, x + 35, y + 25, 30, 0.6f);
+				}
+			}
 		}
 	}
 }

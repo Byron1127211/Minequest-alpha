@@ -40,7 +40,7 @@ public class Player extends Entity {
 		this.inventory.add(new ItemStack(Block.stone, 1));
 		this.inventory.add(new ItemStack(Block.oakWood, 1));
 		this.inventory.add(new ItemStack(Block.leaves, 1));
-		this.inventory.add(new ItemStack(Item.apple, 1));
+		this.inventory.add(new ItemStack(Item.apple, 5));
 		
 		for(int i = 9; i < 9 * 5; i++) {
 			

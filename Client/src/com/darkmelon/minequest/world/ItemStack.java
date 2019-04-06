@@ -1,5 +1,7 @@
 package com.darkmelon.minequest.world;
 
+import com.darkmelon.minequest.utils.maths.Maths;
+import com.darkmelon.minequest.world.blocks.Block;
 import com.darkmelon.minequest.world.items.Item;
 
 public class ItemStack {
@@ -9,7 +11,7 @@ public class ItemStack {
 	
 	public ItemStack(Item item, int count) {
 		this.item = item;
-		this.count = count;
+		setCount(count);
 	}
 	
 	public Item getItem() {
@@ -25,7 +27,10 @@ public class ItemStack {
 	}
 	
 	public void setCount(int i) {
-		this.count = i;
+		this.count = (int)Maths.clamp(i, 0, 99);
+		if(count == 0) {
+			item = Block.air;
+		}
 	}
 	
 	public void set(ItemStack stack) {
