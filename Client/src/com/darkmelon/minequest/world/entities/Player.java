@@ -29,7 +29,7 @@ public class Player extends Entity {
 	private Timer mouseButtonTimer;
 	
 	public Player(float x, float y, float z) {
-		super(x, y, z);
+		super(x, y, z, 20);
 		
 		this.camRx = 0;
 		this.mouseButtonTimer = new Timer();
@@ -72,6 +72,10 @@ public class Player extends Entity {
 			selectedSlot -= 9;
 		}else if(selectedSlot < 0) {
 			selectedSlot += 9;
+		}
+		
+		if(input.getKeyDown(KeyCode.KEY_G)) {
+			setHealth(getHealth() - 1);
 		}
 		
 		if(input.getKey(KeyCode.KEY_W)) {

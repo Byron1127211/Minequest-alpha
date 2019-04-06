@@ -7,12 +7,16 @@ import com.darkmelon.minequest.world.blocks.Block;
 
 public abstract class Entity {
 
+	private final int MAX_HEALTH;
+	private int health;
+	
 	public float x, y, z;
 	public float rx, ry, rz;
-	protected float vx, vy, vz;
 	public boolean onGround;
+	protected float vx, vy, vz;
 	
-	public Entity(float x, float y, float z) {
+	
+	public Entity(float x, float y, float z, int health) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -24,6 +28,8 @@ public abstract class Entity {
 		this.vz = 0;
 		
 		this.onGround = false;
+		this.MAX_HEALTH = health;
+		this.health = MAX_HEALTH;
 	}
 	
 	public abstract void onUpdate(World world);
@@ -38,6 +44,18 @@ public abstract class Entity {
 		
 		this.vx += amount * (float)Math.cos(Math.toRadians(ry));
 		this.vz += amount * (float)Math.sin(Math.toRadians(ry));
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public int getMaxHealth() {
+		return MAX_HEALTH;
+	}
+	
+	public void setHealth(int health) {
+		this.health = (int)Maths.clamp(health, 0, MAX_HEALTH);
 	}
 	
 	public final void update(World world) {

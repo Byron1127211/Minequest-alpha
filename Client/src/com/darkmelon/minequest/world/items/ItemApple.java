@@ -12,6 +12,6 @@ public class ItemApple extends Item {
 	
 	@Override
 	public void onUse(ItemStack stack, Entity user) {
-		System.out.println("Used Apple!!!");
+		user.setHealth(user.getHealth() + 3);
 	}
 }
