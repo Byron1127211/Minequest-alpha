@@ -22,7 +22,7 @@ public class World {
 	
 	private Chunk[] chunks;
 	
-	private Generation generation;
+	private WorldGenerator generator;
 	
 	private IntBuffer selectionBuffer = BufferUtils.createIntBuffer(10000);
 	private IntBuffer viewportBuffer = BufferUtils.createIntBuffer(16);
@@ -31,7 +31,7 @@ public class World {
 	public World() {
 		chunks = new Chunk[MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS];
 		updatingChunks = new Stack<>();
-		generation = new Generation(this);
+		generator = new WorldGenerator(this);
 		
 		for(int x = 0; x < MAX_LOADED_CHUNKS; x++) {
 			for(int z = 0; z < MAX_LOADED_CHUNKS; z++) {
@@ -42,7 +42,7 @@ public class World {
 		for(int x = 0; x < MAX_LOADED_CHUNKS; x++) {
 			for(int z = 0; z < MAX_LOADED_CHUNKS; z++) {
 				if(!chunks[x + z * MAX_LOADED_CHUNKS].load(this)) {
-					generation.generateChunk(x, z);
+					generator.generateChunk(x, z);
 					chunks[x + z * MAX_LOADED_CHUNKS].save();
 				}
 			}
@@ -63,7 +63,7 @@ public class World {
 				chunk.save();
 				chunk.recreate(chunk.getX(), chunk.getZ() + MAX_LOADED_CHUNKS);
 				if(!chunk.load(this)) {
-					generation.generateChunk(chunk.getX(), chunk.getZ());
+					generator.generateChunk(chunk.getX(), chunk.getZ());
 					break;
 				}
 			}
@@ -72,7 +72,7 @@ public class World {
 				chunk.save();
 				chunk.recreate(chunk.getX(), chunk.getZ() - MAX_LOADED_CHUNKS);
 				if(!chunk.load(this)) {
-					generation.generateChunk(chunk.getX(), chunk.getZ());
+					generator.generateChunk(chunk.getX(), chunk.getZ());
 					break;
 				}
 			}
@@ -81,7 +81,7 @@ public class World {
 				chunk.save();
 				chunk.recreate(chunk.getX() + MAX_LOADED_CHUNKS, chunk.getZ());
 				if(!chunk.load(this)) {
-					generation.generateChunk(chunk.getX(), chunk.getZ());
+					generator.generateChunk(chunk.getX(), chunk.getZ());
 					break;
 				}
 			}
@@ -90,7 +90,7 @@ public class World {
 				chunk.save();
 				chunk.recreate(chunk.getX() - MAX_LOADED_CHUNKS, chunk.getZ());
 				if(!chunk.load(this)) {
-					generation.generateChunk(chunk.getX(), chunk.getZ());
+					generator.generateChunk(chunk.getX(), chunk.getZ());
 					break;
 				}
 			}
@@ -104,7 +104,10 @@ public class World {
 	}
 	
 	public void updateChunk(Chunk chunk) {
-		updatingChunks.push(chunk);
+		if(!updatingChunks.contains(chunk)) {
+			
+			updatingChunks.push(chunk);
+		}
 	}
 	
 	public Chunk getChunk(int x, int z) {
