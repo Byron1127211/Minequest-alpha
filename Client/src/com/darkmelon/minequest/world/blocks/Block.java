@@ -17,6 +17,7 @@ public class Block extends Item {
 	public static final Block grass = new BlockGrass();
 	public static final Block oakWood = new BlockOakWood();
 	public static final Block leaves = new BlockLeaves();
+	public static final Block dirt = new BlockDirt();
 	
 	public static final Texture atlas = Texture.loadAsset("terrain/blocks");
 	
@@ -26,6 +27,7 @@ public class Block extends Item {
 		registry.registerBlockAsItem((byte)-126, grass);
 		registry.registerBlockAsItem((byte)-125, oakWood);
 		registry.registerBlockAsItem((byte)-124, leaves);
+		registry.registerBlockAsItem((byte)-123, dirt);
 	}
 	
 	public Block() {
@@ -42,6 +44,8 @@ public class Block extends Item {
 	
 	@Override
 	public void renderInInventory(Tessellator t, float x, float y, float depth) {
+		
+		atlas.bind();
 		
 		float u, v;
 		
@@ -78,6 +82,10 @@ public class Block extends Item {
 		t.cube.setFace(Utils.LEFT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
 		
 		t.cube.cube(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0, 0, 0);
+		
+		t.render();
+		
+		Texture.unbind();
 	}
 	
 	public void render(Tessellator t, World world, int x, int y, int z) {
