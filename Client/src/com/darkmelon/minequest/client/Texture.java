@@ -39,17 +39,12 @@ public class Texture {
 		}
 	}
 	
-//	public void unbind() {
-//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-//		lastBoundTexture = -99999999;
-//	}
-	
 	public static void unbind() {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		lastBoundTexture = -99999999;
 	}
 	
-	private static Texture loadTexture(String dir) {
+	public static Texture loadTexture(String dir) {
 	
 		if(!textures.containsKey(dir)) {
 
