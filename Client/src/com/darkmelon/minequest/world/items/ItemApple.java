@@ -12,7 +12,10 @@ public class ItemApple extends Item {
 	
 	@Override
 	public void onUse(ItemStack stack, Entity user) {
-		user.setHealth(user.getHealth() + 3);
-		stack.setCount(stack.getCount() - 1);
+		if(user.getHealth() != user.getMaxHealth()) {
+			
+			user.setHealth(user.getHealth() + 3);
+			stack.setCount(stack.getCount() - 1);
+		}
 	}
 }
