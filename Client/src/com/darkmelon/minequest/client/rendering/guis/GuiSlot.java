@@ -2,7 +2,6 @@ package com.darkmelon.minequest.client.rendering.guis;
 
 import org.lwjgl.opengl.GL11;
 
-import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.world.Inventory;
 import com.darkmelon.minequest.world.ItemStack;
@@ -25,12 +24,13 @@ public class GuiSlot extends GuiButton {
 
 	@Override
 	public void onClick() {
-
 		
+		if(mouseItem != null) {		
 			ItemStack stack = new ItemStack(null, 0);
 			stack.set(inventory.getItemStack(slotIndex));
 			inventory.setItemStack(slotIndex, mouseItem);
 			mouseItem.set(stack);
+		}
 	}
 
 	@Override
@@ -38,17 +38,9 @@ public class GuiSlot extends GuiButton {
 
 		Item item = inventory.getItemStack(slotIndex).getItem();
 		if(item.getID() != Block.air.getID()) {
-			if(item instanceof Block) {
-				Block.atlas.bind();
-			}else if(item instanceof Item) {
-				Item.atlas.bind();
-			}
 			GL11.glPushMatrix();
 			item.renderInInventory(t, x, y, 20);
-			t.render();
 			GL11.glPopMatrix();
 		}
-		
-		Texture.unbind();;
 	}
 }

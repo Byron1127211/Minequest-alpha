@@ -24,7 +24,7 @@ public class PlayingScreen extends GuiScreen {
 			int i = wWidth / 2 - ((145 * SIZE) / 2) + (int)(SIZE * 2.6);
 			int j = 5 + (int)(SIZE * 1.8);
 		
-			addGui(new GuiSlot(i + (x * 80), j, 20, MineQuest.instance.getPlayer().getInventory(), x, mouseItem));
+			addGui(new GuiSlot(i + (x * 80), j, 20, MineQuest.instance.getPlayer().getInventory(), x, null));
 		}
 		
 		MineQuest.instance.getInput().hideCursor(true);
