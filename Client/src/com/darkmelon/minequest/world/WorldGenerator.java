@@ -3,11 +3,11 @@ package com.darkmelon.minequest.world;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.blocks.Block;
 
-public class Generation {
+public class WorldGenerator {
 
 	private World world;
 	
-	public Generation(World world) {
+	public WorldGenerator(World world) {
 		this.world = world;
 	}
 	
@@ -27,7 +27,11 @@ public class Generation {
 				}
 				
 				for(int j = y - 1; j >= 0; j--) {
-					world.setBlock(x, j, z, Block.stone);
+//					if(y - j < 5) {
+//						world.setBlock(x, j, z, Block.dirt);
+//					}else {
+						world.setBlock(x, j, z, Block.stone);
+//					}
 				}
 			}
 		}
