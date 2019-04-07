@@ -28,10 +28,19 @@ public class GuiSlot extends GuiButton {
 	public void onClick() {
 		
 		if(mouseItem != null) {		
-			ItemStack stack = new ItemStack(null, 0);
-			stack.set(inventory.getItemStack(slotIndex));
-			inventory.setItemStack(slotIndex, mouseItem);
-			mouseItem.set(stack);
+			
+			if(inventory.getItemStack(slotIndex).getItem().getID() != mouseItem.getItem().getID()) {
+				
+				ItemStack stack = new ItemStack(Block.air, 0);
+				stack.set(inventory.getItemStack(slotIndex));
+				inventory.setItemStack(slotIndex, mouseItem);
+				mouseItem.set(stack);
+			}else {
+				
+				inventory.getItemStack(slotIndex).setCount(inventory.getItemStack(slotIndex).getCount() + mouseItem.getCount()); 
+				mouseItem.setItem(Block.air);
+				mouseItem.setCount(0);
+			}
 		}
 	}
 
@@ -47,9 +56,9 @@ public class GuiSlot extends GuiButton {
 			
 			if(count != 1) {
 				if(count >= 0 && count < 10) {
-					TextRenderer.renderString(t, Integer.toString(inventory.getItemStack(slotIndex).getCount()), Font.minecraftia, x + 50, y + 25, 30, 0.6f);
+					TextRenderer.renderString(t, Integer.toString(inventory.getItemStack(slotIndex).getCount()), Font.minecraftia, x + 50, y + 25, 100, 0.6f);
 				}else {
-					TextRenderer.renderString(t, Integer.toString(inventory.getItemStack(slotIndex).getCount()), Font.minecraftia, x + 35, y + 25, 30, 0.6f);
+					TextRenderer.renderString(t, Integer.toString(inventory.getItemStack(slotIndex).getCount()), Font.minecraftia, x + 35, y + 25, 100, 0.6f);
 				}
 			}
 		}

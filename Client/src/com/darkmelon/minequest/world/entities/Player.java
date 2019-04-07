@@ -1,9 +1,13 @@
 package com.darkmelon.minequest.world.entities;
 
+import org.lwjgl.opengl.GL11;
+
 import com.darkmelon.minequest.client.MineQuest;
+import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.input.MouseButton;
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
@@ -26,7 +30,10 @@ public class Player extends Entity {
 	
 	private float jumpForce = 0.2f;
 	
+	private Timer breakingTime;
 	private Timer mouseButtonTimer;
+	
+	private BlockHit breakingBlock;
 	
 	public Player(float x, float y, float z) {
 		super(x, y, z, 20);
@@ -51,6 +58,8 @@ public class Player extends Entity {
 				this.inventory.setItemStack(i, new ItemStack(Block.grass, 1));
 			}
 		}
+		
+		this.breakingTime = new Timer();
 	}
 
 	@Override
@@ -97,15 +106,29 @@ public class Player extends Entity {
 		
 		vy -= World.GRAVITY_FORCE;
 		
+		
+		
+		if(!input.getMouseButton(MouseButton.LEFT)) {
+			breakingTime.reset();
+			breakingBlock = null;
+		}
+		
 		if(input.getMouseButton(MouseButton.LEFT)) {
-			if(mouseButtonTimer.getTimeMilli() >= 100) {
-				
-				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
-				if(hit != null) {
+
+			BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
+			if(hit != null) {
+				if(breakingTime.getTimeMilli() >= world.getBlock(hit.x, hit.y, hit.z).getBreakingTime()) {
+					inventory.add(new ItemStack(world.getBlock(hit.x, hit.y, hit.z), 1));
 					world.breakBlock(hit.x, hit.y, hit.z, this);
+					breakingBlock = null;
+					breakingTime.reset();
+				}else {
+					if(breakingBlock == null || (breakingBlock.x != hit.x || breakingBlock.y != hit.y || breakingBlock.z != breakingBlock.z)) {
+						breakingTime.reset();
+					}
+					
+					breakingBlock = hit;
 				}
-				
-				mouseButtonTimer.reset();
 			}
 		}else if(input.getMouseButton(MouseButton.RIGHT)) {
 			
@@ -125,18 +148,64 @@ public class Player extends Entity {
 						
 						if(!hitbox.collide(blockHitbox)) {
 							world.placeBlock(hit.x + Utils.x(hit.face), hit.y + Utils.y(hit.face), hit.z + Utils.z(hit.face), (Block)inventory.getItemStack(selectedSlot).getItem(), this);
+							inventory.getItemStack(selectedSlot).setCount(inventory.getItemStack(selectedSlot).getCount() - 1);
 						}
 					}
 					
-				}else if(inventory.getItemStack(selectedSlot).getItem() instanceof Item) {
-					
-					inventory.getItemStack(selectedSlot).getItem().onUse(inventory.getItemStack(selectedSlot), this);
-				}
+				}	
+				
+				inventory.getItemStack(selectedSlot).getItem().onUse(inventory.getItemStack(selectedSlot), this);
 				
 				mouseButtonTimer.reset();
 			}
 		}
 		
+	}
+	
+	@Override
+	public void onRender(Tessellator t, World world) {
+		
+		if(breakingBlock != null) {
+			
+			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glCullFace(GL11.GL_BACK);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			
+			GL11.glEnable(GL11.GL_ALPHA_TEST);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.0f);
+			
+			Block.atlas.bind();
+			
+			GL11.glPushMatrix();
+			
+			GL11.glMatrixMode(GL11.GL_PROJECTION);
+			GL11.glLoadIdentity();
+			Maths.perspective(1.5f, (float)MineQuest.instance.getWindow().getWidth() / (float)MineQuest.instance.getWindow().getHeight(), 0.1f, 1000);
+			
+			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+			GL11.glLoadIdentity();
+			GL11.glRotatef(getCamXRotation(), 1, 0, 0);
+			GL11.glRotatef(ry, 0, 1, 0);
+			GL11.glTranslatef(-x, -y, -z);
+			
+			int offset = (int)Maths.clamp((int)(breakingTime.getTimeMilli() / (float)world.getBlock(breakingBlock.x, breakingBlock.y, breakingBlock.z).getBreakingTime() * 4), 0, 4);
+			
+			System.out.println(offset);
+			t.cube.setAllFaces(offset / 16.0f, 1 - 1 / 16.0f, (offset + 1) / 16.0f, 1);
+			t.cube.cube(-0.501f, -0.501f, -0.501f, 0.501f, 0.501f, 0.501f, breakingBlock.x, breakingBlock.y, breakingBlock.z);
+			t.render();
+			
+			GL11.glPopMatrix();
+			
+			Texture.unbind();
+			
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			
+			GL11.glDisable(GL11.GL_ALPHA_TEST);
+		}
 	}
 	
 	public int getSelectedSlot() {

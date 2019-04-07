@@ -1,5 +1,6 @@
 package com.darkmelon.minequest.world.entities;
 
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.World;
@@ -33,6 +34,7 @@ public abstract class Entity {
 	}
 	
 	public abstract void onUpdate(World world);
+	public void onRender(Tessellator t, World world) {}
 	
 	public void moveFront(float amount) {
 		

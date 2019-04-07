@@ -147,6 +147,13 @@ public class Tessellator {
 			uvs[face * 4 + 3] = maxV;
 		}
 		
+		public void setAllFaces(float minU, float minV, float maxU, float maxV) {
+			for(int i = 0; i < 6; i++) {
+				setFace(i, minU, minV, maxU, maxV);
+			}
+		}
+		
+		
 		public void cube(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float x, float y, float z) {
 			
 			float minU, minV, maxU, maxV;

@@ -27,10 +27,19 @@ public class Inventory {
 
 	
 	public boolean add(ItemStack stack) {
+		
+		for(int i = 0; i < items.length; i++) {
+			if(items[i].getItem().getID() == stack.getItem().getID()) {
+				items[i].setItem(stack.getItem());
+				items[i].setCount(items[i].getCount() + stack.getCount());
+				return true;
+			}
+		}
+		
 		for(int i = 0; i < items.length; i++) {
 			if(items[i].getItem().getID() == Block.air.getID()) {
 				items[i].setItem(stack.getItem());
-				items[i].setCount(stack.getCount());
+				items[i].setCount(items[i].getCount() + stack.getCount());
 				return true;
 			}
 		}

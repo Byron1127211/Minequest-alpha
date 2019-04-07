@@ -27,11 +27,11 @@ public class WorldGenerator {
 				}
 				
 				for(int j = y - 1; j >= 0; j--) {
-//					if(y - j < 5) {
-//						world.setBlock(x, j, z, Block.dirt);
-//					}else {
+					if(y - j < 5) {
+						world.setBlock(x, j, z, Block.dirt);
+					}else {
 						world.setBlock(x, j, z, Block.stone);
-//					}
+					}
 				}
 			}
 		}

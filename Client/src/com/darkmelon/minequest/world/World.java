@@ -3,6 +3,7 @@ package com.darkmelon.minequest.world;
 import java.nio.IntBuffer;
 import java.util.Stack;
 
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
@@ -205,6 +206,7 @@ public class World {
 	}
 	
 	public void breakBlock(int x, int y, int z, Entity breaker) {
+		
 		getBlock(x, y, z).onBreak(this, x, y, z, breaker);
 		setBlock(x, y, z, Block.air);
 	}

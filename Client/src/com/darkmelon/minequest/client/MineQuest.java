@@ -3,6 +3,7 @@ package com.darkmelon.minequest.client;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.client.rendering.Window;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreenRenderer;
@@ -44,6 +45,10 @@ public class MineQuest implements Runnable {
 		world.tick(player);
 		ChunkRenderer.render(world.getChunks(), player);
 		GuiScreenRenderer.render(screen);
+		player.onRender(Tessellator.INSTANCE, world);;
+		
+//		if(!paused) {
+//		}
 	}
 
 	public void update() {

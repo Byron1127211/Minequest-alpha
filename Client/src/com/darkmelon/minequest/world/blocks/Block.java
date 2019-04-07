@@ -35,6 +35,10 @@ public class Block extends Item {
 
 	}
 	
+	public long getBreakingTime() {
+		return 300;
+	}
+	
 	public boolean isTransparent() {
 		return false;
 	}
