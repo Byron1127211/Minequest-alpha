@@ -26,5 +26,8 @@
 	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="lib/lwjgl/slick-util.jar"/>
+	<classpathentry kind="lib" path="lib/paulscode/SoundSystem.jar"/>
+	<classpathentry kind="lib" path="lib/paulscode/libraries/LibraryJavaSound.jar"/>
+	<classpathentry kind="lib" path="lib/paulscode/decoders/CodecJOrbis.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

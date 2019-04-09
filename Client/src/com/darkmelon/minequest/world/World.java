@@ -18,7 +18,7 @@ import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.entities.Player;
 
 public class World {
-	public static final int MAX_LOADED_CHUNKS = 4;
+	public static final int MAX_LOADED_CHUNKS = 16;
 	public static final float GRAVITY_FORCE = 0.01f;
 	
 	private Chunk[] chunks;
@@ -207,6 +207,7 @@ public class World {
 	
 	public void breakBlock(int x, int y, int z, Entity breaker) {
 		
+		MineQuest.instance.getSoundSystem().playSound(false, getBlock(x, y, z).getBlockBreakingSound(), x, y, z, 1.0f);
 		getBlock(x, y, z).onBreak(this, x, y, z, breaker);
 		setBlock(x, y, z, Block.air);
 	}

@@ -65,9 +65,12 @@ public class Player extends Entity {
 	@Override
 	public void onUpdate(World world) {
 		
+		MineQuest.instance.getSoundSystem().setListenerPosition(x, y, z);
+		MineQuest.instance.getSoundSystem().setListenerAngle(ry);
+		
 		this.vz = 0;
 		this.vx = 0;
-		
+				
 		final Input input = MineQuest.instance.getInput();
 		
 		this.ry += input.getMouseDX() * sensitivity;
@@ -191,7 +194,6 @@ public class Player extends Entity {
 			
 			int offset = (int)Maths.clamp((int)(breakingTime.getTimeMilli() / (float)world.getBlock(breakingBlock.x, breakingBlock.y, breakingBlock.z).getBreakingTime() * 4), 0, 4);
 			
-			System.out.println(offset);
 			t.cube.setAllFaces(offset / 16.0f, 1 - 1 / 16.0f, (offset + 1) / 16.0f, 1);
 			t.cube.cube(-0.501f, -0.501f, -0.501f, 0.501f, 0.501f, 0.501f, breakingBlock.x, breakingBlock.y, breakingBlock.z);
 			t.render();

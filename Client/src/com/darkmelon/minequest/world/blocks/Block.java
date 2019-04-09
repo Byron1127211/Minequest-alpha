@@ -3,6 +3,7 @@ package com.darkmelon.minequest.world.blocks;
 import org.lwjgl.opengl.GL11;
 
 import com.darkmelon.minequest.client.Texture;
+import com.darkmelon.minequest.client.audio.Sound;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
@@ -45,6 +46,7 @@ public class Block extends Item {
 	
 	public void onBreak(World world, int x, int y, int z, Entity breaker) { }
 	public void onPlace(World world, int x, int y, int z, Entity placer) { }
+	public Sound getBlockBreakingSound() { return null; }
 	
 	@Override
 	public void renderInInventory(Tessellator t, float x, float y, float depth) {

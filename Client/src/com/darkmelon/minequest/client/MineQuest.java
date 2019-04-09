@@ -1,5 +1,6 @@
 package com.darkmelon.minequest.client;
 
+import com.darkmelon.minequest.client.audio.SoundSystem;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
@@ -11,9 +12,11 @@ import com.darkmelon.minequest.client.screens.PlayerInventoryScreen;
 import com.darkmelon.minequest.client.screens.PlayingScreen;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
+import com.darkmelon.minequest.world.Sounds;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.entities.Player;
 
+//3205 lines of code... for now
 public class MineQuest implements Runnable {
 	public static MineQuest instance;
 
@@ -27,11 +30,17 @@ public class MineQuest implements Runnable {
 	private Input input;
 	private Player player;
 	public boolean paused;
+	
+	private SoundSystem soundSystem;
 
 	private GuiScreen screen;
 
 	public void init() {
 
+		soundSystem = new SoundSystem();
+		soundSystem.init();
+		Sounds.init(soundSystem);
+		
 		world = new World();
 		player = new Player(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
 
@@ -46,9 +55,6 @@ public class MineQuest implements Runnable {
 		ChunkRenderer.render(world.getChunks(), player);
 		GuiScreenRenderer.render(screen);
 		player.onRender(Tessellator.INSTANCE, world);;
-		
-//		if(!paused) {
-//		}
 	}
 
 	public void update() {
@@ -67,17 +73,12 @@ public class MineQuest implements Runnable {
 		}
 	}
 
-	public void showScreen(GuiScreen screen) {
-		this.screen = screen;
+	private void close() {
+		
+		soundSystem.shutDown();
+		world.save();
 	}
-	
-	public GuiScreen currentScreen() {
-		return this.screen;
-	}
-	
-	public Player getPlayer() {
-		return player;
-	}
+
 	
 	@Override
 	public void run() {
@@ -120,9 +121,9 @@ public class MineQuest implements Runnable {
 				secondsTimer.subTimeMilli(1000);
 			}
 		}
-
-		world.save();
-
+		
+		close();
+		
 		window.close();
 	}
 
@@ -141,6 +142,19 @@ public class MineQuest implements Runnable {
 		}
 	}
 
+	
+	public void showScreen(GuiScreen screen) {
+		this.screen = screen;
+	}
+	
+	public GuiScreen currentScreen() {
+		return this.screen;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public Window getWindow() {
 		return window;
 	}
@@ -148,11 +162,16 @@ public class MineQuest implements Runnable {
 	public Input getInput() {
 		return input;
 	}
-
+	
+	public SoundSystem getSoundSystem() {
+		return soundSystem;
+	}
+	
 	public boolean isRunning() {
 		return running;
 	}
 
+	
 	public MineQuest(int width, int height) {
 
 		if (instance != null) {
