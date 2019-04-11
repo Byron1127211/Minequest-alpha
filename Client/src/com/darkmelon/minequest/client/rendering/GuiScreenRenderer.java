@@ -1,9 +1,9 @@
-package com.darkmelon.minequest.client.rendering.guis;
+package com.darkmelon.minequest.client.rendering;
 
 import org.lwjgl.opengl.GL11;
 
 import com.darkmelon.minequest.client.MineQuest;
-import com.darkmelon.minequest.client.rendering.Tessellator;
+import com.darkmelon.minequest.client.guis.GuiScreen;
 
 public class GuiScreenRenderer {
 

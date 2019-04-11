@@ -1,12 +1,12 @@
 package com.darkmelon.minequest.client;
 
 import com.darkmelon.minequest.client.audio.SoundSystem;
+import com.darkmelon.minequest.client.guis.GuiScreen;
 import com.darkmelon.minequest.client.input.Input;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
 import com.darkmelon.minequest.client.rendering.EntityRenderer;
+import com.darkmelon.minequest.client.rendering.GuiScreenRenderer;
 import com.darkmelon.minequest.client.rendering.Window;
-import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
-import com.darkmelon.minequest.client.rendering.guis.GuiScreenRenderer;
 import com.darkmelon.minequest.client.screens.PlayingScreen;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
@@ -41,8 +41,9 @@ public class MineQuest implements Runnable {
 		
 		world = new World();
 		player = new EntityPlayer(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
+		
+		Debug.info("Spawning in player...");
 		world.getEntityManager().addEntity(player);
-//		world.getEntityManager().addEntity(new EntityItemDrop(new ItemStack(Block.dirt, 1), World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2));
 		
 		input.hideCursor(true);
 

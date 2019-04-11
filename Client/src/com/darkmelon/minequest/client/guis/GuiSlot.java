@@ -1,4 +1,4 @@
-package com.darkmelon.minequest.client.rendering.guis;
+package com.darkmelon.minequest.client.guis;
 
 import org.lwjgl.opengl.GL11;
 
@@ -25,7 +25,7 @@ public class GuiSlot extends GuiButton {
 	}
 
 	@Override
-	public void onClick() {
+	public void onLeftClick() {
 		
 		if(mouseItem != null) {		
 			
@@ -41,6 +41,16 @@ public class GuiSlot extends GuiButton {
 			}
 		}
 	}
+	
+	@Override
+	public void onRightClick() {
+		
+		if(mouseItem != null) {
+			
+			inventory.getItemStack(slotIndex).addStack(mouseItem, 1);
+		}
+	}
+	
 
 	@Override
 	public void render(Tessellator t) {

@@ -1,4 +1,4 @@
-package com.darkmelon.minequest.client.rendering.guis;
+package com.darkmelon.minequest.client.guis;
 
 import java.util.List;
 

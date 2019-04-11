@@ -43,21 +43,7 @@ public class EntityPlayer extends EntityLiving {
 		this.selectedSlot = 0;
 		setInventory(new Inventory(9 * 5));
 		
-		getInventory().add(new ItemStack(Block.grass, 1));
-		getInventory().add(new ItemStack(Block.stone, 1));
-		getInventory().add(new ItemStack(Block.oakWood, 1));
-		getInventory().add(new ItemStack(Block.leaves, 1));
 		getInventory().add(new ItemStack(Item.apple, 5));
-		
-//		for(int i = 9; i < 9 * 5; i++) {
-//			
-//			if(i % 2 == 0) {
-//				
-//				getInventory().setItemStack(i, new ItemStack(Block.stone, 1));
-//			}else {
-//				getInventory().setItemStack(i, new ItemStack(Block.grass, 1));
-//			}
-//		}
 		
 		this.breakingTime = new Timer();
 	}

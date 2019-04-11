@@ -96,7 +96,7 @@ public class Chunk {
 	
 	public boolean load(World world) {
 		
-		File file = new File("saves/world1/chunkData/ch" + x + "." + z + ".dat");
+		File file = new File("saves/world1/chunkData/" + x + "/ch" + z + ".dat");
 		if(file.exists()) {
 			try {
 				final DataInputStream in = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
@@ -125,7 +125,8 @@ public class Chunk {
 	
 	public void save() {
 		
-		File file = new File("saves/world1/chunkData/ch" + x + "." + z + ".dat");
+		File file = new File("saves/world1/chunkData/" + x + "/ch" + z + ".dat");
+		file.getParentFile().mkdirs();
 		try {
 			file.createNewFile();
 			final DataOutputStream out = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));

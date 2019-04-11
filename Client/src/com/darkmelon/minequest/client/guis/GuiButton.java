@@ -1,4 +1,4 @@
-package com.darkmelon.minequest.client.rendering.guis;
+package com.darkmelon.minequest.client.guis;
 
 import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.input.MouseButton;
@@ -14,7 +14,9 @@ public abstract class GuiButton extends Gui {
 	public void onUpdate() {
 		if(onHover()) {
 			if(MineQuest.instance.getInput().getMouseButtonDown(MouseButton.LEFT)) {
-				onClick();
+				onLeftClick();
+			}else if(MineQuest.instance.getInput().getMouseButtonDown(MouseButton.RIGHT)) {
+				onRightClick();
 			}
 		}
 	}
@@ -25,5 +27,6 @@ public abstract class GuiButton extends Gui {
 		return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
 	}
 
-	public abstract void onClick();
+	public abstract void onLeftClick();
+	public abstract void onRightClick();
 }

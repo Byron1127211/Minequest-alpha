@@ -58,6 +58,28 @@ public class ItemStack {
 		return false;
 	}
 	
+	public boolean addStack(ItemStack stack, int count) {
+
+		if(getItem().getID() == Block.air.getID()) {
+			setItem(stack.getItem());
+		}
+		
+		if(stack.getItem().getID() == item.getID()) {
+			
+			int lastStackCount = stack.getCount();
+			setCount(getCount() + count);
+			stack.setCount(stack.getCount() - count);
+
+			if(stack.getCount() == lastStackCount - count) {
+				return true;
+			}
+			
+			return false;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public ItemStack clone() {
 		ItemStack stack = new ItemStack(null, 0);

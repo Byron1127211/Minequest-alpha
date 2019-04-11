@@ -2,9 +2,9 @@ package com.darkmelon.minequest.client.screens;
 
 import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.Texture;
+import com.darkmelon.minequest.client.guis.GuiScreen;
+import com.darkmelon.minequest.client.guis.GuiSlot;
 import com.darkmelon.minequest.client.rendering.Tessellator;
-import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
-import com.darkmelon.minequest.client.rendering.guis.GuiSlot;
 
 public class PlayerInventoryScreen extends GuiScreen {
 
