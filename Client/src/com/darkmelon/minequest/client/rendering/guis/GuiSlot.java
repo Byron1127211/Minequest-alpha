@@ -37,9 +37,7 @@ public class GuiSlot extends GuiButton {
 				mouseItem.set(stack);
 			}else {
 				
-				inventory.getItemStack(slotIndex).setCount(inventory.getItemStack(slotIndex).getCount() + mouseItem.getCount()); 
-				mouseItem.setItem(Block.air);
-				mouseItem.setCount(0);
+				inventory.getItemStack(slotIndex).addStack(mouseItem);
 			}
 		}
 	}

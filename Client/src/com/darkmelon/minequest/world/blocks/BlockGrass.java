@@ -2,6 +2,7 @@ package com.darkmelon.minequest.world.blocks;
 
 import com.darkmelon.minequest.client.audio.Sound;
 import com.darkmelon.minequest.utils.Utils;
+import com.darkmelon.minequest.world.ItemStack;
 import com.darkmelon.minequest.world.Sounds;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.entities.Entity;
@@ -18,6 +19,7 @@ public class BlockGrass extends Block {
 
 	}
 	
+	@Override
 	public int getTexture(int i) {
 
 		switch (i) {
@@ -30,6 +32,12 @@ public class BlockGrass extends Block {
 		}
 	}
 	
+	@Override
+	public ItemStack getDrop() {
+		return new ItemStack(Block.dirt, 1);
+	}
+	
+	@Override
 	public Sound getBlockBreakingSound() {
 		return Sounds.dirtBreaking;
 	}

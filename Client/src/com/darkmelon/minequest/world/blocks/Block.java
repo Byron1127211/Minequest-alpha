@@ -7,6 +7,7 @@ import com.darkmelon.minequest.client.audio.Sound;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.Utils;
 import com.darkmelon.minequest.utils.maths.AABB;
+import com.darkmelon.minequest.world.ItemStack;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.entities.Entity;
 import com.darkmelon.minequest.world.items.Item;
@@ -47,6 +48,45 @@ public class Block extends Item {
 	public void onBreak(World world, int x, int y, int z, Entity breaker) { }
 	public void onPlace(World world, int x, int y, int z, Entity placer) { }
 	public Sound getBlockBreakingSound() { return null; }
+	public ItemStack getDrop() { return new ItemStack(this, 1); }
+	
+	@Override
+	public void renderDrop(Tessellator t) {
+		
+		atlas.bind();
+		
+		float u, v;
+		
+		v = getTexture(Utils.FRONT) >> 4;
+		u = getTexture(Utils.FRONT) - ((int)v << 4);
+		t.cube.setFace(Utils.FRONT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		
+		v = getTexture(Utils.BACK) >> 4;
+		u = getTexture(Utils.BACK) - ((int)v << 4);
+		t.cube.setFace(Utils.BACK, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		
+		v = getTexture(Utils.TOP) >> 4;
+		u = getTexture(Utils.TOP) - ((int)v << 4);
+		t.cube.setFace(Utils.TOP, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		
+		v = getTexture(Utils.BOTTOM) >> 4;
+		u = getTexture(Utils.BOTTOM) - ((int)v << 4);
+		t.cube.setFace(Utils.BOTTOM, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		
+		v = getTexture(Utils.RIGHT) >> 4;
+		u = getTexture(Utils.RIGHT) - ((int)v << 4);
+		t.cube.setFace(Utils.RIGHT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		
+		v = getTexture(Utils.LEFT) >> 4;
+		u = getTexture(Utils.LEFT) - ((int)v << 4);
+		t.cube.setFace(Utils.LEFT, u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		
+		t.cube.cube(-0.2f, -0.2f, -0.2f, 0.2f, 0.2f, 0.2f, 0, 0, 0);
+		
+		t.render();
+		
+		Texture.unbind();
+	}
 	
 	@Override
 	public void renderInInventory(Tessellator t, float x, float y, float depth) {

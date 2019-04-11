@@ -5,7 +5,7 @@ import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
 import com.darkmelon.minequest.client.rendering.guis.GuiSlot;
-import com.darkmelon.minequest.world.entities.Player;
+import com.darkmelon.minequest.world.entities.EntityPlayer;
 
 public class PlayingScreen extends GuiScreen {
 
@@ -34,7 +34,7 @@ public class PlayingScreen extends GuiScreen {
 	@Override
 	public void onRender(Tessellator t) {
 		
-		Player player = MineQuest.instance.getPlayer();
+		EntityPlayer player = MineQuest.instance.getPlayer();
 		
 		int wWidth = MineQuest.instance.getWindow().getWidth();
 

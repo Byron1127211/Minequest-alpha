@@ -36,4 +36,9 @@ public class Maths {
 	public static float noise(float x, float z, float frequency, float amplitude) {
 		return SimplexNoise.noise(x * frequency, z * frequency) * amplitude;
 	}
+	
+	public static float distance(float ax, float ay, float az, float bx, float by, float bz) {
+		
+		return (float)Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2) + Math.pow(az - bz, 2));
+	}
 }

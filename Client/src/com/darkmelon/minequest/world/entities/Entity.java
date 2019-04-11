@@ -3,21 +3,20 @@ package com.darkmelon.minequest.world.entities;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.utils.maths.AABB;
 import com.darkmelon.minequest.utils.maths.Maths;
+import com.darkmelon.minequest.world.Inventory;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
 
 public abstract class Entity {
-
-	private final int MAX_HEALTH;
-	private int health;
 	
 	public float x, y, z;
 	public float rx, ry, rz;
 	public boolean onGround;
 	protected float vx, vy, vz;
+	private Inventory inventory;
 	
 	
-	public Entity(float x, float y, float z, int health) {
+	public Entity(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -29,12 +28,11 @@ public abstract class Entity {
 		this.vz = 0;
 		
 		this.onGround = false;
-		this.MAX_HEALTH = health;
-		this.health = MAX_HEALTH;
+		this.inventory = null;
 	}
 	
 	public abstract void onUpdate(World world);
-	public void onRender(Tessellator t, World world) {}
+	public void onRender(Tessellator t, EntityPlayer player, World world) {}
 	
 	public void moveFront(float amount) {
 		
@@ -46,18 +44,6 @@ public abstract class Entity {
 		
 		this.vx += amount * (float)Math.cos(Math.toRadians(ry));
 		this.vz += amount * (float)Math.sin(Math.toRadians(ry));
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-	
-	public int getMaxHealth() {
-		return MAX_HEALTH;
-	}
-	
-	public void setHealth(int health) {
-		this.health = (int)Maths.clamp(health, 0, MAX_HEALTH);
 	}
 	
 	public final void update(World world) {
@@ -141,5 +127,21 @@ public abstract class Entity {
 	
 	public void getHitbox(AABB dest) {
 		
+	}
+
+	protected void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
+	
+	public Inventory getInventory() {
+		return inventory;
+	}
+	
+	public boolean hasInventory() {
+		return inventory != null;
+	}
+	
+	public boolean shouldDestroy() {
+		return false; 
 	}
 }

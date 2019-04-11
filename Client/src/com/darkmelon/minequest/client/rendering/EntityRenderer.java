@@ -5,23 +5,20 @@ import org.lwjgl.opengl.GL11;
 import com.darkmelon.minequest.client.MineQuest;
 import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.utils.maths.Maths;
-import com.darkmelon.minequest.world.blocks.Block;
-import com.darkmelon.minequest.world.chunk.Chunk;
+import com.darkmelon.minequest.world.World;
+import com.darkmelon.minequest.world.entities.Entity;
+import com.darkmelon.minequest.world.entities.EntityManager;
 import com.darkmelon.minequest.world.entities.EntityPlayer;
 
-public class ChunkRenderer {
-
-	public static void render(Chunk[] chunks, EntityPlayer player) {
+public class EntityRenderer {
+	
+	public static void render(EntityManager manager, EntityPlayer player, World world) {
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.0f);
-		
-		Block.atlas.bind();
 		
 		GL11.glPushMatrix();
 		
@@ -35,8 +32,10 @@ public class ChunkRenderer {
 		GL11.glRotatef(player.ry, 0, 1, 0);
 		GL11.glTranslatef(-player.x, -player.y, -player.z);
 		
-		for(Chunk chunk : chunks) {
-			GL11.glCallList(chunk.getList(0));
+		for(Entity entity : manager.getEntities()) {
+			GL11.glPushMatrix();
+			entity.onRender(Tessellator.INSTANCE, player, world);
+			GL11.glPopMatrix();
 		}
 		
 		GL11.glPopMatrix();
@@ -45,7 +44,6 @@ public class ChunkRenderer {
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_CULL_FACE);
 		
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 	}

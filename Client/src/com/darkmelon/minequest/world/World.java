@@ -15,7 +15,9 @@ import com.darkmelon.minequest.utils.maths.Maths;
 import com.darkmelon.minequest.world.blocks.Block;
 import com.darkmelon.minequest.world.chunk.Chunk;
 import com.darkmelon.minequest.world.entities.Entity;
-import com.darkmelon.minequest.world.entities.Player;
+import com.darkmelon.minequest.world.entities.EntityItemDrop;
+import com.darkmelon.minequest.world.entities.EntityManager;
+import com.darkmelon.minequest.world.entities.EntityPlayer;
 
 public class World {
 	public static final int MAX_LOADED_CHUNKS = 16;
@@ -24,15 +26,19 @@ public class World {
 	private Chunk[] chunks;
 	
 	private WorldGenerator generator;
+	private EntityManager entityManager;
 	
 	private IntBuffer selectionBuffer = BufferUtils.createIntBuffer(10000);
 	private IntBuffer viewportBuffer = BufferUtils.createIntBuffer(16);
 	private Stack<Chunk> updatingChunks;
 	
 	public World() {
+		
 		chunks = new Chunk[MAX_LOADED_CHUNKS * MAX_LOADED_CHUNKS];
 		updatingChunks = new Stack<>();
+		
 		generator = new WorldGenerator(this);
+		entityManager = new EntityManager(this);
 		
 		for(int x = 0; x < MAX_LOADED_CHUNKS; x++) {
 			for(int z = 0; z < MAX_LOADED_CHUNKS; z++) {
@@ -50,7 +56,7 @@ public class World {
 		}
 	}
 	
-	public void tick(Player player) {
+	public void regenerateChunks(EntityPlayer player) {
 		
 		if(updatingChunks.size() != 0) {
 			Chunk chunk = updatingChunks.firstElement();
@@ -96,6 +102,11 @@ public class World {
 				}
 			}
 		}
+	}
+	
+	public void update() {
+		
+		entityManager.update();
 	}
 	
 	public void save() {
@@ -208,15 +219,20 @@ public class World {
 	public void breakBlock(int x, int y, int z, Entity breaker) {
 		
 		MineQuest.instance.getSoundSystem().playSound(false, getBlock(x, y, z).getBlockBreakingSound(), x, y, z, 1.0f);
+		getEntityManager().addEntity(new EntityItemDrop(getBlock(x, y, z).getDrop(), x, y, z));
 		getBlock(x, y, z).onBreak(this, x, y, z, breaker);
 		setBlock(x, y, z, Block.air);
+	}
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 	
 	public Chunk[] getChunks() {
 		return chunks;
 	}
 	
-	public BlockHit pick(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Player player) {
+	public BlockHit pick(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, EntityPlayer player) {
 		
 		GL11.glSelectBuffer(selectionBuffer);	
 		GL11.glGetIntegerv(GL11.GL_VIEWPORT, viewportBuffer);

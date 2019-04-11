@@ -2,19 +2,17 @@ package com.darkmelon.minequest.client;
 
 import com.darkmelon.minequest.client.audio.SoundSystem;
 import com.darkmelon.minequest.client.input.Input;
-import com.darkmelon.minequest.client.input.KeyCode;
 import com.darkmelon.minequest.client.rendering.ChunkRenderer;
-import com.darkmelon.minequest.client.rendering.Tessellator;
+import com.darkmelon.minequest.client.rendering.EntityRenderer;
 import com.darkmelon.minequest.client.rendering.Window;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreen;
 import com.darkmelon.minequest.client.rendering.guis.GuiScreenRenderer;
-import com.darkmelon.minequest.client.screens.PlayerInventoryScreen;
 import com.darkmelon.minequest.client.screens.PlayingScreen;
 import com.darkmelon.minequest.utils.Debug;
 import com.darkmelon.minequest.utils.Timer;
 import com.darkmelon.minequest.world.Sounds;
 import com.darkmelon.minequest.world.World;
-import com.darkmelon.minequest.world.entities.Player;
+import com.darkmelon.minequest.world.entities.EntityPlayer;
 
 //3205 lines of code... for now
 public class MineQuest implements Runnable {
@@ -28,7 +26,7 @@ public class MineQuest implements Runnable {
 	private Window window;
 	private World world;
 	private Input input;
-	private Player player;
+	private EntityPlayer player;
 	public boolean paused;
 	
 	private SoundSystem soundSystem;
@@ -42,8 +40,10 @@ public class MineQuest implements Runnable {
 		Sounds.init(soundSystem);
 		
 		world = new World();
-		player = new Player(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
-
+		player = new EntityPlayer(World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2);
+		world.getEntityManager().addEntity(player);
+//		world.getEntityManager().addEntity(new EntityItemDrop(new ItemStack(Block.dirt, 1), World.MAX_LOADED_CHUNKS * 16 / 2, 80, World.MAX_LOADED_CHUNKS * 16 / 2));
+		
 		input.hideCursor(true);
 
 		showScreen(new PlayingScreen());
@@ -51,26 +51,17 @@ public class MineQuest implements Runnable {
 
 	public void render() {
 
-		world.tick(player);
+		world.regenerateChunks(player);
 		ChunkRenderer.render(world.getChunks(), player);
+		EntityRenderer.render(world.getEntityManager(), player, world);
 		GuiScreenRenderer.render(screen);
-		player.onRender(Tessellator.INSTANCE, world);;
 	}
 
 	public void update() {
-
-		if(input.getKeyDown(KeyCode.KEY_E)) {
-			if(MineQuest.instance.currentScreen() instanceof PlayerInventoryScreen) {
-				MineQuest.instance.showScreen(new PlayingScreen());
-			}else {			
-				MineQuest.instance.showScreen(new PlayerInventoryScreen());
-			}
-		}
+		
+		world.update();
 		
 		screen.update();
-		if(!paused) {
-			player.update(world);
-		}
 	}
 
 	private void close() {
@@ -144,14 +135,18 @@ public class MineQuest implements Runnable {
 
 	
 	public void showScreen(GuiScreen screen) {
+		if(this.screen != null) {
+			this.screen.exit();
+		}
 		this.screen = screen;
+		screen.initGuis();
 	}
 	
 	public GuiScreen currentScreen() {
 		return this.screen;
 	}
 	
-	public Player getPlayer() {
+	public EntityPlayer getPlayer() {
 		return player;
 	}
 	
@@ -165,6 +160,10 @@ public class MineQuest implements Runnable {
 	
 	public SoundSystem getSoundSystem() {
 		return soundSystem;
+	}
+	
+	public World getWorld() {
+		return world;
 	}
 	
 	public boolean isRunning() {

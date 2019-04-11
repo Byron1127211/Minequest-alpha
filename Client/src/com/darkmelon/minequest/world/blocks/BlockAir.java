@@ -24,6 +24,11 @@ public class BlockAir extends Block{
 		
 	}
 	
+	@Override
+	public void renderDrop(Tessellator t) {
+		
+	}
+	
 	public boolean isSolid() {
 		return false;
 	}

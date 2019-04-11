@@ -53,7 +53,6 @@ public class Window {
 	public void update() {
 		
 		glfwSwapBuffers(this.id);
-//		glfwtEvents();
 	}
 	
 	public void pollEvents() {

@@ -23,6 +23,9 @@ public class ItemStack {
 	}
 	
 	public int getCount() {
+		if(item.getID() == Block.air.getID()) {
+			return 0;
+		}
 		return count;
 	}
 	
@@ -31,6 +34,35 @@ public class ItemStack {
 		if(count == 0) {
 			item = Block.air;
 		}
+	}
+	
+	public boolean addStack(ItemStack stack) {
+
+		if(getItem().getID() == Block.air.getID()) {
+			setItem(stack.getItem());
+		}
+		
+		if(stack.getItem().getID() == item.getID()) {
+			
+			int lastCount = getCount();
+			setCount(getCount() + stack.getCount());
+			stack.setCount(stack.getCount() - (getCount() - lastCount));
+
+			if(stack.getCount() == 0) {
+				return true;
+			}
+			
+			return false;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public ItemStack clone() {
+		ItemStack stack = new ItemStack(null, 0);
+		stack.set(this);
+		return stack;
 	}
 	
 	public void set(ItemStack stack) {

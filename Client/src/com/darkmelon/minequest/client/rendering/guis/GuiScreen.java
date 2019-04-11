@@ -11,6 +11,8 @@ import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.client.rendering.TextRenderer;
 import com.darkmelon.minequest.world.ItemStack;
 import com.darkmelon.minequest.world.blocks.Block;
+import com.darkmelon.minequest.world.entities.EntityItemDrop;
+import com.darkmelon.minequest.world.entities.EntityPlayer;
 import com.darkmelon.minequest.world.items.Item;
 
 import java.util.ArrayList;
@@ -24,7 +26,6 @@ public abstract class GuiScreen {
 		
 		guis = new ArrayList<>();
 		mouseItem = new ItemStack(Block.air, 1);
-		initGuis();
 	}
 	
 	public void addGui(Gui gui) {
@@ -55,6 +56,17 @@ public abstract class GuiScreen {
 			}
 		}
 	}
+	
+	public final void exit() {
+		if(mouseItem.getCount() != 0) {
+			EntityPlayer player = MineQuest.instance.getPlayer();
+			MineQuest.instance.getWorld().getEntityManager().addEntity(new EntityItemDrop(mouseItem, player.x, player.y, player.z));
+		}
+
+		onExit();
+	}
+	
+	protected void onExit() {}
 	
 	public void update() {
 		for(Gui gui : guis) {

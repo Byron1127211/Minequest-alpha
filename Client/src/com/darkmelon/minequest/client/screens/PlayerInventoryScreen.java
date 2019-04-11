@@ -68,5 +68,5 @@ public class PlayerInventoryScreen extends GuiScreen {
 		t.render();
 		
 		Texture.unbind();
-	}
+	} 
 }

@@ -37,6 +37,22 @@ public class Item {
 		return id;
 	}
 	
+	public void renderDrop(Tessellator t) {
+
+		atlas.bind();
+		
+		float u, v;
+		v = getTexture(0) >> 4;
+		u = getTexture(0) - ((int)v << 4);
+		
+		t.rect.rectUV(u / 16.0f,  v / 16.0f, (u + 1) / 16.0f, (v + 1) / 16.0f);
+		t.rect.rect(-0.25f, -0.25f, 0, 0.5f, 0.5f);
+
+		t.render();
+		
+		Texture.unbind();
+	}
+	
 	public void renderInInventory(Tessellator t, float x, float y, float depth) {
 		
 		atlas.bind();
