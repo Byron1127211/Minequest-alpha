@@ -25,9 +25,5 @@
 	<classpathentry kind="lib" path="lib/paulscode/SoundSystem.jar"/>
 	<classpathentry kind="lib" path="lib/paulscode/libraries/LibraryJavaSound.jar"/>
 	<classpathentry kind="lib" path="lib/paulscode/decoders/CodecJOrbis.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-linux.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-macos.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-windows.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb.jar" sourcepath="lib/lwjgl/sources/lwjgl-stb-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

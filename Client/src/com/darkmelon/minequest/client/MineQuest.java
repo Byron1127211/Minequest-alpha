@@ -13,7 +13,7 @@ public class MineQuest implements Runnable {
 	private boolean running;
 	
 	private void init() {
-
+		
 	}
 	
 	private void update() {
@@ -21,7 +21,7 @@ public class MineQuest implements Runnable {
 	}
 	
 	private void render() {
-		
+
 	}
 	
 	private void exit() {
