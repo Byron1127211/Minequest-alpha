@@ -43,10 +43,8 @@ public class Font {
 				Debug.err("Font at directory : \"" + "/assets/minequest/fonts/" + file + ".fnt" + "\" was not found");
 				return null;
 			}
-	        InputStreamReader fileReader = new InputStreamReader(stream);
 
-	        
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
 
 			while((line = bufferedReader.readLine()) != null) {
 			    String[] words = line.split("\\s+");
@@ -74,6 +72,6 @@ public class Font {
 			e.printStackTrace();
 		}         
 
-		return new Font(Texture.loadTexture("/assets/minequest/fonts/" + file + ".png"), characters);
+		return new Font(Texture.loadTexture("resources/assets/minequest/fonts/" + file + ".png"), characters);
 	}
 }

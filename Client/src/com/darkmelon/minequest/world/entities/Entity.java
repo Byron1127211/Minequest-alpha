@@ -32,7 +32,7 @@ public abstract class Entity {
 	}
 	
 	public abstract void onUpdate(World world);
-	public void onRender(Tessellator t, EntityPlayer player, World world) {}
+	public void onRender(Tessellator t, World world) {}
 	
 	public void moveFront(float amount) {
 		
@@ -62,9 +62,9 @@ public abstract class Entity {
 		
 		AABB blockHitbox = new AABB();
 		
-		for(int i = (int)(x + vx) - 1; i <= (int)(x + vx) + 1; i++) {
-			for(int j = (int)(y + vy) - 1; j <= (int)(y + vy) + 1; j++) {
-				for(int k = (int)(z + vz) - 1; k <= (int)(z + vz) + 1; k++) {
+		for(int i = (int)(x + vx) - 2; i <= (int)(x + vx) + 2; i++) {
+			for(int j = (int)(y + vy) - 2; j <= (int)(y + vy) + 2; j++) {
+				for(int k = (int)(z + vz) - 2; k <= (int)(z + vz) + 2; k++) {
 					
 					Block block = world.getBlock(i, j, k);
 					
@@ -80,9 +80,9 @@ public abstract class Entity {
 		hitbox.move(vx, 0, 0);
 		
 		
-		for(int i = (int)(x + vx) - 1; i <= (int)(x + vx) + 1; i++) {
-			for(int j = (int)(y + vy) - 1; j <= (int)(y + vy) + 1; j++) {
-				for(int k = (int)(z + vz) - 1; k <= (int)(z + vz) + 1; k++) {
+		for(int i = (int)(x + vx) - 2; i <= (int)(x + vx) + 2; i++) {
+			for(int j = (int)(y + vy) - 2; j <= (int)(y + vy) + 2; j++) {
+				for(int k = (int)(z + vz) - 2; k <= (int)(z + vz) + 2; k++) {
 					
 					Block block = world.getBlock(i, j, k);
 					
@@ -97,9 +97,9 @@ public abstract class Entity {
 		
 		hitbox.move(0, 0, vz);
 		
-		for(int i = (int)(x + vx) - 1; i <= (int)(x + vx) + 1; i++) {
-			for(int j = (int)(y + vy) - 1; j <= (int)(y + vy) + 1; j++) {
-				for(int k = (int)(z + vz) - 1; k <= (int)(z + vz) + 1; k++) {
+		for(int i = (int)(x + vx) - 2; i <= (int)(x + vx) + 2; i++) {
+			for(int j = (int)(y + vy) - 2; j <= (int)(y + vy) + 2; j++) {
+				for(int k = (int)(z + vz) - 2; k <= (int)(z + vz) + 2; k++) {
 					
 					Block block = world.getBlock(i, j, k);
 					

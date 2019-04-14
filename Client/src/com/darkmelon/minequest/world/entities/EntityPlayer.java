@@ -60,6 +60,10 @@ public class EntityPlayer extends EntityLiving {
 				
 		final Input input = MineQuest.instance.getInput();
 		
+		if(input.getKeyDown(KeyCode.KEY_T)) {
+			world.getEntityManager().addEntity(new EntityZombie(x, y, z));
+		}
+		
 		if(input.getKeyDown(KeyCode.KEY_E)) {
 			if(MineQuest.instance.currentScreen() instanceof PlayerInventoryScreen) {
 				MineQuest.instance.showScreen(new PlayingScreen());
@@ -118,7 +122,7 @@ public class EntityPlayer extends EntityLiving {
 				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
 				if(hit != null) {
 					if(breakingTime.getTimeMilli() >= world.getBlock(hit.x, hit.y, hit.z).getBreakingTime()) {
-//						getInventory().add(new ItemStack(world.getBlock(hit.x, hit.y, hit.z), 1));
+						
 						world.breakBlock(hit.x, hit.y, hit.z, this);
 						breakingBlock = null;
 						breakingTime.reset();
@@ -165,7 +169,7 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	@Override
-	public void onRender(Tessellator t, EntityPlayer player, World world) {
+	public void onRender(Tessellator t, World world) {
 		
 		if(breakingBlock != null) {
 			
@@ -192,6 +196,6 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public void getHitbox(AABB dest) {
-		dest.set(-0.25f, -1.5f, -0.25f, 0.25f, 0.25f, 0.25f);
+		dest.set(-0.25f, -1.74f, -0.25f, 0.25f, 0.24f, 0.25f);
 	}
 }

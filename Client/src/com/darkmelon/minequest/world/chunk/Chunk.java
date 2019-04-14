@@ -42,6 +42,8 @@ public class Chunk {
 	
 	public void update() {
 
+		Tessellator.INSTANCE.setTextureDimensions(Block.atlas.getWidth(), Block.atlas.getHeight());
+		
 		GL11.glNewList(lists, GL11.GL_COMPILE);
 		
 		for(int x = 0; x < 16; x++) {

@@ -5,6 +5,7 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
+import com.darkmelon.minequest.client.Texture;
 import com.darkmelon.minequest.utils.Utils;
 
 public class Tessellator {
@@ -18,6 +19,8 @@ public class Tessellator {
 	
 	public Cube cube = new Cube();
 	public Rect rect = new Rect();
+	
+	private static int usingTextureWidth = 1, usingTextureHeight = 1;
 	
 	public Tessellator() {
 		
@@ -50,6 +53,16 @@ public class Tessellator {
 		clear();
 	}
 	
+	public void setTextureDimensions(int width, int height) {
+		usingTextureWidth = width;
+		usingTextureHeight = height;
+	}
+	
+	public void setTextureDimensions(Texture texture) {
+		usingTextureWidth = texture.getWidth();
+		usingTextureHeight = texture.getHeight();
+	}
+	
 	public void color(float r, float g, float b) {
 		this.r = r;
 		this.g = g;
@@ -57,8 +70,8 @@ public class Tessellator {
 	}
 	
 	public void uv(float u, float v) {
-		this.u = u;
-		this.v = v;
+		this.u = u / usingTextureWidth;
+		this.v = v / usingTextureHeight;
 	}
 	
 	public void vertex(float x, float y, float z) {
@@ -78,6 +91,9 @@ public class Tessellator {
 	}
 	
 	public void clear() {
+		
+		usingTextureWidth = 1;
+		usingTextureHeight = 1;
 		
 		positions.clear();
 		colors.clear();
@@ -114,7 +130,6 @@ public class Tessellator {
 		
 		public void rect(float x, float y, float z, float width, float height) {
 			
-//			color(1, 0, 0);
 			uv(maxU, maxV);
 			vertex(x + width, y, z);
 			uv(maxU, minV);

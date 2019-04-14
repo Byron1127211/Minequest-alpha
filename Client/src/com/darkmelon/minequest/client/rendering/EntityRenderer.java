@@ -34,7 +34,7 @@ public class EntityRenderer {
 		
 		for(Entity entity : manager.getEntities()) {
 			GL11.glPushMatrix();
-			entity.onRender(Tessellator.INSTANCE, player, world);
+			entity.onRender(Tessellator.INSTANCE, world);
 			GL11.glPopMatrix();
 		}
 		

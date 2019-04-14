@@ -60,7 +60,7 @@ public class EntityItemDrop extends Entity {
 	}
 	
 	@Override
-	public void onRender(Tessellator t, EntityPlayer player, World world) {
+	public void onRender(Tessellator t, World world) {
 
 		GL11.glTranslatef(x, y + yOffset, z);
 		GL11.glRotatef(ry, 0, 1, 0);

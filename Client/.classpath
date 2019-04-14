@@ -21,9 +21,12 @@
 	<classpathentry kind="lib" path="lib/lwjgl/openal/lwjgl-openal-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl/openal/lwjgl-openal.jar" sourcepath="lib/lwjgl/sources/lwjgl-openal-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="lib/lwjgl/slick-util.jar"/>
 	<classpathentry kind="lib" path="lib/paulscode/SoundSystem.jar"/>
 	<classpathentry kind="lib" path="lib/paulscode/libraries/LibraryJavaSound.jar"/>
 	<classpathentry kind="lib" path="lib/paulscode/decoders/CodecJOrbis.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-macos.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb.jar" sourcepath="lib/lwjgl/sources/lwjgl-stb-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
