@@ -8,17 +8,20 @@ public class Block extends Item {
 	private static final Block air = new BlockAir();
 	private static final Block stone = new BlockStone();
 	
-	public Block() {
-		
+	static {
 		Item.register(air, 0);
 		Item.register(stone, 1);
+	}
+	
+	public Block() {
+		
 	}
 	
 	public void render(Tessellator t, int x, int y, int z) {
 		
 	}
 	
-	public Block getBlock(byte id) {
+	public static Block getBlock(byte id) {
 		return (Block)getItem(id);
 	}
 }

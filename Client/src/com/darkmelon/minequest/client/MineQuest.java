@@ -1,6 +1,8 @@
 package com.darkmelon.minequest.client;
 
+import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.client.rendering.Window;
+import com.darkmelon.minequest.src.World;
 
 public class MineQuest implements Runnable {
 	public static MineQuest instance;
@@ -11,9 +13,11 @@ public class MineQuest implements Runnable {
 
 	private Thread clientThread;
 	private boolean running;
+	private World world;
 	
 	private void init() {
-
+		world = new World();
+		world.getChunk(0, 0).update(Tessellator.INSTANCE, world);
 	}
 	
 	private void update() {

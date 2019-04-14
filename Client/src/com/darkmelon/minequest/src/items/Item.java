@@ -13,12 +13,12 @@ public class Item {
 		return id;
 	}
 	
-	public Item getItem(byte id) {
+	public static Item getItem(byte id) {
 		return items[id];
 	}
 	
 	public static void register(Item item, int id) {
 		item.id = (byte)(id - 128);
-		items[item.id + 128] = item;
+		items[id] = item;
 	}
 }
