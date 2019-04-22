@@ -72,6 +72,6 @@ public class Font {
 			e.printStackTrace();
 		}         
 
-		return new Font(Texture.loadTexture("resources/assets/minequest/fonts/" + file + ".png"), characters);
+		return new Font(Texture.loadTexture("/assets/minequest/fonts/" + file + ".png"), characters);
 	}
 }

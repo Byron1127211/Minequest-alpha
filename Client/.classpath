@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-macos.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl/stb/lwjgl-stb.jar" sourcepath="lib/lwjgl/sources/lwjgl-stb-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.6.jar" sourcepath="lib/commons-io-2.6-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

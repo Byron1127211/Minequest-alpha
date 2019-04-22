@@ -1,10 +1,13 @@
 package com.darkmelon.minequest.client;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.stb.STBImage;
@@ -16,7 +19,7 @@ public class Texture {
 	private static Map<String, Texture> textures = new HashMap<>();
 	private static IntBuffer loadingWidth = BufferUtils.createIntBuffer(1),
 							loadingHeight = BufferUtils.createIntBuffer(1),
-							loadingChannel = BufferUtils.createIntBuffer(1);
+							loadingChannels = BufferUtils.createIntBuffer(1);
 	
 	public static Texture boundTexture = null;
 	
@@ -51,9 +54,29 @@ public class Texture {
 	
 		if(!textures.containsKey(dir)) {
 
-			ByteBuffer buffer = STBImage.stbi_load(dir, loadingWidth, loadingHeight, loadingChannel, 4);
-			if(buffer == null) {	
+			InputStream stream = Class.class.getResourceAsStream(dir);
+			
+			if(stream == null) {	
 				Debug.err("Texture at directory : \"" + dir + "\" was not found");
+				return null;
+			}
+			
+			ByteBuffer imageBuffer = null;
+			try {
+				byte[] imageArray = IOUtils.toByteArray(stream);
+				imageBuffer = BufferUtils.createByteBuffer(imageArray.length);
+				imageBuffer.put(imageArray);
+				imageBuffer.flip();
+				
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+			
+			ByteBuffer buffer = STBImage.stbi_load_from_memory(imageBuffer, loadingWidth, loadingHeight, loadingChannels, 0);
+			
+			if(buffer == null) {
+				Debug.err("Texture at directory : \"" + dir + "\" could not be loaded");
 				return null;
 			}
 			
@@ -81,6 +104,6 @@ public class Texture {
 	}
 
 	public static Texture loadAsset(String file) {
-		return loadTexture("resources/assets/minequest/textures/" + file + ".png");
+		return loadTexture("/assets/minequest/textures/" + file + ".png");
 	}
 }
