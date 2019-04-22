@@ -15,7 +15,7 @@ public class EntityZombie extends EntityLiving {
 	private static Texture texture = Texture.loadAsset("mobs/zombie");
 	
 	public EntityZombie(float x, float y, float z) {
-		super(x, y, z, 20);
+		super(x, y, z, 20, 20);
 
 	}
 

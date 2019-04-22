@@ -267,13 +267,13 @@ public class World {
 				GL11.glPushName(y);
 				for(int z = minZ; z <= maxZ; z++) {
 					GL11.glPushName(z);
-					if(!getBlock(x, y, z).equals(Block.air)) {
+					if(getBlock(x, y, z).isSolid()) {
 						
 						for(int f = 0; f < 6; f++) {
 							
 							GL11.glPushName(f);
 							
-							if(getBlock(x + (f == Utils.RIGHT ? 1 : (f == Utils.LEFT ? -1 : 0)), y + (f == Utils.TOP ? 1 : (f == Utils.BOTTOM ? -1 : 0)), z + (f == Utils.FRONT ? 1 : (f == Utils.BACK ? -1 : 0))) == Block.air) {
+							if(getBlock(x + (f == Utils.RIGHT ? 1 : (f == Utils.LEFT ? -1 : 0)), y + (f == Utils.TOP ? 1 : (f == Utils.BOTTOM ? -1 : 0)), z + (f == Utils.FRONT ? 1 : (f == Utils.BACK ? -1 : 0))).isTransparent()) {
 								
 								Tessellator.INSTANCE.cube.setFace(f, 0, 0, 0, 0);
 								Tessellator.INSTANCE.cube.cube(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, x, y, z);

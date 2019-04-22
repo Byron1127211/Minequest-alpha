@@ -56,9 +56,11 @@ public class MineQuest implements Runnable {
 		ChunkRenderer.render(world.getChunks(), player);
 		EntityRenderer.render(world.getEntityManager(), player, world);
 		GuiScreenRenderer.render(screen);
+		GuiScreenRenderer.render();
 	}
 
 	public void update() {
+		GuiScreenRenderer.clearRenderingGuis();
 		
 		world.update();
 		

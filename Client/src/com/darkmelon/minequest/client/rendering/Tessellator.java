@@ -160,7 +160,22 @@ public class Tessellator {
 			uvs[face * 4 + 1] = minV;
 			uvs[face * 4 + 2] = maxU;
 			uvs[face * 4 + 3] = maxV;
+			colors[face * 3 + 0] = r;
+			colors[face * 3 + 1] = g;
+			colors[face * 3 + 2] = b;
 		}
+		
+//		public void setFaceColor(int face, float r, float g, float b) {
+//			colors[face * 3 + 0] = r;
+//			colors[face * 3 + 1] = g;
+//			colors[face * 3 + 2] = b;
+//		}
+//		
+//		public void setAllFaceColor(float r, float g, float b) {
+//			for(int i = 0; i < 6; i++) {
+//				setFaceColor(i, r, g, b);
+//			}
+//		}
 		
 		public void setAllFaces(float minU, float minV, float maxU, float maxV) {
 			for(int i = 0; i < 6; i++) {

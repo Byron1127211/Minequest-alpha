@@ -21,6 +21,9 @@ public class ChunkRenderer {
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.0f);
 		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		Block.atlas.bind();
 		
 		GL11.glPushMatrix();
@@ -39,6 +42,10 @@ public class ChunkRenderer {
 			GL11.glCallList(chunk.getList(0));
 		}
 		
+		for(Chunk chunk : chunks) {
+			GL11.glCallList(chunk.getList(1));
+		}
+		
 		GL11.glPopMatrix();
 		
 		Texture.unbind();
@@ -48,5 +55,7 @@ public class ChunkRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 }

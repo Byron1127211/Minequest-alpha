@@ -5,9 +5,12 @@ import com.darkmelon.minequest.client.input.MouseButton;
 
 public abstract class GuiButton extends Gui {
 	
+	private int width, height;
+	
 	public GuiButton(int x, int y, int depth, int width, int height) {
-		super(x, y, depth, width, height);
-
+		super(x, y, depth);
+		this.width = width;
+		this.height = height;
 	}
 	
 	@Override

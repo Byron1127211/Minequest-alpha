@@ -20,6 +20,8 @@ public class Block extends Item {
 	public static final Block oakWood = new BlockOakWood();
 	public static final Block leaves = new BlockLeaves();
 	public static final Block dirt = new BlockDirt();
+	public static final Block water = new BlockWater();
+	public static final Block sand = new BlockSand();
 	
 	public static final Texture atlas = Texture.loadAsset("terrain/blocks");
 	
@@ -30,6 +32,8 @@ public class Block extends Item {
 		registry.registerBlockAsItem((byte)-125, oakWood);
 		registry.registerBlockAsItem((byte)-124, leaves);
 		registry.registerBlockAsItem((byte)-123, dirt);
+		registry.registerBlockAsItem((byte)-122, water);
+		registry.registerBlockAsItem((byte)-121, sand);
 	}
 	
 	public Block() {
@@ -43,6 +47,10 @@ public class Block extends Item {
 	
 	public boolean isTransparent() {
 		return false;
+	}
+	
+	public boolean isBreakable() {
+		return true;
 	}
 	
 	public void onBreak(World world, int x, int y, int z, Entity breaker) { }

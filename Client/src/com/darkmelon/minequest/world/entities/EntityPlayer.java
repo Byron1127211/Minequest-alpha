@@ -35,7 +35,7 @@ public class EntityPlayer extends EntityLiving {
 	private BlockHit breakingBlock;
 	
 	public EntityPlayer(float x, float y, float z) {
-		super(x, y, z, 20);
+		super(x, y, z, 20, 20);
 		
 		this.camRx = 0;
 		this.mouseButtonTimer = new Timer();
@@ -51,7 +51,7 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public void onUpdate(World world) {
-		
+
 		MineQuest.instance.getSoundSystem().setListenerPosition(x, y, z);
 		MineQuest.instance.getSoundSystem().setListenerAngle(ry);
 		
@@ -103,14 +103,20 @@ public class EntityPlayer extends EntityLiving {
 			if(input.getKey(KeyCode.KEY_D)) {
 				moveRight(speed);
 			}
-			
-			if(input.getKey(KeyCode.KEY_SPACE) && onGround) {
-				vy += jumpForce;
+
+			if(input.getKey(KeyCode.KEY_SPACE) && headInFluid) {
+
+				if(vy < jumpForce) {
+					vy = jumpForce / 2.0f;
+				}
+			}else if(input.getKey(KeyCode.KEY_SPACE) && onGround) {
+				if(vy < jumpForce) {
+					
+					vy += jumpForce;
+				}
 			}
 			
 			vy -= World.GRAVITY_FORCE;
-			
-			
 			
 			if(!input.getMouseButton(MouseButton.LEFT)) {
 				breakingTime.reset();
@@ -121,17 +127,19 @@ public class EntityPlayer extends EntityLiving {
 				
 				BlockHit hit = world.pick((int)x - 8, (int)y - 8, (int)z - 8, (int)x + 8, (int)y + 8, (int)z + 8, this);
 				if(hit != null) {
-					if(breakingTime.getTimeMilli() >= world.getBlock(hit.x, hit.y, hit.z).getBreakingTime()) {
-						
-						world.breakBlock(hit.x, hit.y, hit.z, this);
-						breakingBlock = null;
-						breakingTime.reset();
-					}else {
-						if(breakingBlock == null || (breakingBlock.x != hit.x || breakingBlock.y != hit.y || breakingBlock.z != breakingBlock.z)) {
+					if(world.getBlock(hit.x, hit.y, hit.z).isBreakable()) {
+						if(breakingTime.getTimeMilli() >= world.getBlock(hit.x, hit.y, hit.z).getBreakingTime()) {
+							
+							world.breakBlock(hit.x, hit.y, hit.z, this);
+							breakingBlock = null;
 							breakingTime.reset();
+						}else {
+							if(breakingBlock == null || (breakingBlock.x != hit.x || breakingBlock.y != hit.y || breakingBlock.z != breakingBlock.z)) {
+								breakingTime.reset();
+							}
+							
+							breakingBlock = hit;
 						}
-						
-						breakingBlock = hit;
 					}
 				}
 			}else if(input.getMouseButton(MouseButton.RIGHT)) {
@@ -196,6 +204,6 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public void getHitbox(AABB dest) {
-		dest.set(-0.25f, -1.74f, -0.25f, 0.25f, 0.24f, 0.25f);
+		dest.set(-0.25f, -1.5f, -0.25f, 0.25f, 0.24f, 0.25f);
 	}
 }

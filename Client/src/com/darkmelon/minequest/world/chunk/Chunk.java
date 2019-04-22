@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import com.darkmelon.minequest.client.rendering.Tessellator;
 import com.darkmelon.minequest.world.World;
 import com.darkmelon.minequest.world.blocks.Block;
+import com.darkmelon.minequest.world.blocks.BlockFluid;
 
 public class Chunk {
 
@@ -25,7 +26,7 @@ public class Chunk {
 	public Chunk(int x, int z, World world) {
 		
 		this.world = world;
-		lists = GL11.glGenLists(1);
+		lists = GL11.glGenLists(2);
 		
 		blocks = new byte[16 * 256 * 16];
 		
@@ -49,8 +50,28 @@ public class Chunk {
 		for(int x = 0; x < 16; x++) {
 			for(int y = 0; y < 256; y++) {
 				for(int z = 0; z < 16; z++) {
-					if(getBlock(x, y, z) != Block.air.getID()) {
+					Block block = Block.registry.getItemAsBlock(getBlock(x, y, z));
+					if(block.getID() != Block.air.getID() && !(block instanceof BlockFluid)) {
 						Block.registry.getItemAsBlock(getBlock(x, y, z)).render(Tessellator.INSTANCE, world, x + this.x * 16, y, z + this.z * 16);
+					}
+				}
+			}
+		}
+		
+		Tessellator.INSTANCE.render();
+		
+		Tessellator.INSTANCE.setTextureDimensions(Block.atlas.getWidth(), Block.atlas.getHeight());
+		
+		GL11.glEndList();
+		
+		GL11.glNewList(lists + 1, GL11.GL_COMPILE);
+		
+		for(int x = 0; x < 16; x++) {
+			for(int y = 0; y < 256; y++) {
+				for(int z = 0; z < 16; z++) {
+					Block block = Block.registry.getItemAsBlock(getBlock(x, y, z));
+					if(block instanceof BlockFluid) {
+						block.render(Tessellator.INSTANCE, world, x + this.x * 16, y, z + this.z * 16);
 					}
 				}
 			}
